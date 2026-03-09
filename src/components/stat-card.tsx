@@ -54,7 +54,7 @@ function StatCard({
       {change && (
         <div
           data-slot="change"
-          className="mt-[var(--space-1)] text-[12px]"
+          className="mt-[var(--space-1)] text-[12px] text-[var(--text-tertiary)]"
           style={changeColor ? { color: changeColor } : undefined}
         >
           {change}

@@ -11,7 +11,7 @@ interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function ProgressBar({ percentage, className, ...props }: ProgressBarProps) {
-  const clampedWidth = Math.min(percentage, 100)
+  const clampedWidth = Math.max(0, Math.min(percentage, 100))
 
   return (
     <div

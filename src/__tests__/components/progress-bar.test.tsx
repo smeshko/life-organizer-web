@@ -59,6 +59,13 @@ describe("ProgressBar", () => {
     expect(fill.style.width).toBe("0%")
   })
 
+  it("clamps negative percentage to 0%", () => {
+    const { container } = render(<ProgressBar percentage={-10} />)
+    const fill = (container.firstChild as HTMLElement)
+      .firstChild as HTMLElement
+    expect(fill.style.width).toBe("0%")
+  })
+
   it("applies custom className to track", () => {
     const { container } = render(
       <ProgressBar percentage={50} className="custom-class" />,
