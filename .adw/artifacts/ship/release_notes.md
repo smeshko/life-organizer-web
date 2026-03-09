@@ -1,19 +1,12 @@
 ## [Unreleased] - 2026-03-09
 
 ### Added
-- TypeBadge component with 3 variants (income, expense, savings)
-- StatCard component with 4 type variants and left-border accent
-- ProgressBar component with color thresholds (sage/amber/terracotta)
-- ErrorState component with warm yellow banner and retry button
-- LoadingSkeleton component with card, table-row, and chart variants
-- EmptyState component with centered tertiary-styled message
-- Install and customize shadcn/ui Select and Table components
-
-### Fixed
-- Clamp negative percentages and add default change text color
+- Set up React Router with design system route
+- Create design system page shell with sections
+- Implement surface palette section
 
 ### Documentation
-- Add shared UI primitives feature documentation
+- Add feature documentation for design system showcase page
 
 ### Other
-- Integration verification and lint fix
+- Add comprehensive tests for design system page

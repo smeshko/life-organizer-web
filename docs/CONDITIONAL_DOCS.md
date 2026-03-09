@@ -25,3 +25,10 @@ This guide helps you find relevant documentation based on what you're working on
     - When creating new shared components in `src/components/` for the Quiet Ledger design system
     - When implementing budget-vs-actual progress visualization in Life Organizer features
     - When adding income/expense/savings type-colored UI elements to Life Organizer views
+
+- docs/features/design-system-showcase-page.md
+  - Conditions:
+    - When adding new routes or pages to the Life Organizer application
+    - When modifying the React Router configuration in `src/routes.tsx`
+    - When adding new design tokens or components to the Quiet Ledger design system showcase
+    - When creating standalone pages that render outside the app shell layout
