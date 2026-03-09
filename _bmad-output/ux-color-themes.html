@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Organizer — Design System: Quiet Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* === DARK MODE (Primary) === */
+    --bg-root: #111010;
+    --bg-surface: #1a1816;
+    --bg-raised: #222019;
+    --bg-elevated: #2a2822;
+    --bg-hover: #33302a;
+    --bg-active: #3d3a33;
+
+    --border-subtle: #2e2b25;
+    --border-default: #3d3a33;
+    --border-strong: #524e46;
+
+    --text-primary: #e8e2d6;
+    --text-secondary: #a69f8f;
+    --text-tertiary: #7a7368;
+    --text-inverse: #1a1816;
+
+    /* Semantic: Income — sage/eucalyptus */
+    --income-50: #eef5f0;
+    --income-100: #cee5d4;
+    --income-200: #9dc7a8;
+    --income-300: #6daa7c;
+    --income-400: #4d9462;
+    --income-500: #3a7a4e;
+    --income-600: #2e613e;
+    --income-700: #23492f;
+    --income-bg: rgba(109, 170, 124, 0.08);
+    --income-bg-strong: rgba(109, 170, 124, 0.15);
+    --income-border: rgba(109, 170, 124, 0.25);
+
+    /* Semantic: Expenses — muted rose/terracotta */
+    --expense-50: #fdf0ee;
+    --expense-100: #f8d5cf;
+    --expense-200: #e8a89e;
+    --expense-300: #d47b6e;
+    --expense-400: #c06254;
+    --expense-500: #a84e40;
+    --expense-600: #863e33;
+    --expense-700: #652f26;
+    --expense-bg: rgba(212, 123, 110, 0.08);
+    --expense-bg-strong: rgba(212, 123, 110, 0.15);
+    --expense-border: rgba(212, 123, 110, 0.25);
+
+    /* Semantic: Savings — warm copper/amber */
+    --savings-50: #fdf4e7;
+    --savings-100: #f9e4c2;
+    --savings-200: #f0c878;
+    --savings-300: #e4a83a;
+    --savings-400: #d4922a;
+    --savings-500: #c07d1e;
+    --savings-600: #9a6318;
+    --savings-700: #744a12;
+    --savings-bg: rgba(224, 168, 58, 0.08);
+    --savings-bg-strong: rgba(224, 168, 58, 0.15);
+    --savings-border: rgba(224, 168, 58, 0.25);
+
+    /* Semantic: Over-budget — warm amber/warning */
+    --warning-50: #fef6e7;
+    --warning-100: #fbe5b5;
+    --warning-200: #f5c95e;
+    --warning-300: #e8a820;
+    --warning-400: #d49518;
+    --warning-500: #b07c14;
+    --warning-bg: rgba(232, 168, 32, 0.10);
+    --warning-border: rgba(232, 168, 32, 0.30);
+
+    /* Semantic: Under-budget / success */
+    --success-bg: var(--savings-bg);
+    --success-border: var(--savings-border);
+    --success-text: var(--savings-300);
+
+    /* Accent — subtle lavender for focus/selection */
+    --accent-300: #b0a3d4;
+    --accent-400: #9488c0;
+    --accent-500: #7a6eaa;
+    --accent-bg: rgba(148, 136, 192, 0.08);
+    --accent-border: rgba(148, 136, 192, 0.25);
+
+    /* Chart palette (ordered for doughnut segments) */
+    --chart-1: #e4a83a;
+    --chart-2: #d47b6e;
+    --chart-3: #6daa7c;
+    --chart-4: #9488c0;
+    --chart-5: #c07d1e;
+    --chart-6: #a84e40;
+    --chart-7: #4d9462;
+    --chart-8: #7a6eaa;
+    --chart-9: #e8c878;
+    --chart-10: #e8a89e;
+    --chart-11: #9dc7a8;
+    --chart-12: #b0a3d4;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+
+    /* Radii */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* Spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+  }
+
+  .light-mode {
+    --bg-root: #f5f2ec;
+    --bg-surface: #faf8f4;
+    --bg-raised: #ffffff;
+    --bg-elevated: #ffffff;
+    --bg-hover: #f0ede5;
+    --bg-active: #e8e4db;
+
+    --border-subtle: #e8e4db;
+    --border-default: #d9d4c8;
+    --border-strong: #b8b2a4;
+
+    --text-primary: #1a1816;
+    --text-secondary: #5c564a;
+    --text-tertiary: #8a8478;
+    --text-inverse: #e8e2d6;
+
+    --income-bg: rgba(58, 122, 78, 0.06);
+    --income-bg-strong: rgba(58, 122, 78, 0.12);
+    --income-border: rgba(58, 122, 78, 0.20);
+
+    --expense-bg: rgba(168, 78, 64, 0.06);
+    --expense-bg-strong: rgba(168, 78, 64, 0.12);
+    --expense-border: rgba(168, 78, 64, 0.20);
+
+    --savings-bg: rgba(192, 125, 30, 0.06);
+    --savings-bg-strong: rgba(192, 125, 30, 0.12);
+    --savings-border: rgba(192, 125, 30, 0.20);
+
+    --warning-bg: rgba(176, 124, 20, 0.08);
+    --warning-border: rgba(176, 124, 20, 0.20);
+
+    --accent-bg: rgba(122, 110, 170, 0.06);
+    --accent-border: rgba(122, 110, 170, 0.20);
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  /* === BASE === */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg-root);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === LAYOUT === */
+  .design-system {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-8);
+  }
+
+  .section {
+    margin-bottom: var(--space-16);
+  }
+
+  .section-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+    letter-spacing: -0.5px;
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-8);
+    font-weight: 400;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin-bottom: var(--space-10);
+  }
+
+  /* === HEADER === */
+  .ds-header {
+    text-align: center;
+    padding: var(--space-16) 0;
+    margin-bottom: var(--space-12);
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+  }
+
+  .ds-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--income-300), transparent);
+  }
+
+  .ds-header h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    margin-bottom: var(--space-3);
+  }
+
+  .ds-header h1 em {
+    font-style: italic;
+    color: var(--income-300);
+  }
+
+  .ds-header p {
+    font-size: 16px;
+    color: var(--text-tertiary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .mode-toggle {
+    display: inline-flex;
+    gap: var(--space-2);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--space-1);
+    margin-top: var(--space-6);
+  }
+
+  .mode-toggle button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: var(--space-2) var(--space-5);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-tertiary);
+    transition: all 0.2s ease;
+  }
+
+  .mode-toggle button.active {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* === COLOR PALETTE === */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+
+  .palette-group {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .palette-group-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-tertiary);
+    padding: var(--space-4) var(--space-4) var(--space-2);
+  }
+
+  .swatch-row {
+    display: flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .swatch-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .swatch-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .swatch-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+
+  /* === SURFACE PALETTE === */
+  .surface-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .surface-card {
+    aspect-ratio: 1.4;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-3);
+  }
+
+  .surface-card .swatch-name {
+    font-size: 11px;
+  }
+
+  .surface-card .swatch-value {
+    font-size: 10px;
+  }
+
+  /* === TYPOGRAPHY === */
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .type-sample {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: baseline;
+    gap: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .type-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.8;
+  }
+
+  .type-display-xl {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+
+  .type-display {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .type-heading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+  }
+
+  .type-subheading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.4;
+  }
+
+  .type-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  .type-caption {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .type-mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .type-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-tertiary);
+  }
+
+  /* === COMPONENT PREVIEWS === */
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+
+  .preview-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .preview-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-4);
+  }
+
+  /* === NAVIGATION PREVIEW === */
+  .nav-preview {
+    display: flex;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .nav-sidebar {
+    width: 220px;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .nav-logo {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 18px;
+    padding: var(--space-3) var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .nav-logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--income-300);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .nav-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .nav-item.active {
+    background: var(--income-bg-strong);
+    color: var(--income-300);
+    border: 1px solid var(--income-border);
+  }
+
+  .nav-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .active .nav-icon { opacity: 1; }
+
+  .nav-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: var(--space-4);
+  }
+
+  .nav-header h3 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  .filter-pills {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .filter-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  .filter-pill.active {
+    border-color: var(--income-border);
+    background: var(--income-bg);
+    color: var(--income-300);
+  }
+
+  /* === TABLE PREVIEW === */
+  .table-preview {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+  }
+
+  .table-preview thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .table-preview thead th:last-child {
+    text-align: right;
+  }
+
+  .table-preview tbody td {
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+
+  .table-preview tbody tr:hover td {
+    background: var(--bg-hover);
+  }
+
+  .table-preview tbody td:last-child {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+
+  .amount-positive {
+    color: var(--income-300);
+  }
+
+  .amount-negative {
+    color: var(--expense-300);
+  }
+
+  .amount-savings {
+    color: var(--savings-300);
+  }
+
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.3px;
+  }
+
+  .badge-income {
+    background: var(--income-bg-strong);
+    color: var(--income-300);
+    border: 1px solid var(--income-border);
+  }
+
+  .badge-expense {
+    background: var(--expense-bg-strong);
+    color: var(--expense-300);
+    border: 1px solid var(--expense-border);
+  }
+
+  .badge-savings {
+    background: var(--savings-bg-strong);
+    color: var(--savings-300);
+    border: 1px solid var(--savings-border);
+  }
+
+  /* === CHART PREVIEW === */
+  .chart-area {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-4) 0;
+  }
+
+  .doughnut-container {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    flex-shrink: 0;
+  }
+
+  .doughnut-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .doughnut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .doughnut-center-amount {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .doughnut-center-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .chart-legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 13px;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .legend-label {
+    flex: 1;
+    color: var(--text-secondary);
+  }
+
+  .legend-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+  }
+
+  .legend-pct {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    width: 36px;
+    text-align: right;
+  }
+
+  /* === BUDGET GRID PREVIEW === */
+  .budget-grid-preview {
+    overflow-x: auto;
+  }
+
+  .budget-grid {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12px;
+  }
+
+  .budget-grid th {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    padding: var(--space-2) var(--space-3);
+    text-align: right;
+    border-bottom: 1px solid var(--border-default);
+    white-space: nowrap;
+  }
+
+  .budget-grid th:first-child {
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: sticky;
+    left: 0;
+    background: var(--bg-surface);
+    z-index: 1;
+  }
+
+  .budget-grid td {
+    padding: var(--space-2) var(--space-3);
+    text-align: right;
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+
+  .budget-grid td:first-child {
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: default;
+    position: sticky;
+    left: 0;
+    background: var(--bg-surface);
+    z-index: 1;
+  }
+
+  .budget-grid td:hover:not(:first-child) {
+    background: var(--bg-hover);
+    outline: 1px solid var(--border-default);
+    outline-offset: -1px;
+    border-radius: 2px;
+  }
+
+  .budget-grid .section-header td {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    padding-top: var(--space-4);
+    cursor: default;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .budget-grid .section-header.income-section td:first-child {
+    color: var(--income-400);
+  }
+
+  .budget-grid .section-header.expense-section td:first-child {
+    color: var(--expense-400);
+  }
+
+  .budget-grid .section-header.savings-section td:first-child {
+    color: var(--savings-400);
+  }
+
+  .budget-grid .total-row td {
+    font-weight: 500;
+    color: var(--text-primary);
+    border-top: 1px solid var(--border-default);
+    border-bottom: 2px solid var(--border-default);
+    cursor: default;
+    background: var(--bg-raised);
+  }
+
+  .budget-grid .allocation-row td {
+    cursor: default;
+  }
+
+  .allocation-positive {
+    color: var(--savings-300) !important;
+  }
+
+  .allocation-zero {
+    color: var(--text-tertiary) !important;
+  }
+
+  .allocation-negative {
+    color: var(--expense-300) !important;
+  }
+
+  /* === BUDGET VS ACTUAL PREVIEW === */
+  .bva-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+  }
+
+  .bva-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .bva-table td {
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .bva-category {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .bva-amount {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-hover);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+
+  .progress-under { background: var(--savings-400); }
+  .progress-near { background: var(--income-400); }
+  .progress-over { background: var(--expense-400); }
+
+  .bva-remaining {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+
+  .remaining-positive { color: var(--savings-300); }
+  .remaining-negative { color: var(--expense-300); }
+
+  /* === STAT CARDS === */
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .stat-card-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-2);
+  }
+
+  .stat-card-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+  }
+
+  .stat-card-change {
+    font-size: 12px;
+    margin-top: var(--space-1);
+  }
+
+  .stat-income .stat-card-value { color: var(--income-300); }
+  .stat-expense .stat-card-value { color: var(--expense-300); }
+  .stat-savings .stat-card-value { color: var(--savings-300); }
+  .stat-balance .stat-card-value { color: var(--text-primary); }
+
+  .stat-income { border-left: 3px solid var(--income-400); }
+  .stat-expense { border-left: 3px solid var(--expense-400); }
+  .stat-savings { border-left: 3px solid var(--savings-400); }
+  .stat-balance { border-left: 3px solid var(--accent-400); }
+
+  /* === SPACING SYSTEM === */
+  .spacing-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    align-items: flex-end;
+  }
+
+  .spacing-sample {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .spacing-bar {
+    background: var(--income-bg-strong);
+    border: 1px solid var(--income-border);
+    border-radius: 2px;
+    width: 40px;
+  }
+
+  .spacing-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+
+  /* === FULL APP MOCKUP === */
+  .app-mockup {
+    background: var(--bg-root);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .mockup-titlebar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .titlebar-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #e8685a; }
+  .dot-yellow { background: #e8b83a; }
+  .dot-green { background: #6daa7c; }
+
+  .mockup-body {
+    display: flex;
+    min-height: 520px;
+  }
+
+  .mockup-sidebar {
+    width: 200px;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    padding: var(--space-4);
+    flex-shrink: 0;
+  }
+
+  .mockup-main {
+    flex: 1;
+    padding: var(--space-5) var(--space-6);
+    overflow: hidden;
+  }
+
+  .mockup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .mockup-page-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  .mockup-filters {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .mockup-select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  /* === CHART PALETTE PREVIEW === */
+  .chart-palette {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .chart-swatch {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: var(--space-1);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* === RESPONSIVE WITHIN DESIGN SYSTEM PAGE === */
+  @media (max-width: 1200px) {
+    .palette-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-cards { grid-template-columns: repeat(2, 1fr); }
+    .preview-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="design-system" id="app">
+
+    <!-- HEADER -->
+    <header class="ds-header">
+      <h1>Quiet <em>Ledger</em></h1>
+      <p>Design system for life-organizer — a personal finance dashboard that feels like opening a well-kept leather journal, not a spreadsheet.</p>
+      <div class="mode-toggle">
+        <button class="active" onclick="setMode('dark')">Dark</button>
+        <button onclick="setMode('light')">Light</button>
+      </div>
+    </header>
+
+    <!-- 1. SURFACE COLORS -->
+    <section class="section">
+      <h2 class="section-title">Surface Palette</h2>
+      <p class="section-subtitle">Warm charcoal layers with stone undertones — never pure black, never cold gray</p>
+      <div class="section-divider"></div>
+      <div class="surface-grid">
+        <div class="surface-card" style="background: var(--bg-root);">
+          <span class="swatch-name">Root</span>
+          <span class="swatch-value">--bg-root</span>
+        </div>
+        <div class="surface-card" style="background: var(--bg-surface);">
+          <span class="swatch-name">Surface</span>
+          <span class="swatch-value">--bg-surface</span>
+        </div>
+        <div class="surface-card" style="background: var(--bg-raised);">
+          <span class="swatch-name">Raised</span>
+          <span class="swatch-value">--bg-raised</span>
+        </div>
+        <div class="surface-card" style="background: var(--bg-elevated);">
+          <span class="swatch-name">Elevated</span>
+          <span class="swatch-value">--bg-elevated</span>
+        </div>
+        <div class="surface-card" style="background: var(--bg-hover);">
+          <span class="swatch-name">Hover</span>
+          <span class="swatch-value">--bg-hover</span>
+        </div>
+        <div class="surface-card" style="background: var(--bg-active);">
+          <span class="swatch-name">Active</span>
+          <span class="swatch-value">--bg-active</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. SEMANTIC COLORS -->
+    <section class="section">
+      <h2 class="section-title">Semantic Colors</h2>
+      <p class="section-subtitle">Copper for income, terracotta for expenses, sage for savings — warm earth tones that feel grounded, not alarming</p>
+      <div class="section-divider"></div>
+      <div class="palette-grid">
+        <!-- Income -->
+        <div class="palette-group">
+          <div class="palette-group-title">Income — Sage</div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--income-100);"></div><div class="swatch-info"><div class="swatch-name">100</div><div class="swatch-value">#cee5d4</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--income-200);"></div><div class="swatch-info"><div class="swatch-name">200</div><div class="swatch-value">#9dc7a8</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--income-300);"></div><div class="swatch-info"><div class="swatch-name">300 ★</div><div class="swatch-value">#6daa7c</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--income-400);"></div><div class="swatch-info"><div class="swatch-name">400</div><div class="swatch-value">#4d9462</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--income-500);"></div><div class="swatch-info"><div class="swatch-name">500</div><div class="swatch-value">#3a7a4e</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--income-600);"></div><div class="swatch-info"><div class="swatch-name">600</div><div class="swatch-value">#2e613e</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--income-700);"></div><div class="swatch-info"><div class="swatch-name">700</div><div class="swatch-value">#23492f</div></div></div>
+        </div>
+        <!-- Expense -->
+        <div class="palette-group">
+          <div class="palette-group-title">Expenses — Terracotta</div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--expense-100);"></div><div class="swatch-info"><div class="swatch-name">100</div><div class="swatch-value">#f8d5cf</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--expense-200);"></div><div class="swatch-info"><div class="swatch-name">200</div><div class="swatch-value">#e8a89e</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--expense-300);"></div><div class="swatch-info"><div class="swatch-name">300 ★</div><div class="swatch-value">#d47b6e</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--expense-400);"></div><div class="swatch-info"><div class="swatch-name">400</div><div class="swatch-value">#c06254</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--expense-500);"></div><div class="swatch-info"><div class="swatch-name">500</div><div class="swatch-value">#a84e40</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--expense-600);"></div><div class="swatch-info"><div class="swatch-name">600</div><div class="swatch-value">#863e33</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--expense-700);"></div><div class="swatch-info"><div class="swatch-name">700</div><div class="swatch-value">#652f26</div></div></div>
+        </div>
+        <!-- Savings -->
+        <div class="palette-group">
+          <div class="palette-group-title">Savings — Copper</div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--savings-100);"></div><div class="swatch-info"><div class="swatch-name">100</div><div class="swatch-value">#f9e4c2</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--savings-200);"></div><div class="swatch-info"><div class="swatch-name">200</div><div class="swatch-value">#f0c878</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--savings-300);"></div><div class="swatch-info"><div class="swatch-name">300 ★</div><div class="swatch-value">#e4a83a</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--savings-400);"></div><div class="swatch-info"><div class="swatch-name">400</div><div class="swatch-value">#d4922a</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--savings-500);"></div><div class="swatch-info"><div class="swatch-name">500</div><div class="swatch-value">#c07d1e</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--savings-600);"></div><div class="swatch-info"><div class="swatch-name">600</div><div class="swatch-value">#9a6318</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--savings-700);"></div><div class="swatch-info"><div class="swatch-name">700</div><div class="swatch-value">#744a12</div></div></div>
+        </div>
+        <!-- Accent -->
+        <div class="palette-group">
+          <div class="palette-group-title">Accent — Lavender</div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--accent-300);"></div><div class="swatch-info"><div class="swatch-name">300</div><div class="swatch-value">#b0a3d4</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--accent-400);"></div><div class="swatch-info"><div class="swatch-name">400</div><div class="swatch-value">#9488c0</div></div></div>
+          <div class="swatch-row"><div class="swatch" style="background: var(--accent-500);"></div><div class="swatch-info"><div class="swatch-name">500</div><div class="swatch-value">#7a6eaa</div></div></div>
+          <div class="swatch-row" style="height: 36px;"></div>
+          <div class="swatch-row" style="height: 36px;"></div>
+          <div class="swatch-row" style="height: 36px;"></div>
+          <div class="swatch-row" style="height: 36px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CHART PALETTE -->
+    <section class="section">
+      <h2 class="section-title">Chart Palette</h2>
+      <p class="section-subtitle">12 colors for doughnut/bar chart segments — harmonious, distinguishable, warm</p>
+      <div class="section-divider"></div>
+      <div class="chart-palette">
+        <div class="chart-swatch" style="background: var(--chart-1);">1</div>
+        <div class="chart-swatch" style="background: var(--chart-2);">2</div>
+        <div class="chart-swatch" style="background: var(--chart-3);">3</div>
+        <div class="chart-swatch" style="background: var(--chart-4);">4</div>
+        <div class="chart-swatch" style="background: var(--chart-5);">5</div>
+        <div class="chart-swatch" style="background: var(--chart-6);">6</div>
+        <div class="chart-swatch" style="background: var(--chart-7);">7</div>
+        <div class="chart-swatch" style="background: var(--chart-8);">8</div>
+        <div class="chart-swatch" style="background: var(--chart-9);">9</div>
+        <div class="chart-swatch" style="background: var(--chart-10);">10</div>
+        <div class="chart-swatch" style="background: var(--chart-11);">11</div>
+        <div class="chart-swatch" style="background: var(--chart-12);">12</div>
+      </div>
+    </section>
+
+    <!-- 4. TYPOGRAPHY -->
+    <section class="section">
+      <h2 class="section-title">Typography</h2>
+      <p class="section-subtitle">Instrument Serif for display — editorial authority. DM Sans for body — geometric clarity. DM Mono for numbers — tabular precision.</p>
+      <div class="section-divider"></div>
+      <div class="type-scale">
+        <div class="type-sample">
+          <div class="type-meta">Display XL<br>Instrument Serif<br>48px / 400</div>
+          <div class="type-display-xl">March Budget</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-meta">Display<br>Instrument Serif<br>36px / 400</div>
+          <div class="type-display">Category Spending</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-meta">Heading<br>DM Sans<br>24px / 600</div>
+          <div class="type-heading">Budget vs Actual</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-meta">Subheading<br>DM Sans<br>16px / 600</div>
+          <div class="type-subheading">Transaction Details</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-meta">Body<br>DM Sans<br>14px / 400</div>
+          <div class="type-body">Groceries spending is 12% higher than last month, primarily driven by increased purchases at organic markets during the holiday season.</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-meta">Caption<br>DM Sans<br>12px / 400</div>
+          <div class="type-caption">Last updated 3 minutes ago · Showing 47 of 312 transactions</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-meta">Mono<br>DM Mono<br>13px / 400</div>
+          <div class="type-mono" style="color: var(--income-300);">€ 4,250.00</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-meta">Label<br>DM Sans<br>11px / 600</div>
+          <div class="type-label">Category · Amount · Date</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SPACING -->
+    <section class="section">
+      <h2 class="section-title">Spacing Scale</h2>
+      <p class="section-subtitle">4px base unit — tight for data density, generous for section separation</p>
+      <div class="section-divider"></div>
+      <div class="spacing-grid">
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 4px;"></div><span class="spacing-label">4</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 8px;"></div><span class="spacing-label">8</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 12px;"></div><span class="spacing-label">12</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 16px;"></div><span class="spacing-label">16</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 20px;"></div><span class="spacing-label">20</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 24px;"></div><span class="spacing-label">24</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 32px;"></div><span class="spacing-label">32</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 40px;"></div><span class="spacing-label">40</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 48px;"></div><span class="spacing-label">48</span></div>
+        <div class="spacing-sample"><div class="spacing-bar" style="height: 64px;"></div><span class="spacing-label">64</span></div>
+      </div>
+    </section>
+
+    <!-- 6. STAT CARDS -->
+    <section class="section">
+      <h2 class="section-title">Summary Cards</h2>
+      <p class="section-subtitle">Top-of-page KPIs with left border accent — income, expenses, savings, and net balance at a glance</p>
+      <div class="section-divider"></div>
+      <div class="stat-cards">
+        <div class="stat-card stat-income">
+          <div class="stat-card-label">Income</div>
+          <div class="stat-card-value">€ 4,250</div>
+          <div class="stat-card-change" style="color: var(--savings-300);">on track</div>
+        </div>
+        <div class="stat-card stat-expense">
+          <div class="stat-card-label">Expenses</div>
+          <div class="stat-card-value">€ 2,847</div>
+          <div class="stat-card-change" style="color: var(--expense-300);">+8% vs budget</div>
+        </div>
+        <div class="stat-card stat-savings">
+          <div class="stat-card-label">Savings</div>
+          <div class="stat-card-value">€ 850</div>
+          <div class="stat-card-change" style="color: var(--savings-300);">85% of target</div>
+        </div>
+        <div class="stat-card stat-balance">
+          <div class="stat-card-label">To Allocate</div>
+          <div class="stat-card-value">€ 553</div>
+          <div class="stat-card-change" style="color: var(--text-tertiary);">unallocated</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. BADGES -->
+    <section class="section">
+      <h2 class="section-title">Type Badges</h2>
+      <p class="section-subtitle">Transaction type indicators — subtle background tint with matching border</p>
+      <div class="section-divider"></div>
+      <div style="display: flex; gap: var(--space-4); align-items: center;">
+        <span class="type-badge badge-income">Income</span>
+        <span class="type-badge badge-expense">Expense</span>
+        <span class="type-badge badge-savings">Savings</span>
+      </div>
+    </section>
+
+    <!-- 8. TRANSACTION TABLE -->
+    <section class="section">
+      <h2 class="section-title">Transaction Table</h2>
+      <p class="section-subtitle">Dense but readable — monospace amounts, subtle row borders, hover highlight</p>
+      <div class="section-divider"></div>
+      <div class="preview-card">
+        <table class="table-preview">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Details</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2026-03-08</td>
+              <td><span class="type-badge badge-expense">Expense</span></td>
+              <td>Groceries</td>
+              <td style="color: var(--text-primary);">Weekly shop at Albert Heijn</td>
+              <td class="amount-negative">−€ 67.40</td>
+            </tr>
+            <tr>
+              <td>2026-03-07</td>
+              <td><span class="type-badge badge-expense">Expense</span></td>
+              <td>Dining Out</td>
+              <td style="color: var(--text-primary);">Dinner at The Harbour</td>
+              <td class="amount-negative">−€ 42.50</td>
+            </tr>
+            <tr>
+              <td>2026-03-05</td>
+              <td><span class="type-badge badge-income">Income</span></td>
+              <td>Salary</td>
+              <td style="color: var(--text-primary);">Monthly salary — March</td>
+              <td class="amount-positive">€ 4,250.00</td>
+            </tr>
+            <tr>
+              <td>2026-03-04</td>
+              <td><span class="type-badge badge-savings">Savings</span></td>
+              <td>Emergency Fund</td>
+              <td style="color: var(--text-primary);">Monthly auto-transfer</td>
+              <td class="amount-savings">€ 500.00</td>
+            </tr>
+            <tr>
+              <td>2026-03-03</td>
+              <td><span class="type-badge badge-expense">Expense</span></td>
+              <td>Subscriptions</td>
+              <td style="color: var(--text-primary);">Netflix monthly</td>
+              <td class="amount-negative">−€ 15.99</td>
+            </tr>
+            <tr>
+              <td>2026-03-01</td>
+              <td><span class="type-badge badge-expense">Expense</span></td>
+              <td>Transport</td>
+              <td style="color: var(--text-primary);">NS monthly train pass</td>
+              <td class="amount-negative">−€ 356.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 9. DOUGHNUT CHART -->
+    <section class="section">
+      <h2 class="section-title">Category Breakdown</h2>
+      <p class="section-subtitle">Doughnut chart with center total — warm chart palette, aligned legend with amounts</p>
+      <div class="section-divider"></div>
+      <div class="preview-card">
+        <div class="preview-label">Expenses — March 2026</div>
+        <div class="chart-area">
+          <div class="doughnut-container">
+            <svg class="doughnut-svg" viewBox="0 0 120 120">
+              <!-- Segments: Groceries 28%, Rent 35%, Dining 12%, Transport 15%, Subs 10% -->
+              <circle cx="60" cy="60" r="50" fill="none" stroke="var(--chart-1)" stroke-width="18"
+                stroke-dasharray="87.96 226" stroke-dashoffset="0" />
+              <circle cx="60" cy="60" r="50" fill="none" stroke="var(--chart-2)" stroke-width="18"
+                stroke-dasharray="109.96 226" stroke-dashoffset="-87.96" />
+              <circle cx="60" cy="60" r="50" fill="none" stroke="var(--chart-3)" stroke-width="18"
+                stroke-dasharray="37.70 226" stroke-dashoffset="-197.92" />
+              <circle cx="60" cy="60" r="50" fill="none" stroke="var(--chart-4)" stroke-width="18"
+                stroke-dasharray="47.12 226" stroke-dashoffset="-235.62" />
+              <circle cx="60" cy="60" r="50" fill="none" stroke="var(--chart-5)" stroke-width="18"
+                stroke-dasharray="31.42 226" stroke-dashoffset="-282.74" />
+            </svg>
+            <div class="doughnut-center">
+              <div class="doughnut-center-amount">€ 2,847</div>
+              <div class="doughnut-center-label">Total</div>
+            </div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--chart-2);"></div>
+              <span class="legend-label">Rent</span>
+              <span class="legend-value">€ 995.00</span>
+              <span class="legend-pct">35%</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--chart-1);"></div>
+              <span class="legend-label">Groceries</span>
+              <span class="legend-value">€ 796.00</span>
+              <span class="legend-pct">28%</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--chart-4);"></div>
+              <span class="legend-label">Transport</span>
+              <span class="legend-value">€ 427.00</span>
+              <span class="legend-pct">15%</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--chart-3);"></div>
+              <span class="legend-label">Dining Out</span>
+              <span class="legend-value">€ 341.00</span>
+              <span class="legend-pct">12%</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--chart-5);"></div>
+              <span class="legend-label">Subscriptions</span>
+              <span class="legend-value">€ 288.00</span>
+              <span class="legend-pct">10%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. BUDGET GRID -->
+    <section class="section">
+      <h2 class="section-title">Budget Planning Grid</h2>
+      <p class="section-subtitle">Categories × months — inline editable cells with section headers and allocation row</p>
+      <div class="section-divider"></div>
+      <div class="preview-card">
+        <div class="budget-grid-preview">
+          <table class="budget-grid">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Jan</th>
+                <th>Feb</th>
+                <th>Mar</th>
+                <th>Apr</th>
+                <th>May</th>
+                <th>Jun</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="section-header income-section"><td colspan="8">Income</td></tr>
+              <tr><td>Salary</td><td>4,250</td><td>4,250</td><td>4,250</td><td>4,250</td><td>4,250</td><td>4,250</td><td style="font-weight:500; color: var(--text-primary);">25,500</td></tr>
+              <tr><td>Freelance</td><td>500</td><td>—</td><td>300</td><td>—</td><td>500</td><td>—</td><td style="font-weight:500; color: var(--text-primary);">1,300</td></tr>
+              <tr class="total-row"><td>Total Income</td><td style="color: var(--income-300);">4,750</td><td style="color: var(--income-300);">4,250</td><td style="color: var(--income-300);">4,550</td><td style="color: var(--income-300);">4,250</td><td style="color: var(--income-300);">4,750</td><td style="color: var(--income-300);">4,250</td><td style="color: var(--income-300);">26,800</td></tr>
+
+              <tr class="section-header expense-section"><td colspan="8">Expenses</td></tr>
+              <tr><td>Rent</td><td>995</td><td>995</td><td>995</td><td>995</td><td>995</td><td>995</td><td style="font-weight:500; color: var(--text-primary);">5,970</td></tr>
+              <tr><td>Groceries</td><td>600</td><td>650</td><td>700</td><td>600</td><td>600</td><td>650</td><td style="font-weight:500; color: var(--text-primary);">3,800</td></tr>
+              <tr><td>Transport</td><td>356</td><td>356</td><td>356</td><td>356</td><td>356</td><td>356</td><td style="font-weight:500; color: var(--text-primary);">2,136</td></tr>
+              <tr><td>Dining Out</td><td>200</td><td>250</td><td>300</td><td>200</td><td>250</td><td>300</td><td style="font-weight:500; color: var(--text-primary);">1,500</td></tr>
+              <tr class="total-row"><td>Total Expenses</td><td style="color: var(--expense-300);">2,151</td><td style="color: var(--expense-300);">2,251</td><td style="color: var(--expense-300);">2,351</td><td style="color: var(--expense-300);">2,151</td><td style="color: var(--expense-300);">2,201</td><td style="color: var(--expense-300);">2,301</td><td style="color: var(--expense-300);">13,406</td></tr>
+
+              <tr class="section-header savings-section"><td colspan="8">Savings</td></tr>
+              <tr><td>Emergency Fund</td><td>500</td><td>500</td><td>500</td><td>500</td><td>500</td><td>500</td><td style="font-weight:500; color: var(--text-primary);">3,000</td></tr>
+              <tr><td>Travel Fund</td><td>200</td><td>200</td><td>200</td><td>200</td><td>200</td><td>200</td><td style="font-weight:500; color: var(--text-primary);">1,200</td></tr>
+              <tr class="total-row"><td>Total Savings</td><td style="color: var(--savings-300);">700</td><td style="color: var(--savings-300);">700</td><td style="color: var(--savings-300);">700</td><td style="color: var(--savings-300);">700</td><td style="color: var(--savings-300);">700</td><td style="color: var(--savings-300);">700</td><td style="color: var(--savings-300);">4,200</td></tr>
+
+              <tr class="allocation-row"><td style="font-weight: 600; color: var(--text-tertiary);">To Allocate</td>
+                <td class="allocation-positive">1,899</td>
+                <td class="allocation-positive">1,299</td>
+                <td class="allocation-positive">1,499</td>
+                <td class="allocation-positive">1,399</td>
+                <td class="allocation-positive">1,849</td>
+                <td class="allocation-positive">1,249</td>
+                <td class="allocation-positive" style="font-weight: 500;">9,194</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. BUDGET VS ACTUAL -->
+    <section class="section">
+      <h2 class="section-title">Budget vs Actual</h2>
+      <p class="section-subtitle">Per-category comparison with progress bars — green under budget, amber approaching, terracotta over</p>
+      <div class="section-divider"></div>
+      <div class="preview-card">
+        <table class="bva-table">
+          <thead>
+            <tr>
+              <th style="width: 160px;">Category</th>
+              <th style="width: 100px;">Budget</th>
+              <th style="width: 100px;">Actual</th>
+              <th style="width: 200px;">Progress</th>
+              <th style="width: 80px; text-align: right;">%</th>
+              <th style="width: 110px; text-align: right;">Remaining</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bva-category">Rent</td>
+              <td class="bva-amount">€ 995</td>
+              <td class="bva-amount">€ 995</td>
+              <td><div class="progress-bar-container"><div class="progress-bar progress-near" style="width: 100%;"></div></div></td>
+              <td class="bva-amount" style="text-align: right;">100%</td>
+              <td class="bva-remaining remaining-positive" style="text-align: right;">€ 0</td>
+            </tr>
+            <tr>
+              <td class="bva-category">Groceries</td>
+              <td class="bva-amount">€ 700</td>
+              <td class="bva-amount">€ 796</td>
+              <td><div class="progress-bar-container"><div class="progress-bar progress-over" style="width: 100%;"></div></div></td>
+              <td class="bva-amount" style="text-align: right; color: var(--expense-300);">114%</td>
+              <td class="bva-remaining remaining-negative" style="text-align: right;">−€ 96</td>
+            </tr>
+            <tr>
+              <td class="bva-category">Transport</td>
+              <td class="bva-amount">€ 356</td>
+              <td class="bva-amount">€ 356</td>
+              <td><div class="progress-bar-container"><div class="progress-bar progress-near" style="width: 100%;"></div></div></td>
+              <td class="bva-amount" style="text-align: right;">100%</td>
+              <td class="bva-remaining remaining-positive" style="text-align: right;">€ 0</td>
+            </tr>
+            <tr>
+              <td class="bva-category">Dining Out</td>
+              <td class="bva-amount">€ 300</td>
+              <td class="bva-amount">€ 341</td>
+              <td><div class="progress-bar-container"><div class="progress-bar progress-over" style="width: 100%;"></div></div></td>
+              <td class="bva-amount" style="text-align: right; color: var(--expense-300);">114%</td>
+              <td class="bva-remaining remaining-negative" style="text-align: right;">−€ 41</td>
+            </tr>
+            <tr>
+              <td class="bva-category">Subscriptions</td>
+              <td class="bva-amount">€ 350</td>
+              <td class="bva-amount">€ 288</td>
+              <td><div class="progress-bar-container"><div class="progress-bar progress-under" style="width: 82%;"></div></div></td>
+              <td class="bva-amount" style="text-align: right;">82%</td>
+              <td class="bva-remaining remaining-positive" style="text-align: right;">€ 62</td>
+            </tr>
+            <tr>
+              <td class="bva-category">Entertainment</td>
+              <td class="bva-amount">€ 200</td>
+              <td class="bva-amount">€ 85</td>
+              <td><div class="progress-bar-container"><div class="progress-bar progress-under" style="width: 42%;"></div></div></td>
+              <td class="bva-amount" style="text-align: right;">42%</td>
+              <td class="bva-remaining remaining-positive" style="text-align: right;">€ 115</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 12. FULL APP MOCKUP -->
+    <section class="section">
+      <h2 class="section-title">Full Application Mockup</h2>
+      <p class="section-subtitle">Transactions view — sidebar navigation, global filters, data table with summary cards</p>
+      <div class="section-divider"></div>
+      <div class="app-mockup">
+        <div class="mockup-titlebar">
+          <div class="titlebar-dot dot-red"></div>
+          <div class="titlebar-dot dot-yellow"></div>
+          <div class="titlebar-dot dot-green"></div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="nav-logo">
+              <div class="nav-logo-dot"></div>
+              Life Organizer
+            </div>
+            <div class="nav-item active">
+              <span class="nav-icon">☰</span>
+              Transactions
+            </div>
+            <div class="nav-item">
+              <span class="nav-icon">◎</span>
+              Spending
+            </div>
+            <div class="nav-item">
+              <span class="nav-icon">▦</span>
+              Budget
+            </div>
+            <div class="nav-item">
+              <span class="nav-icon">◧</span>
+              Budget vs Actual
+            </div>
+          </div>
+          <div class="mockup-main">
+            <div class="mockup-header">
+              <h3 class="mockup-page-title">Transactions</h3>
+              <div class="mockup-filters">
+                <select class="mockup-select">
+                  <option>2026</option>
+                </select>
+                <select class="mockup-select">
+                  <option>March</option>
+                </select>
+                <select class="mockup-select">
+                  <option>All Types</option>
+                </select>
+              </div>
+            </div>
+            <div class="stat-cards" style="grid-template-columns: repeat(3, 1fr);">
+              <div class="stat-card stat-income">
+                <div class="stat-card-label">Income</div>
+                <div class="stat-card-value" style="font-size: 18px;">€ 4,250</div>
+              </div>
+              <div class="stat-card stat-expense">
+                <div class="stat-card-label">Expenses</div>
+                <div class="stat-card-value" style="font-size: 18px;">€ 2,847</div>
+              </div>
+              <div class="stat-card stat-savings">
+                <div class="stat-card-label">Savings</div>
+                <div class="stat-card-value" style="font-size: 18px;">€ 850</div>
+              </div>
+            </div>
+            <table class="table-preview" style="font-size: 12px;">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Details</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mar 08</td>
+                  <td><span class="type-badge badge-expense">Expense</span></td>
+                  <td>Groceries</td>
+                  <td style="color: var(--text-primary);">Weekly shop at Albert Heijn</td>
+                  <td class="amount-negative">−€ 67.40</td>
+                </tr>
+                <tr>
+                  <td>Mar 07</td>
+                  <td><span class="type-badge badge-expense">Expense</span></td>
+                  <td>Dining Out</td>
+                  <td style="color: var(--text-primary);">Dinner at The Harbour</td>
+                  <td class="amount-negative">−€ 42.50</td>
+                </tr>
+                <tr>
+                  <td>Mar 05</td>
+                  <td><span class="type-badge badge-income">Income</span></td>
+                  <td>Salary</td>
+                  <td style="color: var(--text-primary);">Monthly salary</td>
+                  <td class="amount-positive">€ 4,250.00</td>
+                </tr>
+                <tr>
+                  <td>Mar 04</td>
+                  <td><span class="type-badge badge-savings">Savings</span></td>
+                  <td>Emergency Fund</td>
+                  <td style="color: var(--text-primary);">Monthly auto-transfer</td>
+                  <td class="amount-savings">€ 500.00</td>
+                </tr>
+                <tr>
+                  <td>Mar 03</td>
+                  <td><span class="type-badge badge-expense">Expense</span></td>
+                  <td>Subscriptions</td>
+                  <td style="color: var(--text-primary);">Netflix</td>
+                  <td class="amount-negative">−€ 15.99</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function setMode(mode) {
+      const app = document.getElementById('app');
+      const buttons = document.querySelectorAll('.mode-toggle button');
+
+      if (mode === 'light') {
+        document.body.classList.add('light-mode');
+      } else {
+        document.body.classList.remove('light-mode');
+      }
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+      buttons.forEach(btn => {
+        if (btn.textContent.toLowerCase() === mode) btn.classList.add('active');
+      });
+    }
+  </script>
+</body>
+</html>
