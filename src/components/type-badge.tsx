@@ -33,4 +33,4 @@ function TypeBadge({ className, variant, children, ...props }: TypeBadgeProps) {
   )
 }
 
-export { TypeBadge, typeBadgeVariants }
+export { TypeBadge }
