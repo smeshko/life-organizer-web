@@ -1,20 +1,19 @@
 ## [Unreleased] - 2026-03-09
 
 ### Added
-- Scaffold project with shadcn/ui vite template
-- Install additional dependencies (@tanstack/react-query, recharts, vitest, testing-library)
-- Configure Quiet Ledger design tokens in CSS (184 custom properties)
-- Configure Google Fonts (Instrument Serif, DM Sans, DM Mono)
-- Configure dark mode as default
-- Configure Vitest with jsdom and smoke test
-- Create environment configuration (.env.example)
+- TypeBadge component with 3 variants (income, expense, savings)
+- StatCard component with 4 type variants and left-border accent
+- ProgressBar component with color thresholds (sage/amber/terracotta)
+- ErrorState component with warm yellow banner and retry button
+- LoadingSkeleton component with card, table-row, and chart variants
+- EmptyState component with centered tertiary-styled message
+- Install and customize shadcn/ui Select and Table components
 
 ### Fixed
-- Resolve lint errors in vitest config and eslint rules
-- Correct radius tokens and add missing chart color mappings
+- Clamp negative percentages and add default change text color
 
 ### Documentation
-- Add feature documentation for Quiet Ledger design tokens
+- Add shared UI primitives feature documentation
 
 ### Other
-- Initialize project with planning artifacts
+- Integration verification and lint fix
