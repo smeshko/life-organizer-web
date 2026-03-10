@@ -1,5 +1,4 @@
-import { render, screen, act } from "@testing-library/react"
-import { renderHook } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
 import { FilterProvider, useFilter } from "@/contexts/filter-context"
 import { Sidebar } from "@/components/layout/sidebar"
