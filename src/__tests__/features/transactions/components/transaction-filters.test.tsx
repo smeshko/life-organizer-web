@@ -77,6 +77,37 @@ describe("TransactionFilters", () => {
     ).toBeInTheDocument()
   })
 
+  it("calls onCategoriesChange when a category checkbox is toggled", async () => {
+    const onCategoriesChange = vi.fn()
+    renderFilters({ onCategoriesChange })
+
+    // Open the popover
+    await userEvent.click(
+      screen.getByRole("button", { name: /categories/i }),
+    )
+
+    // Click a category checkbox
+    const checkboxes = screen.getAllByRole("checkbox")
+    await userEvent.click(checkboxes[0])
+
+    expect(onCategoriesChange).toHaveBeenCalledWith(["Salary"])
+  })
+
+  it("calls onCategoriesChange with empty array when clear all is clicked", async () => {
+    const onCategoriesChange = vi.fn()
+    renderFilters({ onCategoriesChange, categories: ["Salary", "Groceries"] })
+
+    // Open the popover
+    await userEvent.click(
+      screen.getByRole("button", { name: /2 categories/i }),
+    )
+
+    // Click clear all
+    await userEvent.click(screen.getByText("Clear all"))
+
+    expect(onCategoriesChange).toHaveBeenCalledWith([])
+  })
+
   it("highlights active type tab", () => {
     renderFilters({ type: "expense" })
 

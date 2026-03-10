@@ -2,7 +2,10 @@ import { renderHook, act } from "@testing-library/react"
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { createElement, type ReactNode } from "react"
 import { FilterProvider } from "@/contexts/filter-context"
-import { useTransactionFilters } from "@/features/transactions/hooks/use-transaction-filters"
+import {
+  useTransactionFilters,
+  computeDateRange,
+} from "@/features/transactions/hooks/use-transaction-filters"
 
 function createWrapper() {
   return function Wrapper({ children }: { children: ReactNode }) {
@@ -90,17 +93,16 @@ describe("useTransactionFilters", () => {
   })
 
   it("computes full year date range when period is 'total'", () => {
-    vi.useRealTimers()
-    // We need to render with a FilterProvider where period is "total"
-    // Since we can't easily change the provider's initial state,
-    // we test the utility function indirectly
-    const { result } = renderHook(() => useTransactionFilters(), {
-      wrapper: createWrapper(),
-    })
+    const range = computeDateRange(2026, "total")
 
-    // Default period is current month, so dateFrom/dateTo are month-based
-    // This test just verifies the hook returns valid dates
-    expect(result.current.dateFrom).toBeTruthy()
-    expect(result.current.dateTo).toBeTruthy()
+    expect(range.dateFrom).toBe("2026-01-01")
+    expect(range.dateTo).toBe("2026-12-31")
+  })
+
+  it("computes monthly date range for a specific month", () => {
+    const range = computeDateRange(2026, 2)
+
+    expect(range.dateFrom).toBe("2026-02-01")
+    expect(range.dateTo).toBe("2026-02-28")
   })
 })

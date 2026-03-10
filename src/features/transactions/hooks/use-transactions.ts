@@ -26,8 +26,8 @@ export function useTransactions(params?: UseTransactionsParams) {
         period: selectedPeriod,
         type: type && type !== "all" ? type : undefined,
         category: categories && categories.length > 0 ? categories : undefined,
-        date_from: dateFrom,
-        date_to: dateTo,
+        date_from: dateFrom || undefined,
+        date_to: dateTo || undefined,
       }),
   })
 }

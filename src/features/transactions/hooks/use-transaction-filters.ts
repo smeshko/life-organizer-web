@@ -18,7 +18,7 @@ type FilterAction =
   | { type: "SET_DATE_RANGE"; payload: { from: string; to: string } }
   | { type: "RESET"; payload: { dateFrom: string; dateTo: string } }
 
-function computeDateRange(
+export function computeDateRange(
   year: number,
   period: SelectedPeriod,
 ): { dateFrom: string; dateTo: string } {
