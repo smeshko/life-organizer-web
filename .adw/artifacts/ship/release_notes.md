@@ -1,18 +1,18 @@
 ## [Unreleased] - 2026-03-10
 
 ### Added
-- Add ApiError class with typed properties
-- Define API type interfaces
-- Implement base fetch wrapper with HTTP helpers
+- Create routing infrastructure with React Router v7 flat routes and `/` redirect to `/transactions`
+- Create app layout with sidebar skeleton
+- Create header component with page title and filter placeholders
+- Add sidebar quick-stats section with hardcoded monthly data
 
 ### Fixed
-- Handle 204 No Content responses gracefully
-- Normalize URL slashes and add 205 test coverage
+- Add aria-label to collapsed sidebar nav items for accessibility
 
 ### Documentation
-- Add API client foundation feature documentation
+- Add app shell & sidebar navigation feature documentation
 
 ### Other
-- LIFE-34: Story 1.3: Design System Showcase Page
-- LIFE-33: Story 1.2: Shared UI Primitives & Component Styling
-- LIFE-32: Story 1.1: Project Scaffold & Theme Configuration
+- Add placeholder page component tests
+- Add comprehensive sidebar component tests
+- Add sidebar collapse behavior integration tests
