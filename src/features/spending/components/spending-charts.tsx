@@ -7,7 +7,7 @@ import type { CategoryType } from "@/api/budget-tracking"
 
 const CHART_SECTIONS: Array<{ type: CategoryType; title: string; label: string }> = [
   { type: "income", title: "Income", label: "income" },
-  { type: "expense", title: "Expenses", label: "expense" },
+  { type: "expense", title: "Expenses", label: "expenses" },
   { type: "savings", title: "Savings", label: "savings" },
 ]
 
@@ -27,10 +27,15 @@ function SpendingChartSection({
 
   if (isError) {
     return (
-      <ErrorState
-        message={error?.message ?? `Failed to load ${label} data.`}
-        onRetry={() => void refetch()}
-      />
+      <section className="rounded-[var(--radius-lg)] bg-[var(--bg-surface)] p-[var(--space-6)]">
+        <h2 className="mb-[var(--space-4)] font-sans text-sm font-medium text-[var(--text-secondary)]">
+          {title}
+        </h2>
+        <ErrorState
+          message={error?.message ?? `Failed to load ${label} data.`}
+          onRetry={() => void refetch()}
+        />
+      </section>
     )
   }
 

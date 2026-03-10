@@ -95,10 +95,18 @@ beforeEach(() => {
 })
 
 describe("SpendingPage", () => {
-  it("renders the page title 'Category Spending'", () => {
+  it("renders the page title 'Category Spending' and period subtitle", () => {
     mockFetchResponses(mockIncomeData, mockExpenseData, mockSavingsData)
     renderPage()
     expect(screen.getByText("Category Spending")).toBeInTheDocument()
+    // Default filter is current month + year — subtitle shows e.g. "March 2026"
+    const now = new Date()
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December",
+    ]
+    const expectedSubtitle = `${monthNames[now.getMonth()]} ${now.getFullYear()}`
+    expect(screen.getByText(expectedSubtitle)).toBeInTheDocument()
   })
 
   it("renders 3 chart sections: Income, Expenses, Savings", async () => {
@@ -144,6 +152,17 @@ describe("SpendingPage", () => {
 
     // Expenses should still have data
     expect(screen.getByText("Groceries")).toBeInTheDocument()
+  })
+
+  it("shows correct empty state message for expenses", async () => {
+    mockFetchResponses(mockIncomeData, [], mockSavingsData)
+    renderPage()
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("No expenses data for this period"),
+      ).toBeInTheDocument()
+    })
   })
 
   it("shows loading skeletons while data is fetching", () => {
