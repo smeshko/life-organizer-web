@@ -1,18 +1,20 @@
 ## [Unreleased] - 2026-03-10
 
 ### Added
-- Build transactions page with loading/error/empty states
-- Create transaction table component
-- Create currency and date formatting utilities
-- Create useTransactions TanStack Query hook
-- Create API transactions module
-- Set up TanStack Query provider
+- Add date range and multi-category filter params to API
+- Create useTransactionFilters hook for local filter state
+- Update useTransactions hook to accept filter params
+- Install shadcn/ui tabs, popover, checkbox, badge components
+- Build TransactionFilters component
+- Integrate filters into transactions page
 
 ### Fixed
-- Normalize amounts and harden date parsing
+- Resolve lint error in transactions page memoization
+- Normalize query key values, restore fake timers in tests
+- Normalize empty date strings, add missing filter tests
 
 ### Documentation
-- Add feature documentation for transaction list & API integration
+- Add feature documentation for transaction filtering
 
 ### Other
-- Update route and page tests for transactions
+- Add integration tests for transaction filtering

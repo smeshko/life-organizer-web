@@ -11,7 +11,9 @@ export interface TransactionFilters {
   year?: number
   period?: "total" | number
   type?: Transaction["type"]
-  category?: string
+  category?: string[]
+  date_from?: string
+  date_to?: string
   sortBy?: "date" | "amount"
   sortOrder?: "asc" | "desc"
   page?: number
