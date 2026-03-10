@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router"
 
+import { FilterProvider } from "@/contexts/filter-context"
 import { AppLayout } from "@/components/layout/app-layout"
 import { TransactionsPage } from "@/pages/transactions-page"
 import { SpendingPage } from "@/pages/spending-page"
@@ -9,16 +10,18 @@ import { DesignSystemPage } from "@/pages/design-system-page"
 
 export function AppRoutes() {
   return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route index element={<Navigate to="/transactions" replace />} />
-        <Route path="transactions" element={<TransactionsPage />} />
-        <Route path="spending" element={<SpendingPage />} />
-        <Route path="budget" element={<BudgetPage />} />
-        <Route path="budget-vs-actual" element={<BudgetVsActualPage />} />
-      </Route>
-      <Route path="design-system" element={<DesignSystemPage />} />
-    </Routes>
+    <FilterProvider>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route index element={<Navigate to="/transactions" replace />} />
+          <Route path="transactions" element={<TransactionsPage />} />
+          <Route path="spending" element={<SpendingPage />} />
+          <Route path="budget" element={<BudgetPage />} />
+          <Route path="budget-vs-actual" element={<BudgetVsActualPage />} />
+        </Route>
+        <Route path="design-system" element={<DesignSystemPage />} />
+      </Routes>
+    </FilterProvider>
   )
 }
 
