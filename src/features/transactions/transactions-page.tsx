@@ -25,11 +25,12 @@ export function TransactionsPage() {
     ? getTransactionSummary(data.data)
     : { income: 0, expenses: 0, savings: 0 }
 
+  const transactions = data?.data
   const availableCategories = useMemo(() => {
-    if (!data?.data) return []
-    const cats = new Set(data.data.map((tx) => tx.category))
+    if (!transactions) return []
+    const cats = new Set(transactions.map((tx) => tx.category))
     return Array.from(cats).sort()
-  }, [data?.data])
+  }, [transactions])
 
   return (
     <div>
