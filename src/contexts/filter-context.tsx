@@ -23,6 +23,8 @@ function filterReducer(state: FilterState, action: FilterAction): FilterState {
       return { ...state, selectedYear: action.payload }
     case "SET_PERIOD":
       return { ...state, selectedPeriod: action.payload }
+    default:
+      return state
   }
 }
 

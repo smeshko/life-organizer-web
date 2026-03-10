@@ -1,3 +1,4 @@
+import React from "react"
 import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
 import { FilterProvider, useFilter } from "@/contexts/filter-context"
@@ -20,8 +21,6 @@ function PeriodSetter({ period }: { period: "total" | number }) {
   }, [period, setPeriod])
   return null
 }
-
-import React from "react"
 
 function renderSidebarWithPeriod(period: "total" | number) {
   return render(

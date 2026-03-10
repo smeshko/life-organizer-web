@@ -60,42 +60,39 @@ describe("FilterContext", () => {
   })
 
   it("persists filter state across child re-renders", () => {
-    function ChildComponent() {
-      const { selectedYear, selectedPeriod } = useFilter()
+    function ChildComponent({ extra }: { extra?: string }) {
+      const { selectedYear, selectedPeriod, setYear } = useFilter()
       return (
         <div>
           <span data-testid="year">{selectedYear}</span>
           <span data-testid="period">{String(selectedPeriod)}</span>
+          <button onClick={() => setYear(2025)}>Change Year</button>
+          {extra && <span>{extra}</span>}
         </div>
       )
     }
 
-    const { rerender } = render(
-      <FilterProvider>
-        <ChildComponent />
-      </FilterProvider>,
-    )
+    function Wrapper({ extra }: { extra?: string }) {
+      return (
+        <FilterProvider>
+          <ChildComponent extra={extra} />
+        </FilterProvider>
+      )
+    }
 
-    const now = new Date()
-    expect(screen.getByTestId("year")).toHaveTextContent(
-      String(now.getFullYear()),
-    )
-    expect(screen.getByTestId("period")).toHaveTextContent(
-      String(now.getMonth() + 1),
-    )
+    const { rerender } = render(<Wrapper />)
 
-    // Re-render without changing state — values should persist
-    rerender(
-      <FilterProvider>
-        <ChildComponent />
-      </FilterProvider>,
-    )
+    // Mutate state via the context
+    act(() => {
+      screen.getByText("Change Year").click()
+    })
 
-    expect(screen.getByTestId("year")).toHaveTextContent(
-      String(now.getFullYear()),
-    )
-    expect(screen.getByTestId("period")).toHaveTextContent(
-      String(now.getMonth() + 1),
-    )
+    expect(screen.getByTestId("year")).toHaveTextContent("2025")
+
+    // Re-render the wrapper with a new prop — provider instance stays the same
+    rerender(<Wrapper extra="re-rendered" />)
+
+    // State should persist after re-render
+    expect(screen.getByTestId("year")).toHaveTextContent("2025")
   })
 })
