@@ -67,11 +67,21 @@ export function useUpdateBudget(year: number) {
           label: "Retry",
           onClick: () => {},
         },
+        style: {
+          borderColor: "var(--expense-border)",
+          color: "var(--text-primary)",
+        },
       })
     },
 
     onSuccess: () => {
-      toast.success("Budget updated", { duration: 3000 })
+      toast.success("Budget updated", {
+        duration: 3000,
+        style: {
+          borderColor: "var(--savings-border)",
+          color: "var(--text-primary)",
+        },
+      })
     },
   })
 }
