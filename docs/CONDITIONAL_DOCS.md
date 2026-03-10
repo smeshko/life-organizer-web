@@ -55,3 +55,11 @@ This guide helps you find relevant documentation based on what you're working on
     - When implementing TanStack Query hooks that depend on year/period for Life Organizer API calls
     - When modifying the header selectors or sidebar quick-stats in the Life Organizer app shell
     - When writing tests for components that depend on FilterContext
+
+- docs/features/transaction-list-api-integration.md
+  - Conditions:
+    - When creating a new TanStack Query hook or API module for Life Organizer data fetching
+    - When building a new feature page under `src/features/` following the feature module pattern
+    - When implementing loading, error, or empty states for a Life Organizer data-driven page
+    - When formatting currency amounts or dates for display in Life Organizer transaction views
+    - When adding or modifying query keys for TanStack Query cache management in Life Organizer
