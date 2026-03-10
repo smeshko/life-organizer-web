@@ -191,4 +191,102 @@ describe("TransactionsPage", () => {
       ).toBeInTheDocument()
     })
   })
+
+  it("renders type filter tabs with 'All' selected by default", () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    renderPage()
+
+    expect(screen.getByRole("tab", { name: "All" })).toHaveAttribute(
+      "data-state",
+      "active",
+    )
+    expect(screen.getByRole("tab", { name: "Income" })).toBeInTheDocument()
+    expect(screen.getByRole("tab", { name: "Expenses" })).toBeInTheDocument()
+    expect(screen.getByRole("tab", { name: "Savings" })).toBeInTheDocument()
+  })
+
+  it("triggers refetch when clicking a type filter tab", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(screen.getByText("Recent Transactions")).toBeInTheDocument()
+    })
+
+    const incomeTab = screen.getByRole("tab", { name: "Income" })
+    await userEvent.click(incomeTab)
+
+    // After clicking, the tab should be active and a new fetch should have been triggered
+    await waitFor(() => {
+      expect(incomeTab).toHaveAttribute("data-state", "active")
+    })
+
+    // Verify at least 2 fetch calls: initial + filtered
+    expect(
+      (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length,
+    ).toBeGreaterThanOrEqual(2)
+  })
+
+  it("renders category filter button", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: /categories/i }),
+      ).toBeInTheDocument()
+    })
+  })
+
+  it("shows categories from data in the category dropdown", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(screen.getByText("Recent Transactions")).toBeInTheDocument()
+    })
+
+    // Open the categories dropdown
+    const categoriesButton = screen.getByRole("button", { name: /categories/i })
+    await userEvent.click(categoriesButton)
+
+    // Verify checkboxes appear in the popover for each category
+    await waitFor(() => {
+      const checkboxes = screen.getAllByRole("checkbox")
+      expect(checkboxes.length).toBe(3) // Salary, Groceries, Emergency Fund
+    })
+  })
+
+  it("renders date range inputs", () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    renderPage()
+
+    expect(screen.getByLabelText("From")).toBeInTheDocument()
+    expect(screen.getByLabelText("To")).toBeInTheDocument()
+  })
 })
