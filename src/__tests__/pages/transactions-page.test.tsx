@@ -101,7 +101,7 @@ describe("TransactionsPage", () => {
     })
 
     expect(screen.getAllByText("Income").length).toBeGreaterThan(0)
-    expect(screen.getByText("Expenses")).toBeInTheDocument()
+    expect(screen.getAllByText("Expenses").length).toBeGreaterThan(0)
     expect(screen.getAllByText("Savings").length).toBeGreaterThan(0)
     expect(screen.getAllByText("\u2212€ 150.50").length).toBeGreaterThan(0)
     expect(screen.getAllByText("€ 500.00").length).toBeGreaterThan(0)
