@@ -86,3 +86,11 @@ This guide helps you find relevant documentation based on what you're working on
     - When adding sticky column tables with horizontal scroll in Life Organizer
     - When computing client-side financial totals or allocation rows for budget features
     - When building the budget-vs-actual comparison view that follows the budget grid pattern
+
+- docs/features/inline-budget-editing.md
+  - Conditions:
+    - When implementing inline editing or cell-level mutations in the Life Organizer budget grid
+    - When adding new TanStack Query `useMutation` hooks with optimistic updates for Life Organizer
+    - When implementing keyboard navigation (Tab/Enter/Escape) in grid components for Life Organizer
+    - When adding toast notifications with design token styling in Life Organizer
+    - When building display/edit state machine components for Life Organizer data cells
