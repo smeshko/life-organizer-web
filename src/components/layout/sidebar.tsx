@@ -43,6 +43,7 @@ export function Sidebar({ collapsed }: SidebarProps) {
             key={to}
             to={to}
             title={collapsed ? label : undefined}
+            aria-label={collapsed ? label : undefined}
             className={({ isActive }) =>
               [
                 "flex items-center gap-[var(--space-3)] rounded-[var(--radius-sm)] px-[var(--space-3)] py-[var(--space-2)] text-[13px] font-medium transition-colors duration-150",
