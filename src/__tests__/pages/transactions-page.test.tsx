@@ -63,6 +63,7 @@ function renderPage() {
 beforeEach(() => {
   vi.restoreAllMocks()
   globalThis.fetch = vi.fn()
+  Element.prototype.scrollIntoView = vi.fn()
 })
 
 describe("TransactionsPage", () => {
@@ -288,5 +289,94 @@ describe("TransactionsPage", () => {
 
     expect(screen.getByLabelText("From")).toBeInTheDocument()
     expect(screen.getByLabelText("To")).toBeInTheDocument()
+  })
+
+  it("clicking a sortable column header triggers a re-fetch", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(screen.getByText("Recent Transactions")).toBeInTheDocument()
+    })
+
+    // Click the Amount header to sort by amount
+    await userEvent.click(screen.getByText("Amount"))
+
+    await waitFor(() => {
+      const calls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls
+      expect(calls.length).toBeGreaterThanOrEqual(2)
+      const lastUrl = calls[calls.length - 1][0] as string
+      expect(lastUrl).toContain("sortBy=amount")
+    })
+  })
+
+  it("hides pagination when results are fewer than page size", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse), // 3 items, totalPages=1
+    })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(screen.getByText("Recent Transactions")).toBeInTheDocument()
+    })
+
+    // Pagination should not be visible (totalPages=1)
+    expect(screen.queryByRole("button", { name: /previous/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: /next/i })).not.toBeInTheDocument()
+  })
+
+  it("shows pagination and navigates pages when more than 50 results", async () => {
+    const paginatedResponse: PaginatedResponse<Transaction> = {
+      data: mockTransactions,
+      total: 120,
+      page: 1,
+      pageSize: 50,
+      totalPages: 3,
+    }
+
+    const page2Response: PaginatedResponse<Transaction> = {
+      data: mockTransactions,
+      total: 120,
+      page: 2,
+      pageSize: 50,
+      totalPages: 3,
+    }
+
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(paginatedResponse),
+      })
+      .mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(page2Response),
+      })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(screen.getByText("Page 1 of 3")).toBeInTheDocument()
+    })
+
+    expect(screen.getByText("Showing 1–50 of 120")).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: /previous/i })).toBeDisabled()
+    expect(screen.getByRole("button", { name: /next/i })).toBeEnabled()
+
+    // Click Next
+    await userEvent.click(screen.getByRole("button", { name: /next/i }))
+
+    await waitFor(() => {
+      expect(screen.getByText("Page 2 of 3")).toBeInTheDocument()
+    })
   })
 })
