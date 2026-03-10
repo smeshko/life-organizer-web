@@ -194,6 +194,20 @@ describe("API Client", () => {
       }
     })
 
+    it("returns undefined for 204 No Content responses", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: true,
+          status: 204,
+        } as unknown as Response),
+      )
+
+      const result = await del("/users/1")
+
+      expect(result).toBeUndefined()
+    })
+
     it("handles non-2xx response with unparseable error body", async () => {
       vi.stubGlobal(
         "fetch",
