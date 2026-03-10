@@ -78,3 +78,11 @@ This guide helps you find relevant documentation based on what you're working on
     - When extending `useTransactionFilters` with new filter state or sort fields
     - When building paginated API queries with TanStack Query in Life Organizer
     - When implementing scroll-to-top behavior on page navigation in Life Organizer
+
+- docs/features/budget-grid-display.md
+  - Conditions:
+    - When building or modifying the budget grid view in `src/features/budget/`
+    - When implementing categories-by-months grid layouts with section totals in Life Organizer
+    - When adding sticky column tables with horizontal scroll in Life Organizer
+    - When computing client-side financial totals or allocation rows for budget features
+    - When building the budget-vs-actual comparison view that follows the budget grid pattern

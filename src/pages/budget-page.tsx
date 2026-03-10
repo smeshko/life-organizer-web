@@ -1,10 +1,35 @@
 import { Header } from "@/components/layout/header"
+import { ErrorState } from "@/components/error-state"
+import { EmptyState } from "@/components/empty-state"
+import { BudgetGrid } from "@/features/budget/components/budget-grid"
+import { BudgetGridSkeleton } from "@/features/budget/components/budget-grid-skeleton"
+import { useBudgetPlan } from "@/features/budget/hooks/use-budget-plan"
 
 export function BudgetPage() {
+  const { data, isLoading, isError, error, refetch } = useBudgetPlan()
+
   return (
     <div>
       <Header title="Budget Planning" />
-      <p className="text-[var(--text-secondary)]">Budget planning coming soon</p>
+
+      {isLoading && <BudgetGridSkeleton />}
+
+      {isError && (
+        <ErrorState
+          message={error?.message ?? "Failed to load budget plan."}
+          onRetry={() => void refetch()}
+        />
+      )}
+
+      {!isLoading && !isError && data && data.entries.length === 0 && (
+        <EmptyState
+          message={`No budget plan for ${data.year}. Create one to get started.`}
+        />
+      )}
+
+      {!isLoading && !isError && data && data.entries.length > 0 && (
+        <BudgetGrid budgetPlan={data} />
+      )}
     </div>
   )
 }
