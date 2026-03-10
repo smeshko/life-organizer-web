@@ -30,15 +30,16 @@ export async function getTransactions(
 export function getTransactionSummary(transactions: Transaction[]): TransactionSummary {
   return transactions.reduce<TransactionSummary>(
     (acc, tx) => {
+      const abs = Math.abs(tx.amount)
       switch (tx.type) {
         case "income":
-          acc.income += tx.amount
+          acc.income += abs
           break
         case "expense":
-          acc.expenses += tx.amount
+          acc.expenses += abs
           break
         case "savings":
-          acc.savings += tx.amount
+          acc.savings += abs
           break
       }
       return acc

@@ -9,7 +9,8 @@ export function formatCurrency(
   amount: number,
   type?: Transaction["type"],
 ): string {
-  const formatted = numberFormatter.format(amount)
+  const abs = Math.abs(amount)
+  const formatted = numberFormatter.format(abs)
   if (type === "expense") {
     return `\u2212\u20AC ${formatted}`
   }
@@ -22,7 +23,8 @@ const MONTH_SHORT = [
 ]
 
 export function formatDate(dateString: string): string {
-  const [, monthStr, dayStr] = dateString.split("-")
+  const datePart = dateString.slice(0, 10)
+  const [, monthStr, dayStr] = datePart.split("-")
   const monthIndex = parseInt(monthStr, 10) - 1
   const day = dayStr
   return `${MONTH_SHORT[monthIndex]} ${day}`

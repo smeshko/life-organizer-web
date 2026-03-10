@@ -33,6 +33,14 @@ describe("formatCurrency", () => {
   it("formats without type as positive", () => {
     expect(formatCurrency(750)).toBe("€ 750.00")
   })
+
+  it("normalizes negative expense amounts to avoid double-negative", () => {
+    expect(formatCurrency(-150.5, "expense")).toBe("\u2212€ 150.50")
+  })
+
+  it("normalizes negative income amounts", () => {
+    expect(formatCurrency(-1000, "income")).toBe("€ 1,000.00")
+  })
 })
 
 describe("formatDate", () => {
@@ -46,5 +54,13 @@ describe("formatDate", () => {
 
   it("formats December date", () => {
     expect(formatDate("2026-12-31")).toBe("Dec 31")
+  })
+
+  it("handles ISO datetime strings with time portion", () => {
+    expect(formatDate("2026-03-01T00:00:00Z")).toBe("Mar 01")
+  })
+
+  it("handles ISO datetime strings with timezone offset", () => {
+    expect(formatDate("2026-07-15T14:30:00+02:00")).toBe("Jul 15")
   })
 })
