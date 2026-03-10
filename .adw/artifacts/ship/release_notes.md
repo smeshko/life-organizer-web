@@ -1,19 +1,18 @@
 ## [Unreleased] - 2026-03-10
 
 ### Added
-- Install sonner toast library and add toaster component
-- Add updateBudgetPlan API mutation function
-- Create useUpdateBudget mutation hook with optimistic updates
-- Create BudgetCell component with display/edit state machine
-- Implement keyboard navigation utility for budget grid
-- Integrate BudgetCell into BudgetSection
-- Wire up optimistic mutation and editing state in BudgetGrid
-- Customize toast styling with design tokens
+- Add budget tracking API module
+- Add useBudgetVsActual hook
+- Add CompletionBar with corrected color thresholds
+- Add ComparisonTable component
+- Add BudgetVsActualSkeleton component
+- Implement BudgetVsActualPage with sections
 
 ### Fixed
-- Extract BudgetCellEditor to avoid setState-in-effect and ref-during-render violations
-- Add type prefix to cell IDs, implement retry action, add onBlur save
-- Prevent blur overriding keyboard navigation, add type to mutation params
+- Remove unused waitFor import in budget-vs-actual page test
+- Update routes test for budget-vs-actual page title change
+- Add accessibility attrs to CompletionBar, skip empty sections
 
 ### Documentation
-- Add feature documentation for inline budget editing (LIFE-47)
+- Add budget vs actual comparison feature docs
+- Add budget vs actual entry to conditional docs guide
