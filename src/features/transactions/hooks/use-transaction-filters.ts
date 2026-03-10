@@ -4,18 +4,25 @@ import type { SelectedPeriod } from "@/contexts/filter-context"
 import type { Transaction } from "@/api/types"
 
 export type TransactionTypeFilter = "all" | Transaction["type"]
+export type SortField = "date" | "amount"
+export type SortOrder = "asc" | "desc"
 
 interface FilterState {
   type: TransactionTypeFilter
   categories: string[]
   dateFrom: string
   dateTo: string
+  sortBy: SortField
+  sortOrder: SortOrder
+  page: number
 }
 
 type FilterAction =
   | { type: "SET_TYPE"; payload: TransactionTypeFilter }
   | { type: "SET_CATEGORIES"; payload: string[] }
   | { type: "SET_DATE_RANGE"; payload: { from: string; to: string } }
+  | { type: "SET_SORT"; payload: SortField }
+  | { type: "SET_PAGE"; payload: number }
   | { type: "RESET"; payload: { dateFrom: string; dateTo: string } }
 
 export function computeDateRange(
@@ -40,17 +47,31 @@ export function computeDateRange(
 function filterReducer(state: FilterState, action: FilterAction): FilterState {
   switch (action.type) {
     case "SET_TYPE":
-      return { ...state, type: action.payload }
+      return { ...state, type: action.payload, page: 1 }
     case "SET_CATEGORIES":
-      return { ...state, categories: action.payload }
+      return { ...state, categories: action.payload, page: 1 }
     case "SET_DATE_RANGE":
-      return { ...state, dateFrom: action.payload.from, dateTo: action.payload.to }
+      return { ...state, dateFrom: action.payload.from, dateTo: action.payload.to, page: 1 }
+    case "SET_SORT": {
+      const isSameField = state.sortBy === action.payload
+      return {
+        ...state,
+        sortBy: action.payload,
+        sortOrder: isSameField ? (state.sortOrder === "desc" ? "asc" : "desc") : "desc",
+        page: 1,
+      }
+    }
+    case "SET_PAGE":
+      return { ...state, page: action.payload }
     case "RESET":
       return {
         type: "all",
         categories: [],
         dateFrom: action.payload.dateFrom,
         dateTo: action.payload.dateTo,
+        sortBy: "date",
+        sortOrder: "desc",
+        page: 1,
       }
     default:
       return state
@@ -70,6 +91,9 @@ export function useTransactionFilters() {
     categories: [],
     dateFrom: defaultRange.dateFrom,
     dateTo: defaultRange.dateTo,
+    sortBy: "date" as SortField,
+    sortOrder: "desc" as SortOrder,
+    page: 1,
   })
 
   // Track whether this is the initial render
@@ -96,6 +120,14 @@ export function useTransactionFilters() {
     dispatch({ type: "SET_DATE_RANGE", payload: { from, to } })
   }, [])
 
+  const setSortBy = useCallback((field: SortField) => {
+    dispatch({ type: "SET_SORT", payload: field })
+  }, [])
+
+  const setPage = useCallback((page: number) => {
+    dispatch({ type: "SET_PAGE", payload: page })
+  }, [])
+
   const resetFilters = useCallback(() => {
     dispatch({ type: "RESET", payload: defaultRange })
   }, [defaultRange])
@@ -105,9 +137,14 @@ export function useTransactionFilters() {
     categories: state.categories,
     dateFrom: state.dateFrom,
     dateTo: state.dateTo,
+    sortBy: state.sortBy,
+    sortOrder: state.sortOrder,
+    page: state.page,
     setType,
     setCategories,
     setDateRange,
+    setSortBy,
+    setPage,
     resetFilters,
   }
 }
