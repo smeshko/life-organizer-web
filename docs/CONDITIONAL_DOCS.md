@@ -71,3 +71,10 @@ This guide helps you find relevant documentation based on what you're working on
     - When working with `useTransactionFilters` hook or `TransactionFilters` component
     - When building controlled filter components that reset on global year/period changes
     - When extending the transaction API query parameters for filtering in Life Organizer
+
+- docs/features/transaction-sorting-pagination.md
+  - Conditions:
+    - When adding sorting or pagination to a Life Organizer feature page
+    - When extending `useTransactionFilters` with new filter state or sort fields
+    - When building paginated API queries with TanStack Query in Life Organizer
+    - When implementing scroll-to-top behavior on page navigation in Life Organizer
