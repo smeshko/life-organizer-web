@@ -109,4 +109,61 @@ describe("useTransactions", () => {
 
     expect(typeof result.current.refetch).toBe("function")
   })
+
+  it("forwards filter params to the API call", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    const { result } = renderHook(
+      () =>
+        useTransactions({
+          type: "income",
+          categories: ["Salary"],
+          dateFrom: "2026-03-01",
+          dateTo: "2026-03-31",
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string
+    expect(calledUrl).toContain("type=income")
+    expect(calledUrl).toContain("category=Salary")
+    expect(calledUrl).toContain("date_from=2026-03-01")
+    expect(calledUrl).toContain("date_to=2026-03-31")
+  })
+
+  it("omits type param when type is 'all'", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    const { result } = renderHook(
+      () =>
+        useTransactions({
+          type: "all",
+          categories: [],
+          dateFrom: "2026-03-01",
+          dateTo: "2026-03-31",
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string
+    expect(calledUrl).not.toContain("type=")
+  })
 })
