@@ -1,9 +1,9 @@
+import { Header } from "@/components/layout/header"
+
 export function TransactionsPage() {
   return (
     <div>
-      <h1 className="font-serif text-[32px] text-[var(--text-primary)]">
-        Transactions
-      </h1>
+      <Header title="Transactions" />
       <p className="text-[var(--text-secondary)]">Transactions coming soon</p>
     </div>
   )

@@ -1,9 +1,9 @@
+import { Header } from "@/components/layout/header"
+
 export function SpendingPage() {
   return (
     <div>
-      <h1 className="font-serif text-[32px] text-[var(--text-primary)]">
-        Category Spending
-      </h1>
+      <Header title="Category Spending" />
       <p className="text-[var(--text-secondary)]">
         Category spending coming soon
       </p>
