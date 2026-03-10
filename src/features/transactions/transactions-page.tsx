@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { Header } from "@/components/layout/header"
 import { StatCard } from "@/components/stat-card"
 import { LoadingSkeleton } from "@/components/loading-skeleton"
@@ -6,6 +6,7 @@ import { ErrorState } from "@/components/error-state"
 import { EmptyState } from "@/components/empty-state"
 import { TransactionTable } from "@/features/transactions/components/transaction-table"
 import { TransactionFilters } from "@/features/transactions/components/transaction-filters"
+import { TransactionPagination } from "@/features/transactions/components/transaction-pagination"
 import { useTransactions } from "@/features/transactions/hooks/use-transactions"
 import { useTransactionFilters } from "@/features/transactions/hooks/use-transaction-filters"
 import { getTransactionSummary } from "@/api/transactions"
@@ -13,13 +14,26 @@ import { formatCurrency } from "@/lib/format"
 
 export function TransactionsPage() {
   const filters = useTransactionFilters()
+  const tableRef = useRef<HTMLDivElement>(null)
 
   const { data, isLoading, isError, error, refetch } = useTransactions({
     type: filters.type,
     categories: filters.categories,
     dateFrom: filters.dateFrom,
     dateTo: filters.dateTo,
+    sortBy: filters.sortBy,
+    sortOrder: filters.sortOrder,
+    page: filters.page,
   })
+
+  // Scroll to top of table on page change
+  const pageRef = useRef(filters.page)
+  useEffect(() => {
+    if (pageRef.current !== filters.page) {
+      pageRef.current = filters.page
+      tableRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+  }, [filters.page])
 
   const summary = data
     ? getTransactionSummary(data.data)
@@ -91,8 +105,20 @@ export function TransactionsPage() {
             </div>
 
             <TransactionTable
+              ref={tableRef}
               transactions={data.data}
               total={data.total}
+              sortBy={filters.sortBy}
+              sortOrder={filters.sortOrder}
+              onSortChange={filters.setSortBy}
+              page={data.page}
+              pageSize={data.pageSize}
+            />
+
+            <TransactionPagination
+              page={data.page}
+              totalPages={data.totalPages}
+              onPageChange={filters.setPage}
             />
           </div>
         )}

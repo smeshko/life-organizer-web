@@ -123,7 +123,7 @@ describe("TransactionsPage", () => {
     expect(screen.getByText("Monthly salary")).toBeInTheDocument()
     expect(screen.getByText("Weekly groceries")).toBeInTheDocument()
     expect(screen.getByText("Monthly savings")).toBeInTheDocument()
-    expect(screen.getByText("Showing 3 of 3")).toBeInTheDocument()
+    expect(screen.getByText("Showing 1–3 of 3")).toBeInTheDocument()
   })
 
   it("shows error state with retry button on API failure", async () => {
