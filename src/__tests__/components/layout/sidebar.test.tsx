@@ -88,4 +88,33 @@ describe("Sidebar", () => {
     const aside = container.querySelector("aside")
     expect(aside).toHaveStyle({ width: "52px" })
   })
+
+  describe("Quick Stats", () => {
+    it("renders MONTH AT A GLANCE header when expanded", () => {
+      renderSidebar(false)
+      expect(screen.getByText("MONTH AT A GLANCE")).toBeInTheDocument()
+    })
+
+    it("renders all 4 stat amounts with hardcoded data", () => {
+      renderSidebar(false)
+      expect(screen.getByText("€4,250")).toBeInTheDocument()
+      expect(screen.getByText("€2,847")).toBeInTheDocument()
+      expect(screen.getByText("€850")).toBeInTheDocument()
+      expect(screen.getByText("€553")).toBeInTheDocument()
+    })
+
+    it("renders stat labels", () => {
+      renderSidebar(false)
+      expect(screen.getByText("INCOME")).toBeInTheDocument()
+      expect(screen.getByText("SPENT")).toBeInTheDocument()
+      expect(screen.getByText("SAVED")).toBeInTheDocument()
+      expect(screen.getByText("REMAINING")).toBeInTheDocument()
+    })
+
+    it("hides quick-stats when collapsed", () => {
+      renderSidebar(true)
+      expect(screen.queryByText("MONTH AT A GLANCE")).not.toBeInTheDocument()
+      expect(screen.queryByText("€4,250")).not.toBeInTheDocument()
+    })
+  })
 })

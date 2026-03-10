@@ -12,6 +12,13 @@ const NAV_ITEMS = [
   { to: "/budget-vs-actual", label: "Budget vs Actual", icon: BarChart3 },
 ]
 
+const QUICK_STATS = [
+  { label: "INCOME", amount: "€4,250", color: "--income-300" },
+  { label: "SPENT", amount: "€2,847", color: "--expense-300" },
+  { label: "SAVED", amount: "€850", color: "--savings-300" },
+  { label: "REMAINING", amount: "€553", color: "--text-primary" },
+]
+
 export function Sidebar({ collapsed }: SidebarProps) {
   return (
     <aside
@@ -51,6 +58,29 @@ export function Sidebar({ collapsed }: SidebarProps) {
           </NavLink>
         ))}
       </nav>
+
+      {!collapsed && (
+        <div className="mt-auto border-t border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-4)]">
+          <h3 className="mb-[var(--space-3)] text-[11px] font-semibold uppercase tracking-[1px] text-[var(--text-tertiary)]">
+            MONTH AT A GLANCE
+          </h3>
+          <div className="flex flex-col gap-[var(--space-2)]">
+            {QUICK_STATS.map(({ label, amount, color }) => (
+              <div key={label} className="flex items-center justify-between">
+                <span className="text-[11px] uppercase text-[var(--text-tertiary)]">
+                  {label}
+                </span>
+                <span
+                  className="font-mono text-[13px]"
+                  style={{ color: `var(${color})` }}
+                >
+                  {amount}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </aside>
   )
 }
