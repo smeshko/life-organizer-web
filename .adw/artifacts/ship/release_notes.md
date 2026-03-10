@@ -1,19 +1,18 @@
 ## [Unreleased] - 2026-03-10
 
 ### Added
-- Create FilterContext with useReducer for global year/period state management
-- Integrate FilterProvider into app component tree
-- Replace placeholder header selects with shadcn/ui Select components
-- Wire sidebar quick-stats heading to FilterContext
+- Build transactions page with loading/error/empty states
+- Create transaction table component
+- Create currency and date formatting utilities
+- Create useTransactions TanStack Query hook
+- Create API transactions module
+- Set up TanStack Query provider
 
 ### Fixed
-- Cycle 1 review - add reducer default case, fix import order, strengthen persistence test
-- Remove unused imports in sidebar tests
+- Normalize amounts and harden date parsing
 
 ### Documentation
-- Add feature documentation for global year & period filters
+- Add feature documentation for transaction list & API integration
 
 ### Other
-- Verify FilterContext unit test coverage
-- Update sidebar tests for dynamic glance heading
-- Update header tests for shadcn/ui select integration
+- Update route and page tests for transactions
