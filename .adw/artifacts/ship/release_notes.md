@@ -1,18 +1,19 @@
 ## [Unreleased] - 2026-03-10
 
 ### Added
-- Create routing infrastructure with React Router v7 flat routes and `/` redirect to `/transactions`
-- Create app layout with sidebar skeleton
-- Create header component with page title and filter placeholders
-- Add sidebar quick-stats section with hardcoded monthly data
+- Create FilterContext with useReducer for global year/period state management
+- Integrate FilterProvider into app component tree
+- Replace placeholder header selects with shadcn/ui Select components
+- Wire sidebar quick-stats heading to FilterContext
 
 ### Fixed
-- Add aria-label to collapsed sidebar nav items for accessibility
+- Cycle 1 review - add reducer default case, fix import order, strengthen persistence test
+- Remove unused imports in sidebar tests
 
 ### Documentation
-- Add app shell & sidebar navigation feature documentation
+- Add feature documentation for global year & period filters
 
 ### Other
-- Add placeholder page component tests
-- Add comprehensive sidebar component tests
-- Add sidebar collapse behavior integration tests
+- Verify FilterContext unit test coverage
+- Update sidebar tests for dynamic glance heading
+- Update header tests for shadcn/ui select integration
