@@ -5,7 +5,9 @@ const BASE_URL =
     .VITE_API_BASE_URL ?? "http://localhost:8000/api"
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const url = `${BASE_URL}${path}`
+  const base = BASE_URL.replace(/\/+$/, "")
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`
+  const url = `${base}${normalizedPath}`
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",

@@ -208,6 +208,20 @@ describe("API Client", () => {
       expect(result).toBeUndefined()
     })
 
+    it("returns undefined for 205 Reset Content responses", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: true,
+          status: 205,
+        } as unknown as Response),
+      )
+
+      const result = await put("/users/1", { name: "reset" })
+
+      expect(result).toBeUndefined()
+    })
+
     it("handles non-2xx response with unparseable error body", async () => {
       vi.stubGlobal(
         "fetch",
