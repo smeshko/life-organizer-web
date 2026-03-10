@@ -132,7 +132,7 @@ describe("TransactionTable", () => {
   })
 
   it("shows sort arrow on active sort column (date desc)", () => {
-    const { container } = render(
+    render(
       <TransactionTable
         transactions={mockTransactions}
         total={3}
