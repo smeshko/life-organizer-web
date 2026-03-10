@@ -1,5 +1,6 @@
 import type { BudgetPlanEntry } from "@/api/types"
 import { formatCurrency } from "@/lib/format"
+import { BudgetCell, type NavigationDirection } from "./budget-cell"
 
 const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const
 
@@ -12,9 +13,20 @@ const SECTION_CONFIG = {
 interface BudgetSectionProps {
   type: "income" | "expense" | "savings"
   entries: BudgetPlanEntry[]
+  editingCellId: string | null
+  onCellSave: (category: string, month: number, value: number) => void
+  onCellNavigate: (cellId: string, direction: NavigationDirection) => void
+  onEditStart: (cellId: string) => void
 }
 
-export function BudgetSection({ type, entries }: BudgetSectionProps) {
+export function BudgetSection({
+  type,
+  entries,
+  editingCellId,
+  onCellSave,
+  onCellNavigate,
+  onEditStart,
+}: BudgetSectionProps) {
   const config = SECTION_CONFIG[type]
 
   // Compute monthly totals for the section
@@ -58,14 +70,21 @@ export function BudgetSection({ type, entries }: BudgetSectionProps) {
               {entry.category}
             </td>
             {MONTHS.map((month) => {
+              const cellId = `${entry.category}-${month}`
               const amount = entry.amounts[month] ?? 0
               return (
-                <td
+                <BudgetCell
                   key={month}
-                  className="px-[var(--space-3)] py-[var(--space-2)] text-right font-mono text-xs text-[var(--text-secondary)] group-hover:outline group-hover:outline-1 group-hover:outline-[var(--border-default)]"
-                >
-                  {amount === 0 ? "—" : formatCurrency(amount)}
-                </td>
+                  value={amount}
+                  category={entry.category}
+                  month={month}
+                  type={type}
+                  cellId={cellId}
+                  editingCellId={editingCellId}
+                  onSave={(value) => onCellSave(entry.category, month, value)}
+                  onNavigate={(direction) => onCellNavigate(cellId, direction)}
+                  onEditStart={onEditStart}
+                />
               )
             })}
             <td
