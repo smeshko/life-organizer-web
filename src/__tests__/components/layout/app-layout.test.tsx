@@ -42,4 +42,26 @@ describe("AppLayout", () => {
     const content = screen.getByTestId("content-area")
     expect(content).not.toHaveStyle({ maxWidth: "1200px" })
   })
+
+  it("collapses sidebar to 52px on /budget route", () => {
+    const { container } = renderLayout("/budget")
+    const aside = container.querySelector("aside")
+    expect(aside).toHaveStyle({ width: "52px" })
+  })
+
+  it("expands sidebar to 240px on non-budget routes", () => {
+    const { container } = renderLayout("/transactions")
+    const aside = container.querySelector("aside")
+    expect(aside).toHaveStyle({ width: "240px" })
+  })
+
+  it("hides quick-stats on /budget route", () => {
+    renderLayout("/budget")
+    expect(screen.queryByText("MONTH AT A GLANCE")).not.toBeInTheDocument()
+  })
+
+  it("shows quick-stats on non-budget routes", () => {
+    renderLayout("/transactions")
+    expect(screen.getByText("MONTH AT A GLANCE")).toBeInTheDocument()
+  })
 })
