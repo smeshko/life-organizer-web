@@ -47,3 +47,11 @@ This guide helps you find relevant documentation based on what you're working on
     - When modifying sidebar navigation items or quick-stats in Life Organizer
     - When implementing route-aware UI behavior (e.g., layout changes based on current path)
     - When working with the AppLayout, Sidebar, or Header components in `src/components/layout/`
+
+- docs/features/global-year-period-filters.md
+  - Conditions:
+    - When creating a new React context or global state provider for Life Organizer
+    - When adding components that need to read or modify the selected year/period filters
+    - When implementing TanStack Query hooks that depend on year/period for Life Organizer API calls
+    - When modifying the header selectors or sidebar quick-stats in the Life Organizer app shell
+    - When writing tests for components that depend on FilterContext

@@ -1,11 +1,34 @@
+import React from "react"
 import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
+import { FilterProvider, useFilter } from "@/contexts/filter-context"
 import { Sidebar } from "@/components/layout/sidebar"
 
 function renderSidebar(collapsed = false, initialRoute = "/transactions") {
   return render(
     <MemoryRouter initialEntries={[initialRoute]}>
-      <Sidebar collapsed={collapsed} />
+      <FilterProvider>
+        <Sidebar collapsed={collapsed} />
+      </FilterProvider>
+    </MemoryRouter>,
+  )
+}
+
+function PeriodSetter({ period }: { period: "total" | number }) {
+  const { setPeriod } = useFilter()
+  React.useEffect(() => {
+    setPeriod(period as Parameters<typeof setPeriod>[0])
+  }, [period, setPeriod])
+  return null
+}
+
+function renderSidebarWithPeriod(period: "total" | number) {
+  return render(
+    <MemoryRouter initialEntries={["/transactions"]}>
+      <FilterProvider>
+        <PeriodSetter period={period} />
+        <Sidebar collapsed={false} />
+      </FilterProvider>
     </MemoryRouter>,
   )
 }
@@ -90,9 +113,14 @@ describe("Sidebar", () => {
   })
 
   describe("Quick Stats", () => {
-    it("renders MONTH AT A GLANCE header when expanded", () => {
+    it("renders dynamic glance header based on current month when expanded", () => {
       renderSidebar(false)
-      expect(screen.getByText("MONTH AT A GLANCE")).toBeInTheDocument()
+      const monthNames = [
+        "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+        "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER",
+      ]
+      const currentMonth = monthNames[new Date().getMonth()]
+      expect(screen.getByText(`${currentMonth} AT A GLANCE`)).toBeInTheDocument()
     })
 
     it("renders all 4 stat amounts with hardcoded data", () => {
@@ -113,8 +141,18 @@ describe("Sidebar", () => {
 
     it("hides quick-stats when collapsed", () => {
       renderSidebar(true)
-      expect(screen.queryByText("MONTH AT A GLANCE")).not.toBeInTheDocument()
+      expect(screen.queryByText(/AT A GLANCE/)).not.toBeInTheDocument()
       expect(screen.queryByText("€4,250")).not.toBeInTheDocument()
+    })
+
+    it("shows YEAR AT A GLANCE when period is total", () => {
+      renderSidebarWithPeriod("total")
+      expect(screen.getByText("YEAR AT A GLANCE")).toBeInTheDocument()
+    })
+
+    it("shows month name AT A GLANCE when period is a specific month", () => {
+      renderSidebarWithPeriod(6)
+      expect(screen.getByText("JUNE AT A GLANCE")).toBeInTheDocument()
     })
   })
 })
