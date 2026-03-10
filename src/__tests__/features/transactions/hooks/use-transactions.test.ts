@@ -166,4 +166,72 @@ describe("useTransactions", () => {
       .calls[0][0] as string
     expect(calledUrl).not.toContain("type=")
   })
+
+  it("forwards sortBy, sortOrder, page, and pageSize params to the API call", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    const { result } = renderHook(
+      () =>
+        useTransactions({
+          sortBy: "amount",
+          sortOrder: "asc",
+          page: 2,
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string
+    expect(calledUrl).toContain("sortBy=amount")
+    expect(calledUrl).toContain("sortOrder=asc")
+    expect(calledUrl).toContain("page=2")
+    expect(calledUrl).toContain("pageSize=50")
+  })
+
+  it("includes sortBy, sortOrder, and page in the query key for cache invalidation", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    // First render with page 1
+    const { result, rerender } = renderHook(
+      ({ page }: { page: number }) =>
+        useTransactions({
+          sortBy: "date",
+          sortOrder: "desc",
+          page,
+        }),
+      {
+        wrapper: createWrapper(),
+        initialProps: { page: 1 },
+      },
+    )
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    // Rerender with page 2 — should trigger a new fetch
+    rerender({ page: 2 })
+
+    await waitFor(() => {
+      expect(
+        (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length,
+      ).toBeGreaterThanOrEqual(2)
+    })
+
+    const secondUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[1][0] as string
+    expect(secondUrl).toContain("page=2")
+  })
 })

@@ -1,6 +1,9 @@
+import { forwardRef } from "react"
 import type { Transaction } from "@/api/types"
+import type { SortField, SortOrder } from "@/features/transactions/hooks/use-transaction-filters"
 import { formatCurrency, formatDate } from "@/lib/format"
 import { TypeBadge } from "@/components/type-badge"
+import { ArrowUp, ArrowDown } from "lucide-react"
 import {
   Table,
   TableHeader,
@@ -13,6 +16,11 @@ import {
 interface TransactionTableProps {
   transactions: Transaction[]
   total: number
+  sortBy: SortField
+  sortOrder: SortOrder
+  onSortChange: (field: SortField) => void
+  page?: number
+  pageSize?: number
 }
 
 const amountColorMap = {
@@ -30,26 +38,50 @@ const typeLabel: Record<Transaction["type"], string> = {
 const HEAD_CLASS =
   "text-[11px] uppercase tracking-[1px] text-[var(--text-tertiary)] font-semibold"
 
-export function TransactionTable({ transactions, total }: TransactionTableProps) {
+const SORTABLE_HEAD_CLASS =
+  `${HEAD_CLASS} cursor-pointer select-none hover:underline`
+
+function SortIndicator({ field, sortBy, sortOrder }: { field: SortField; sortBy: SortField; sortOrder: SortOrder }) {
+  if (field !== sortBy) return null
+  const Icon = sortOrder === "asc" ? ArrowUp : ArrowDown
+  return <Icon size={14} className="inline ml-1 text-[var(--text-tertiary)]" />
+}
+
+export const TransactionTable = forwardRef<HTMLDivElement, TransactionTableProps>(
+  function TransactionTable({ transactions, total, sortBy, sortOrder, onSortChange, page, pageSize }, ref) {
+  const showingText = page && pageSize
+    ? (() => {
+        const start = (page - 1) * pageSize + 1
+        const end = Math.min(page * pageSize, total)
+        return `Showing ${start}–${end} of ${total}`
+      })()
+    : `Showing ${transactions.length} of ${total}`
+
   return (
-    <div className="rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--bg-surface)]">
+    <div ref={ref} className="rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--bg-surface)]">
       <div className="flex items-center justify-between px-[var(--space-5)] py-[var(--space-4)]">
         <h2 className="text-sm font-semibold text-[var(--text-primary)]">
           Recent Transactions
         </h2>
         <span className="text-[11px] text-[var(--text-tertiary)]">
-          Showing {transactions.length} of {total}
+          {showingText}
         </span>
       </div>
 
       <Table>
         <TableHeader>
           <TableRow className="border-[var(--border-subtle)]">
-            <TableHead className={HEAD_CLASS}>Date</TableHead>
+            <TableHead className={SORTABLE_HEAD_CLASS} onClick={() => onSortChange("date")}>
+              Date
+              <SortIndicator field="date" sortBy={sortBy} sortOrder={sortOrder} />
+            </TableHead>
             <TableHead className={HEAD_CLASS}>Type</TableHead>
             <TableHead className={HEAD_CLASS}>Category</TableHead>
             <TableHead className={HEAD_CLASS}>Details</TableHead>
-            <TableHead className={`${HEAD_CLASS} text-right`}>Amount</TableHead>
+            <TableHead className={`${SORTABLE_HEAD_CLASS} text-right`} onClick={() => onSortChange("amount")}>
+              Amount
+              <SortIndicator field="amount" sortBy={sortBy} sortOrder={sortOrder} />
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -81,4 +113,4 @@ export function TransactionTable({ transactions, total }: TransactionTableProps)
       </Table>
     </div>
   )
-}
+})
