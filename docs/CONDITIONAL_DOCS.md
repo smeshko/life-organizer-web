@@ -87,6 +87,13 @@ This guide helps you find relevant documentation based on what you're working on
     - When computing client-side financial totals or allocation rows for budget features
     - When building the budget-vs-actual comparison view that follows the budget grid pattern
 
+- docs/features/budget-vs-actual-comparison.md
+  - Conditions:
+    - When building or modifying the budget vs actual comparison view in `src/features/budget-vs-actual/`
+    - When implementing category-level budget comparison with color-coded overspend indicators
+    - When creating section-filtered table views (Expenses/Income/Savings) for Life Organizer financial data
+    - When adding progress bars with custom color thresholds different from the shared ProgressBar component
+
 - docs/features/inline-budget-editing.md
   - Conditions:
     - When implementing inline editing or cell-level mutations in the Life Organizer budget grid
