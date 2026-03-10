@@ -27,6 +27,10 @@ function CompletionBar({ percentage, className, ...props }: CompletionBarProps) 
           getColorClass(percentage),
         )}
         style={{ width: `${clampedWidth}%` }}
+        role="progressbar"
+        aria-valuenow={Math.round(percentage)}
+        aria-valuemin={0}
+        aria-valuemax={100}
       />
     </div>
   )

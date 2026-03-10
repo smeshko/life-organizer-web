@@ -37,7 +37,7 @@ export function BudgetVsActualPage() {
 
       {!isLoading && !isError && data && data.length > 0 && (
         <div className="flex flex-col gap-[var(--space-6)]">
-          {SECTIONS.map(({ key, label }) => (
+          {SECTIONS.filter(({ key }) => data.some((e) => e.type === key)).map(({ key, label }) => (
             <section
               key={key}
               className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-[var(--space-4)]"
