@@ -25,14 +25,21 @@ export function AllocationIndicator({ allocations }: AllocationIndicatorProps) {
           className="px-[var(--space-3)] py-[var(--space-2)] text-right font-mono text-xs"
           style={{ color: getAllocationColor(value) }}
         >
-          {value === 0 ? "—" : formatCurrency(value)}
+          {value === 0
+            ? "—"
+            : formatCurrency(value, value < 0 ? "expense" : undefined)}
         </td>
       ))}
       <td
         className="px-[var(--space-3)] py-[var(--space-2)] text-right font-mono text-xs"
         style={{ color: getAllocationColor(annualTotal) }}
       >
-        {annualTotal === 0 ? "—" : formatCurrency(annualTotal)}
+        {annualTotal === 0
+          ? "—"
+          : formatCurrency(
+              annualTotal,
+              annualTotal < 0 ? "expense" : undefined,
+            )}
       </td>
     </tr>
   )

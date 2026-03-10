@@ -208,6 +208,41 @@ describe("BudgetPage", () => {
     })
   })
 
+  it("displays negative allocation values with minus sign", async () => {
+    const overspentPlan: BudgetPlan = {
+      year: 2026,
+      entries: [
+        {
+          category: "Salary",
+          type: "income",
+          amounts: { 1: 1000 },
+        },
+        {
+          category: "Rent",
+          type: "expense",
+          amounts: { 1: 1500 },
+        },
+      ],
+    }
+
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(overspentPlan),
+    })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(screen.getByText("To Allocate")).toBeInTheDocument()
+    })
+
+    // Allocation for Jan: 1000 - 1500 = -500 → should show with minus sign
+    // Both monthly cell and annual total show −€ 500.00
+    const negativeValues = screen.getAllByText("−€ 500.00")
+    expect(negativeValues.length).toBeGreaterThan(0)
+  })
+
   it("shows empty state when no entries exist", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
