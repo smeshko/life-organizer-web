@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen, act } from "@testing-library/react"
+import { renderHook } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
-import { FilterProvider } from "@/contexts/filter-context"
+import { FilterProvider, useFilter } from "@/contexts/filter-context"
 import { Sidebar } from "@/components/layout/sidebar"
 
 function renderSidebar(collapsed = false, initialRoute = "/transactions") {
@@ -8,6 +9,27 @@ function renderSidebar(collapsed = false, initialRoute = "/transactions") {
     <MemoryRouter initialEntries={[initialRoute]}>
       <FilterProvider>
         <Sidebar collapsed={collapsed} />
+      </FilterProvider>
+    </MemoryRouter>,
+  )
+}
+
+function PeriodSetter({ period }: { period: "total" | number }) {
+  const { setPeriod } = useFilter()
+  React.useEffect(() => {
+    setPeriod(period as Parameters<typeof setPeriod>[0])
+  }, [period, setPeriod])
+  return null
+}
+
+import React from "react"
+
+function renderSidebarWithPeriod(period: "total" | number) {
+  return render(
+    <MemoryRouter initialEntries={["/transactions"]}>
+      <FilterProvider>
+        <PeriodSetter period={period} />
+        <Sidebar collapsed={false} />
       </FilterProvider>
     </MemoryRouter>,
   )
@@ -123,6 +145,16 @@ describe("Sidebar", () => {
       renderSidebar(true)
       expect(screen.queryByText(/AT A GLANCE/)).not.toBeInTheDocument()
       expect(screen.queryByText("€4,250")).not.toBeInTheDocument()
+    })
+
+    it("shows YEAR AT A GLANCE when period is total", () => {
+      renderSidebarWithPeriod("total")
+      expect(screen.getByText("YEAR AT A GLANCE")).toBeInTheDocument()
+    })
+
+    it("shows month name AT A GLANCE when period is a specific month", () => {
+      renderSidebarWithPeriod(6)
+      expect(screen.getByText("JUNE AT A GLANCE")).toBeInTheDocument()
     })
   })
 })
