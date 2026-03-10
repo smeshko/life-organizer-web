@@ -70,7 +70,7 @@ export function BudgetSection({
               {entry.category}
             </td>
             {MONTHS.map((month) => {
-              const cellId = `${entry.category}-${month}`
+              const cellId = `${type}-${entry.category}-${month}`
               const amount = entry.amounts[month] ?? 0
               return (
                 <BudgetCell

@@ -6,7 +6,7 @@ export function buildCellGrid(entries: BudgetPlanEntry[]): string[] {
   const cells: string[] = []
   for (const entry of entries) {
     for (const month of MONTHS) {
-      cells.push(`${entry.category}-${month}`)
+      cells.push(`${entry.type}-${entry.category}-${month}`)
     }
   }
   return cells

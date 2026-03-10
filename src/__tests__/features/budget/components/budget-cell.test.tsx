@@ -11,7 +11,7 @@ const defaultProps = {
   onSave: vi.fn(),
   onNavigate: vi.fn(),
   editingCellId: null as string | null,
-  cellId: "Salary-1",
+  cellId: "income-Salary-1",
   onEditStart: vi.fn(),
 }
 
@@ -59,7 +59,7 @@ describe("BudgetCell", () => {
         </table>,
       )
       await user.click(screen.getByText("€ 1,500.00"))
-      expect(defaultProps.onEditStart).toHaveBeenCalledWith("Salary-1")
+      expect(defaultProps.onEditStart).toHaveBeenCalledWith("income-Salary-1")
     })
   })
 
@@ -69,7 +69,7 @@ describe("BudgetCell", () => {
         <table>
           <tbody>
             <tr>
-              <BudgetCell {...defaultProps} editingCellId="Salary-1" />
+              <BudgetCell {...defaultProps} editingCellId="income-Salary-1" />
             </tr>
           </tbody>
         </table>,
@@ -84,7 +84,7 @@ describe("BudgetCell", () => {
         <table>
           <tbody>
             <tr>
-              <BudgetCell {...defaultProps} editingCellId="Rent-1" />
+              <BudgetCell {...defaultProps} editingCellId="expense-Rent-1" />
             </tr>
           </tbody>
         </table>,
@@ -103,7 +103,7 @@ describe("BudgetCell", () => {
             <tr>
               <BudgetCell
                 {...defaultProps}
-                editingCellId="Salary-1"
+                editingCellId="income-Salary-1"
                 onSave={onSave}
                 onNavigate={onNavigate}
               />
@@ -132,7 +132,7 @@ describe("BudgetCell", () => {
             <tr>
               <BudgetCell
                 {...defaultProps}
-                editingCellId="Salary-1"
+                editingCellId="income-Salary-1"
                 onSave={onSave}
                 onNavigate={onNavigate}
               />
@@ -161,7 +161,7 @@ describe("BudgetCell", () => {
             <tr>
               <BudgetCell
                 {...defaultProps}
-                editingCellId="Salary-1"
+                editingCellId="income-Salary-1"
                 onSave={onSave}
                 onNavigate={onNavigate}
               />
@@ -186,7 +186,7 @@ describe("BudgetCell", () => {
         <table>
           <tbody>
             <tr>
-              <BudgetCell {...defaultProps} editingCellId="Salary-1" />
+              <BudgetCell {...defaultProps} editingCellId="income-Salary-1" />
             </tr>
           </tbody>
         </table>,
@@ -209,7 +209,7 @@ describe("BudgetCell", () => {
             <tr>
               <BudgetCell
                 {...defaultProps}
-                editingCellId="Salary-1"
+                editingCellId="income-Salary-1"
                 onSave={onSave}
               />
             </tr>

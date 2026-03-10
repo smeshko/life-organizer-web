@@ -22,11 +22,11 @@ describe("buildCellGrid", () => {
     const grid = buildCellGrid(entries)
     // 5 categories × 12 months = 60 cells
     expect(grid).toHaveLength(60)
-    expect(grid[0]).toBe("Salary-1")
-    expect(grid[11]).toBe("Salary-12")
-    expect(grid[12]).toBe("Freelance-1")
-    expect(grid[24]).toBe("Rent-1")
-    expect(grid[59]).toBe("Emergency Fund-12")
+    expect(grid[0]).toBe("income-Salary-1")
+    expect(grid[11]).toBe("income-Salary-12")
+    expect(grid[12]).toBe("income-Freelance-1")
+    expect(grid[24]).toBe("expense-Rent-1")
+    expect(grid[59]).toBe("savings-Emergency Fund-12")
   })
 
   it("returns empty array for empty entries", () => {
@@ -39,43 +39,59 @@ describe("getNextCell", () => {
 
   describe("right navigation", () => {
     it("moves to next month in same category", () => {
-      expect(getNextCell("Salary-1", "right", grid)).toBe("Salary-2")
+      expect(getNextCell("income-Salary-1", "right", grid)).toBe(
+        "income-Salary-2",
+      )
     })
 
     it("wraps to next category at month 12", () => {
-      expect(getNextCell("Salary-12", "right", grid)).toBe("Freelance-1")
+      expect(getNextCell("income-Salary-12", "right", grid)).toBe(
+        "income-Freelance-1",
+      )
     })
 
     it("returns null at last cell", () => {
-      expect(getNextCell("Emergency Fund-12", "right", grid)).toBeNull()
+      expect(
+        getNextCell("savings-Emergency Fund-12", "right", grid),
+      ).toBeNull()
     })
   })
 
   describe("left navigation", () => {
     it("moves to previous month in same category", () => {
-      expect(getNextCell("Salary-3", "left", grid)).toBe("Salary-2")
+      expect(getNextCell("income-Salary-3", "left", grid)).toBe(
+        "income-Salary-2",
+      )
     })
 
     it("wraps to previous category at month 1", () => {
-      expect(getNextCell("Freelance-1", "left", grid)).toBe("Salary-12")
+      expect(getNextCell("income-Freelance-1", "left", grid)).toBe(
+        "income-Salary-12",
+      )
     })
 
     it("returns null at first cell", () => {
-      expect(getNextCell("Salary-1", "left", grid)).toBeNull()
+      expect(getNextCell("income-Salary-1", "left", grid)).toBeNull()
     })
   })
 
   describe("down navigation", () => {
     it("moves to same month in next category", () => {
-      expect(getNextCell("Salary-1", "down", grid)).toBe("Freelance-1")
+      expect(getNextCell("income-Salary-1", "down", grid)).toBe(
+        "income-Freelance-1",
+      )
     })
 
     it("crosses section boundaries", () => {
-      expect(getNextCell("Freelance-5", "down", grid)).toBe("Rent-5")
+      expect(getNextCell("income-Freelance-5", "down", grid)).toBe(
+        "expense-Rent-5",
+      )
     })
 
     it("returns null at last category", () => {
-      expect(getNextCell("Emergency Fund-1", "down", grid)).toBeNull()
+      expect(
+        getNextCell("savings-Emergency Fund-1", "down", grid),
+      ).toBeNull()
     })
   })
 

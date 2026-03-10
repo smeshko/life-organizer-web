@@ -13,7 +13,7 @@ export function useUpdateBudget(year: number) {
   const queryClient = useQueryClient()
   const queryKey = ["budget-plan", year]
 
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: async (params: UpdateBudgetParams) => {
       const current = queryClient.getQueryData<BudgetPlan>(queryKey)
       if (!current) throw new Error("No budget plan in cache")
@@ -56,7 +56,7 @@ export function useUpdateBudget(year: number) {
       return { previous }
     },
 
-    onError: (_error, _params, context) => {
+    onError: (_error, params, context) => {
       if (context?.previous) {
         queryClient.setQueryData(queryKey, context.previous)
       }
@@ -65,7 +65,7 @@ export function useUpdateBudget(year: number) {
         duration: Infinity,
         action: {
           label: "Retry",
-          onClick: () => {},
+          onClick: () => mutation.mutate(params),
         },
         style: {
           borderColor: "var(--expense-border)",
@@ -84,4 +84,6 @@ export function useUpdateBudget(year: number) {
       })
     },
   })
+
+  return mutation
 }

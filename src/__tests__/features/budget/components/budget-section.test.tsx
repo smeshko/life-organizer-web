@@ -58,7 +58,7 @@ describe("BudgetSection with BudgetCell integration", () => {
     render(
       <table>
         <tbody>
-          <BudgetSection {...defaultProps} editingCellId="Salary-1" />
+          <BudgetSection {...defaultProps} editingCellId="income-Salary-1" />
         </tbody>
       </table>,
     )
@@ -82,7 +82,7 @@ describe("BudgetSection with BudgetCell integration", () => {
     // Click on Salary Jan cell (€ 3,000.00)
     const cells = screen.getAllByText("€ 3,000.00")
     await user.click(cells[0])
-    expect(onEditStart).toHaveBeenCalledWith("Salary-1")
+    expect(onEditStart).toHaveBeenCalledWith("income-Salary-1")
   })
 
   it("calls onCellSave when Enter is pressed in edit mode", async () => {
@@ -95,7 +95,7 @@ describe("BudgetSection with BudgetCell integration", () => {
         <tbody>
           <BudgetSection
             {...defaultProps}
-            editingCellId="Salary-1"
+            editingCellId="income-Salary-1"
             onCellSave={onCellSave}
             onCellNavigate={onCellNavigate}
           />
@@ -109,7 +109,7 @@ describe("BudgetSection with BudgetCell integration", () => {
     await user.keyboard("{Enter}")
 
     expect(onCellSave).toHaveBeenCalledWith("Salary", 1, 3500)
-    expect(onCellNavigate).toHaveBeenCalledWith("Salary-1", "down")
+    expect(onCellNavigate).toHaveBeenCalledWith("income-Salary-1", "down")
   })
 
   it("does not render inputs for total row cells", () => {

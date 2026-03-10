@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, useCallback } from "react"
 import { formatCurrency } from "@/lib/format"
 
 export type NavigationDirection = "right" | "left" | "down" | "cancel"
@@ -41,6 +41,7 @@ function BudgetCellEditor({
   onNavigate,
 }: BudgetCellEditorProps) {
   const inputRef = useRef<HTMLInputElement>(null)
+  const savedRef = useRef(false)
   const [inputValue, setInputValue] = useState(() =>
     value === 0 ? "" : String(value),
   )
@@ -52,10 +53,12 @@ function BudgetCellEditor({
     })
   }, [])
 
-  function handleSave() {
+  const handleSave = useCallback(() => {
+    if (savedRef.current) return
+    savedRef.current = true
     const parsed = parseFloat(inputValue) || 0
     onSave(parsed)
-  }
+  }, [inputValue, onSave])
 
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === "Enter") {
@@ -72,6 +75,11 @@ function BudgetCellEditor({
     }
   }
 
+  function handleBlur() {
+    handleSave()
+    onNavigate("cancel")
+  }
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputValue(sanitizeNumericInput(e.target.value))
   }
@@ -86,6 +94,7 @@ function BudgetCellEditor({
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onBlur={handleBlur}
         className="w-full bg-transparent text-right font-mono text-xs text-[var(--text-primary)] outline-none transition-shadow duration-100"
         style={{
           boxShadow: "0 0 0 1px var(--income-border)",
