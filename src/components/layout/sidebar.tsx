@@ -1,9 +1,25 @@
 import { NavLink } from "react-router"
 import { LayoutList, PieChart, Grid3X3, BarChart3 } from "lucide-react"
+import { useFilter } from "@/contexts/filter-context"
 
 export interface SidebarProps {
   collapsed: boolean
 }
+
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+]
 
 const NAV_ITEMS = [
   { to: "/transactions", label: "Transactions", icon: LayoutList },
@@ -20,6 +36,13 @@ const QUICK_STATS = [
 ]
 
 export function Sidebar({ collapsed }: SidebarProps) {
+  const { selectedPeriod } = useFilter()
+
+  const glanceHeading =
+    selectedPeriod === "total"
+      ? "YEAR AT A GLANCE"
+      : `${MONTH_NAMES[selectedPeriod - 1].toUpperCase()} AT A GLANCE`
+
   return (
     <aside
       className="flex shrink-0 flex-col border-r border-[var(--border-subtle)] bg-[var(--bg-surface)] transition-[width] duration-200 ease-in-out"
@@ -63,7 +86,7 @@ export function Sidebar({ collapsed }: SidebarProps) {
       {!collapsed && (
         <div className="mt-auto border-t border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-4)]">
           <h3 className="mb-[var(--space-3)] text-[11px] font-semibold uppercase tracking-[1px] text-[var(--text-tertiary)]">
-            MONTH AT A GLANCE
+            {glanceHeading}
           </h3>
           <div className="flex flex-col gap-[var(--space-2)]">
             {QUICK_STATS.map(({ label, amount, color }) => (
