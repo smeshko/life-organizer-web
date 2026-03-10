@@ -32,3 +32,11 @@ This guide helps you find relevant documentation based on what you're working on
     - When modifying the React Router configuration in `src/routes.tsx`
     - When adding new design tokens or components to the Quiet Ledger design system showcase
     - When creating standalone pages that render outside the app shell layout
+
+- docs/features/api-client-foundation.md
+  - Conditions:
+    - When creating per-domain API modules (e.g., `transactions.ts`, `budget-plan.ts`) in `src/api/`
+    - When handling API errors or implementing error UI for Life Organizer backend responses
+    - When adding or modifying HTTP request logic for the Life Organizer API client
+    - When implementing authentication headers or request interceptors for the API client
+    - When adding new TypeScript interfaces for API request/response types in `src/api/types.ts`
