@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react"
-import { describe, it, expect, vi, beforeEach } from "vitest"
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 import { createElement, type ReactNode } from "react"
 import { FilterProvider } from "@/contexts/filter-context"
 import {
@@ -17,6 +17,10 @@ beforeEach(() => {
   vi.restoreAllMocks()
   vi.useFakeTimers()
   vi.setSystemTime(new Date(2026, 2, 10)) // March 10, 2026
+})
+
+afterEach(() => {
+  vi.useRealTimers()
 })
 
 describe("useTransactionFilters", () => {
