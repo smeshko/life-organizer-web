@@ -1,15 +1,31 @@
-import { BrowserRouter, Routes, Route } from "react-router"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router"
 
-import App from "@/App"
+import { AppLayout } from "@/components/layout/app-layout"
+import { TransactionsPage } from "@/pages/transactions-page"
+import { SpendingPage } from "@/pages/spending-page"
+import { BudgetPage } from "@/pages/budget-page"
+import { BudgetVsActualPage } from "@/pages/budget-vs-actual-page"
 import { DesignSystemPage } from "@/pages/design-system-page"
+
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route element={<AppLayout />}>
+        <Route index element={<Navigate to="/transactions" replace />} />
+        <Route path="transactions" element={<TransactionsPage />} />
+        <Route path="spending" element={<SpendingPage />} />
+        <Route path="budget" element={<BudgetPage />} />
+        <Route path="budget-vs-actual" element={<BudgetVsActualPage />} />
+      </Route>
+      <Route path="design-system" element={<DesignSystemPage />} />
+    </Routes>
+  )
+}
 
 export function AppRouter() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/design-system" element={<DesignSystemPage />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   )
 }
