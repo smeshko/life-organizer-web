@@ -29,28 +29,28 @@ function sanitizeNumericInput(raw: string): string {
   return result
 }
 
-export function BudgetCell({
+interface BudgetCellEditorProps {
+  value: number
+  onSave: (value: number) => void
+  onNavigate: (direction: NavigationDirection) => void
+}
+
+function BudgetCellEditor({
   value,
   onSave,
   onNavigate,
-  editingCellId,
-  cellId,
-  onEditStart,
-}: BudgetCellProps) {
-  const isEditing = editingCellId === cellId
+}: BudgetCellEditorProps) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [inputValue, setInputValue] = useState("")
+  const [inputValue, setInputValue] = useState(() =>
+    value === 0 ? "" : String(value),
+  )
 
   useEffect(() => {
-    if (isEditing) {
-      setInputValue(value === 0 ? "" : String(value))
-      // Use rAF to ensure the input is rendered before focusing
-      requestAnimationFrame(() => {
-        inputRef.current?.focus()
-        inputRef.current?.select()
-      })
-    }
-  }, [isEditing, value])
+    requestAnimationFrame(() => {
+      inputRef.current?.focus()
+      inputRef.current?.select()
+    })
+  }, [])
 
   function handleSave() {
     const parsed = parseFloat(inputValue) || 0
@@ -76,25 +76,44 @@ export function BudgetCell({
     setInputValue(sanitizeNumericInput(e.target.value))
   }
 
+  return (
+    <td className="px-[var(--space-3)] py-[var(--space-2)]">
+      <input
+        ref={inputRef}
+        type="text"
+        inputMode="numeric"
+        role="textbox"
+        value={inputValue}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        className="w-full bg-transparent text-right font-mono text-xs text-[var(--text-primary)] outline-none transition-shadow duration-100"
+        style={{
+          boxShadow: "0 0 0 1px var(--income-border)",
+          borderRadius: "2px",
+          padding: "2px 4px",
+        }}
+      />
+    </td>
+  )
+}
+
+export function BudgetCell({
+  value,
+  onSave,
+  onNavigate,
+  editingCellId,
+  cellId,
+  onEditStart,
+}: BudgetCellProps) {
+  const isEditing = editingCellId === cellId
+
   if (isEditing) {
     return (
-      <td className="px-[var(--space-3)] py-[var(--space-2)]">
-        <input
-          ref={inputRef}
-          type="text"
-          inputMode="numeric"
-          role="textbox"
-          value={inputValue}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          className="w-full bg-transparent text-right font-mono text-xs text-[var(--text-primary)] outline-none transition-shadow duration-100"
-          style={{
-            boxShadow: "0 0 0 1px var(--income-border)",
-            borderRadius: "2px",
-            padding: "2px 4px",
-          }}
-        />
-      </td>
+      <BudgetCellEditor
+        value={value}
+        onSave={onSave}
+        onNavigate={onNavigate}
+      />
     )
   }
 
