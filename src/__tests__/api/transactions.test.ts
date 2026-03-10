@@ -137,6 +137,60 @@ describe("getTransactions", () => {
       "Internal server error",
     )
   })
+
+  it("includes date_from and date_to params when provided", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    await getTransactions({
+      year: 2026,
+      period: 3,
+      date_from: "2026-03-01",
+      date_to: "2026-03-31",
+    })
+
+    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string
+    expect(calledUrl).toContain("date_from=2026-03-01")
+    expect(calledUrl).toContain("date_to=2026-03-31")
+  })
+
+  it("serializes category array as comma-separated string", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    await getTransactions({
+      year: 2026,
+      category: ["Groceries", "Salary"],
+    })
+
+    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string
+    expect(calledUrl).toContain("category=Groceries%2CSalary")
+  })
+
+  it("omits category param when array is empty", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    })
+
+    await getTransactions({
+      year: 2026,
+      category: [],
+    })
+
+    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string
+    expect(calledUrl).not.toContain("category=")
+  })
 })
 
 describe("getTransactionSummary", () => {
