@@ -63,3 +63,11 @@ This guide helps you find relevant documentation based on what you're working on
     - When implementing loading, error, or empty states for a Life Organizer data-driven page
     - When formatting currency amounts or dates for display in Life Organizer transaction views
     - When adding or modifying query keys for TanStack Query cache management in Life Organizer
+
+- docs/features/transaction-filtering.md
+  - Conditions:
+    - When implementing local filter state for a Life Organizer feature page (e.g., budget filters, spending filters)
+    - When adding type/category/date filtering to Life Organizer transaction-related views
+    - When working with `useTransactionFilters` hook or `TransactionFilters` component
+    - When building controlled filter components that reset on global year/period changes
+    - When extending the transaction API query parameters for filtering in Life Organizer
