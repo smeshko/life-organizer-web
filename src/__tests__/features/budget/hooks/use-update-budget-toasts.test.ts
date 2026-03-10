@@ -59,7 +59,7 @@ describe("useUpdateBudget toast styling", () => {
     const { wrapper } = createWrapper()
     const { result } = renderHook(() => useUpdateBudget(2026), { wrapper })
 
-    result.current.mutate({ category: "Salary", month: 1, value: 3500 })
+    result.current.mutate({ category: "Salary", type: "income", month: 1, value: 3500 })
 
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith(
@@ -77,7 +77,7 @@ describe("useUpdateBudget toast styling", () => {
     const { wrapper } = createWrapper()
     const { result } = renderHook(() => useUpdateBudget(2026), { wrapper })
 
-    result.current.mutate({ category: "Salary", month: 1, value: 9999 })
+    result.current.mutate({ category: "Salary", type: "income", month: 1, value: 9999 })
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith(
@@ -100,7 +100,7 @@ describe("useUpdateBudget toast styling", () => {
     const { wrapper } = createWrapper()
     const { result } = renderHook(() => useUpdateBudget(2026), { wrapper })
 
-    result.current.mutate({ category: "Salary", month: 1, value: 3500 })
+    result.current.mutate({ category: "Salary", type: "income", month: 1, value: 3500 })
 
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith(
@@ -122,7 +122,7 @@ describe("useUpdateBudget toast styling", () => {
     const { wrapper } = createWrapper()
     const { result } = renderHook(() => useUpdateBudget(2026), { wrapper })
 
-    result.current.mutate({ category: "Salary", month: 1, value: 9999 })
+    result.current.mutate({ category: "Salary", type: "income", month: 1, value: 9999 })
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith(

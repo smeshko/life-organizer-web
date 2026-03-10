@@ -83,6 +83,7 @@ describe("useUpdateBudget", () => {
 
     result.current.mutate({
       category: "Salary",
+      type: "income",
       month: 1,
       value: 3500,
     })
@@ -108,6 +109,7 @@ describe("useUpdateBudget", () => {
 
     result.current.mutate({
       category: "Salary",
+      type: "income",
       month: 1,
       value: 9999,
     })
@@ -134,6 +136,7 @@ describe("useUpdateBudget", () => {
 
     result.current.mutate({
       category: "Salary",
+      type: "income",
       month: 1,
       value: 3500,
     })
@@ -154,6 +157,7 @@ describe("useUpdateBudget", () => {
 
     result.current.mutate({
       category: "Salary",
+      type: "income",
       month: 1,
       value: 9999,
     })
@@ -174,6 +178,7 @@ describe("useUpdateBudget", () => {
 
     result.current.mutate({
       category: "Salary",
+      type: "income",
       month: 1,
       value: 4000,
     })

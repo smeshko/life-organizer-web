@@ -42,6 +42,7 @@ function BudgetCellEditor({
 }: BudgetCellEditorProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const savedRef = useRef(false)
+  const navigatedRef = useRef(false)
   const [inputValue, setInputValue] = useState(() =>
     value === 0 ? "" : String(value),
   )
@@ -63,19 +64,23 @@ function BudgetCellEditor({
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === "Enter") {
       e.preventDefault()
+      navigatedRef.current = true
       handleSave()
       onNavigate("down")
     } else if (e.key === "Tab") {
       e.preventDefault()
+      navigatedRef.current = true
       handleSave()
       onNavigate(e.shiftKey ? "left" : "right")
     } else if (e.key === "Escape") {
       e.preventDefault()
+      navigatedRef.current = true
       onNavigate("cancel")
     }
   }
 
   function handleBlur() {
+    if (navigatedRef.current) return
     handleSave()
     onNavigate("cancel")
   }

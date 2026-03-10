@@ -53,10 +53,11 @@ export function BudgetGrid({ budgetPlan }: BudgetGridProps) {
 
   function handleCellSave(
     category: string,
+    type: "income" | "expense" | "savings",
     month: number,
     newValue: number,
   ) {
-    mutation.mutate({ category, month, value: newValue })
+    mutation.mutate({ category, type, month, value: newValue })
   }
 
   function handleCellNavigate(cellId: string, direction: NavigationDirection) {

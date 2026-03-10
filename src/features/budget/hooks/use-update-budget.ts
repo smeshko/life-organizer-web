@@ -5,6 +5,7 @@ import type { BudgetPlan } from "@/api/types"
 
 interface UpdateBudgetParams {
   category: string
+  type: "income" | "expense" | "savings"
   month: number
   value: number
 }
@@ -19,7 +20,7 @@ export function useUpdateBudget(year: number) {
       if (!current) throw new Error("No budget plan in cache")
 
       const updatedEntries = current.entries.map((entry) => {
-        if (entry.category === params.category) {
+        if (entry.category === params.category && entry.type === params.type) {
           return {
             ...entry,
             amounts: { ...entry.amounts, [params.month]: params.value },
@@ -38,7 +39,7 @@ export function useUpdateBudget(year: number) {
 
       if (previous) {
         const updatedEntries = previous.entries.map((entry) => {
-          if (entry.category === params.category) {
+          if (entry.category === params.category && entry.type === params.type) {
             return {
               ...entry,
               amounts: { ...entry.amounts, [params.month]: params.value },

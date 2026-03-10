@@ -108,7 +108,7 @@ describe("BudgetSection with BudgetCell integration", () => {
     await user.type(input, "3500")
     await user.keyboard("{Enter}")
 
-    expect(onCellSave).toHaveBeenCalledWith("Salary", 1, 3500)
+    expect(onCellSave).toHaveBeenCalledWith("Salary", "income", 1, 3500)
     expect(onCellNavigate).toHaveBeenCalledWith("income-Salary-1", "down")
   })
 

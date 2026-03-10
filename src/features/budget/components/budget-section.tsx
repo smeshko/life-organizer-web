@@ -14,7 +14,7 @@ interface BudgetSectionProps {
   type: "income" | "expense" | "savings"
   entries: BudgetPlanEntry[]
   editingCellId: string | null
-  onCellSave: (category: string, month: number, value: number) => void
+  onCellSave: (category: string, type: "income" | "expense" | "savings", month: number, value: number) => void
   onCellNavigate: (cellId: string, direction: NavigationDirection) => void
   onEditStart: (cellId: string) => void
 }
@@ -81,7 +81,7 @@ export function BudgetSection({
                   type={type}
                   cellId={cellId}
                   editingCellId={editingCellId}
-                  onSave={(value) => onCellSave(entry.category, month, value)}
+                  onSave={(value) => onCellSave(entry.category, type, month, value)}
                   onNavigate={(direction) => onCellNavigate(cellId, direction)}
                   onEditStart={onEditStart}
                 />
