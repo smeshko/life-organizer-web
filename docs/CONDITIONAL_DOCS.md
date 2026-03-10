@@ -40,3 +40,10 @@ This guide helps you find relevant documentation based on what you're working on
     - When adding or modifying HTTP request logic for the Life Organizer API client
     - When implementing authentication headers or request interceptors for the API client
     - When adding new TypeScript interfaces for API request/response types in `src/api/types.ts`
+
+- docs/features/app-shell-sidebar-navigation.md
+  - Conditions:
+    - When adding new routes or pages to the Life Organizer app shell layout
+    - When modifying sidebar navigation items or quick-stats in Life Organizer
+    - When implementing route-aware UI behavior (e.g., layout changes based on current path)
+    - When working with the AppLayout, Sidebar, or Header components in `src/components/layout/`
