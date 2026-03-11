@@ -86,3 +86,18 @@ This guide helps you find relevant documentation based on what you're working on
     - When implementing Recharts-based pie/doughnut charts with the Quiet Ledger chart color palette
     - When creating chart legend components or extending the `ChartLegend` pattern
     - When working with the `categoryBreakdown` TanStack Query key or `budget-tracking.ts` API module
+- docs/features/budget-grid-display.md
+  - Conditions:
+    - When building or modifying the budget grid view in `src/features/budget/`
+    - When implementing categories-by-months grid layouts with section totals in Life Organizer
+    - When adding sticky column tables with horizontal scroll in Life Organizer
+    - When computing client-side financial totals or allocation rows for budget features
+    - When building the budget-vs-actual comparison view that follows the budget grid pattern
+
+- docs/features/inline-budget-editing.md
+  - Conditions:
+    - When implementing inline editing or cell-level mutations in the Life Organizer budget grid
+    - When adding new TanStack Query `useMutation` hooks with optimistic updates for Life Organizer
+    - When implementing keyboard navigation (Tab/Enter/Escape) in grid components for Life Organizer
+    - When adding toast notifications with design token styling in Life Organizer
+    - When building display/edit state machine components for Life Organizer data cells

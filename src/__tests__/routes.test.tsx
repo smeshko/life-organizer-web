@@ -43,9 +43,7 @@ describe("AppRoutes", () => {
 
   it("renders budget page at /budget", () => {
     renderWithRouter("/budget")
-    expect(
-      screen.getByText("Budget planning coming soon"),
-    ).toBeInTheDocument()
+    expect(screen.getByText("Budget Planning")).toBeInTheDocument()
   })
 
   it("renders budget vs actual page at /budget-vs-actual", () => {
