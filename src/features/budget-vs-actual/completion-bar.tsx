@@ -1,0 +1,40 @@
+import { cn } from "@/lib/utils"
+
+function getColorClass(percentage: number): string {
+  if (percentage > 100) return "bg-[var(--expense-400)]"
+  if (percentage >= 80) return "bg-[var(--savings-400)]"
+  return "bg-[var(--income-400)]"
+}
+
+interface CompletionBarProps extends React.HTMLAttributes<HTMLDivElement> {
+  percentage: number
+}
+
+function CompletionBar({ percentage, className, ...props }: CompletionBarProps) {
+  const clampedWidth = Math.max(0, Math.min(percentage, 100))
+
+  return (
+    <div
+      className={cn(
+        "h-[6px] overflow-hidden rounded-[3px] bg-[var(--bg-hover)]",
+        className,
+      )}
+      {...props}
+    >
+      <div
+        className={cn(
+          "h-full rounded-[3px] transition-[width] duration-300 ease-out",
+          getColorClass(percentage),
+        )}
+        style={{ width: `${clampedWidth}%` }}
+        role="progressbar"
+        aria-valuenow={Math.round(percentage)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      />
+    </div>
+  )
+}
+
+export { CompletionBar }
+export type { CompletionBarProps }

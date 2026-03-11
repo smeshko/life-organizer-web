@@ -37,7 +37,7 @@ describe("AppRoutes", () => {
   it("renders spending page at /spending", () => {
     renderWithRouter("/spending")
     expect(
-      screen.getByRole("heading", { name: "Category Spending" }),
+      screen.getByText("Category spending coming soon"),
     ).toBeInTheDocument()
   })
 
@@ -48,9 +48,7 @@ describe("AppRoutes", () => {
 
   it("renders budget vs actual page at /budget-vs-actual", () => {
     renderWithRouter("/budget-vs-actual")
-    expect(
-      screen.getByText("Budget vs actual coming soon"),
-    ).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "Budget vs Actual" })).toBeInTheDocument()
   })
 
   it("preserves /design-system route outside layout", () => {

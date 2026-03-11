@@ -1,7 +1,16 @@
 import { get } from "@/api/client"
-import type { CategoryBreakdown } from "@/api/types"
+import type { BudgetVsActualEntry, CategoryBreakdown } from "@/api/types"
 
 export type CategoryType = "income" | "expense" | "savings"
+
+export async function getBudgetVsActual(
+  year: number,
+  period: "total" | number,
+): Promise<BudgetVsActualEntry[]> {
+  return get<BudgetVsActualEntry[]>(
+    `/budget-vs-actual?year=${year}&period=${period}`,
+  )
+}
 
 export async function getCategoryBreakdown(
   year: number,
