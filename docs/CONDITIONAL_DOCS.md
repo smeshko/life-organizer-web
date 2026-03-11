@@ -79,6 +79,13 @@ This guide helps you find relevant documentation based on what you're working on
     - When building paginated API queries with TanStack Query in Life Organizer
     - When implementing scroll-to-top behavior on page navigation in Life Organizer
 
+- docs/features/category-spending-doughnut-charts.md
+  - Conditions:
+    - When building chart visualizations using `DoughnutChart` or `ChartContainer` components in Life Organizer
+    - When adding new category breakdown views to the spending feature
+    - When implementing Recharts-based pie/doughnut charts with the Quiet Ledger chart color palette
+    - When creating chart legend components or extending the `ChartLegend` pattern
+    - When working with the `categoryBreakdown` TanStack Query key or `budget-tracking.ts` API module
 - docs/features/budget-grid-display.md
   - Conditions:
     - When building or modifying the budget grid view in `src/features/budget/`
