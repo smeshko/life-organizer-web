@@ -4,31 +4,33 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { createElement, type ReactNode } from "react"
 import { useTransactions } from "@/features/transactions/hooks/use-transactions"
 import { FilterProvider } from "@/contexts/filter-context"
-import type { Transaction, PaginatedResponse } from "@/api/types"
 
-const mockResponse: PaginatedResponse<Transaction> = {
-  data: [
+const mockBackendResponse = {
+  items: [
     {
-      id: "1",
-      date: "2026-03-01",
-      type: "income",
-      category: "Salary",
+      id: 1,
       amount: 3000,
+      currency: "EUR",
+      amount_eur: 3000,
+      date: "2026-03-01",
+      transaction_type: "Income",
+      category: "Salary",
       details: "Monthly salary",
     },
     {
-      id: "2",
-      date: "2026-03-02",
-      type: "expense",
-      category: "Groceries",
+      id: 2,
       amount: 150,
+      currency: "EUR",
+      amount_eur: 150,
+      date: "2026-03-02",
+      transaction_type: "Expenses",
+      category: "Groceries",
       details: "Weekly groceries",
     },
   ],
   total: 2,
   page: 1,
-  pageSize: 50,
-  totalPages: 1,
+  page_size: 50,
 }
 
 function createWrapper() {
@@ -57,7 +59,7 @@ describe("useTransactions", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     const { result } = renderHook(() => useTransactions(), {
@@ -96,7 +98,7 @@ describe("useTransactions", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     const { result } = renderHook(() => useTransactions(), {
@@ -114,7 +116,7 @@ describe("useTransactions", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     const { result } = renderHook(
@@ -134,17 +136,17 @@ describe("useTransactions", () => {
 
     const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
       .calls[0][0] as string
-    expect(calledUrl).toContain("type=income")
+    expect(calledUrl).toContain("transaction_type=Income")
     expect(calledUrl).toContain("category=Salary")
-    expect(calledUrl).toContain("date_from=2026-03-01")
-    expect(calledUrl).toContain("date_to=2026-03-31")
+    expect(calledUrl).toContain("start_date=2026-03-01")
+    expect(calledUrl).toContain("end_date=2026-03-31")
   })
 
   it("omits type param when type is 'all'", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     const { result } = renderHook(
@@ -164,21 +166,19 @@ describe("useTransactions", () => {
 
     const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
       .calls[0][0] as string
-    expect(calledUrl).not.toContain("type=")
+    expect(calledUrl).not.toContain("transaction_type=")
   })
 
-  it("forwards sortBy, sortOrder, page, and pageSize params to the API call", async () => {
+  it("forwards page and page_size params to the API call", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     const { result } = renderHook(
       () =>
         useTransactions({
-          sortBy: "amount",
-          sortOrder: "asc",
           page: 2,
         }),
       { wrapper: createWrapper() },
@@ -190,25 +190,20 @@ describe("useTransactions", () => {
 
     const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
       .calls[0][0] as string
-    expect(calledUrl).toContain("sortBy=amount")
-    expect(calledUrl).toContain("sortOrder=asc")
     expect(calledUrl).toContain("page=2")
-    expect(calledUrl).toContain("pageSize=50")
+    expect(calledUrl).toContain("page_size=50")
   })
 
-  it("includes sortBy, sortOrder, and page in the query key for cache invalidation", async () => {
+  it("includes page in the query key for cache invalidation", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
-    // First render with page 1
     const { result, rerender } = renderHook(
       ({ page }: { page: number }) =>
         useTransactions({
-          sortBy: "date",
-          sortOrder: "desc",
           page,
         }),
       {
@@ -221,7 +216,6 @@ describe("useTransactions", () => {
       expect(result.current.isLoading).toBe(false)
     })
 
-    // Rerender with page 2 — should trigger a new fetch
     rerender({ page: 2 })
 
     await waitFor(() => {

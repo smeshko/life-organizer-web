@@ -5,35 +5,33 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider } from "@/contexts/filter-context"
 import { BudgetPage } from "@/pages/budget-page"
 import { vi, beforeEach } from "vitest"
-import type { BudgetPlan } from "@/api/types"
-
-const mockBudgetPlan: BudgetPlan = {
+const mockBackendPlan = {
   year: 2026,
   entries: [
     {
+      transaction_type: "Income",
       category: "Salary",
-      type: "income",
-      amounts: { 1: 3000, 2: 3000, 3: 3200 },
+      amounts: { "1": 3000, "2": 3000, "3": 3200 },
     },
     {
+      transaction_type: "Income",
       category: "Freelance",
-      type: "income",
-      amounts: { 1: 500, 2: 0, 3: 800 },
+      amounts: { "1": 500, "2": 0, "3": 800 },
     },
     {
+      transaction_type: "Expenses",
       category: "Rent",
-      type: "expense",
-      amounts: { 1: 1200, 2: 1200, 3: 1200 },
+      amounts: { "1": 1200, "2": 1200, "3": 1200 },
     },
     {
+      transaction_type: "Savings",
       category: "Emergency Fund",
-      type: "savings",
-      amounts: { 1: 500, 2: 500, 3: 500 },
+      amounts: { "1": 500, "2": 500, "3": 500 },
     },
   ],
 }
 
-const emptyBudgetPlan: BudgetPlan = {
+const emptyBackendPlan = {
   year: 2026,
   entries: [],
 }
@@ -85,7 +83,7 @@ describe("BudgetPage", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockBudgetPlan),
+      json: () => Promise.resolve(mockBackendPlan),
     })
 
     renderPage()
@@ -103,7 +101,7 @@ describe("BudgetPage", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockBudgetPlan),
+      json: () => Promise.resolve(mockBackendPlan),
     })
 
     renderPage()
@@ -120,7 +118,7 @@ describe("BudgetPage", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockBudgetPlan),
+      json: () => Promise.resolve(mockBackendPlan),
     })
 
     renderPage()
@@ -137,7 +135,7 @@ describe("BudgetPage", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockBudgetPlan),
+      json: () => Promise.resolve(mockBackendPlan),
     })
 
     renderPage()
@@ -151,7 +149,7 @@ describe("BudgetPage", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockBudgetPlan),
+      json: () => Promise.resolve(mockBackendPlan),
     })
 
     renderPage()
@@ -191,7 +189,7 @@ describe("BudgetPage", () => {
       .mockResolvedValueOnce({
         ok: true,
         status: 200,
-        json: () => Promise.resolve(mockBudgetPlan),
+        json: () => Promise.resolve(mockBackendPlan),
       })
 
     renderPage()
@@ -209,18 +207,18 @@ describe("BudgetPage", () => {
   })
 
   it("displays negative allocation values with minus sign", async () => {
-    const overspentPlan: BudgetPlan = {
+    const overspentPlan = {
       year: 2026,
       entries: [
         {
+          transaction_type: "Income",
           category: "Salary",
-          type: "income",
-          amounts: { 1: 1000 },
+          amounts: { "1": 1000 },
         },
         {
+          transaction_type: "Expenses",
           category: "Rent",
-          type: "expense",
-          amounts: { 1: 1500 },
+          amounts: { "1": 1500 },
         },
       ],
     }
@@ -247,7 +245,7 @@ describe("BudgetPage", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(emptyBudgetPlan),
+      json: () => Promise.resolve(emptyBackendPlan),
     })
 
     renderPage()
@@ -263,7 +261,7 @@ describe("BudgetPage", () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockBudgetPlan),
+      json: () => Promise.resolve(mockBackendPlan),
     })
 
     renderPage()

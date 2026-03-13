@@ -1,40 +1,43 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { getTransactions, getTransactionSummary } from "@/api/transactions"
-import type { Transaction, PaginatedResponse } from "@/api/types"
+import type { Transaction } from "@/api/types"
 
-const mockTransactions: Transaction[] = [
-  {
-    id: "1",
-    date: "2026-03-01",
-    type: "income",
-    category: "Salary",
-    amount: 3000,
-    details: "Monthly salary",
-  },
-  {
-    id: "2",
-    date: "2026-03-02",
-    type: "expense",
-    category: "Groceries",
-    amount: 150.5,
-    details: "Weekly groceries",
-  },
-  {
-    id: "3",
-    date: "2026-03-03",
-    type: "savings",
-    category: "Emergency Fund",
-    amount: 500,
-    details: "Monthly savings",
-  },
-]
-
-const mockResponse: PaginatedResponse<Transaction> = {
-  data: mockTransactions,
+const mockBackendResponse = {
+  items: [
+    {
+      id: 1,
+      amount: 3000,
+      currency: "EUR",
+      amount_eur: 3000,
+      date: "2026-03-01",
+      transaction_type: "Income",
+      category: "Salary",
+      details: "Monthly salary",
+    },
+    {
+      id: 2,
+      amount: 150.5,
+      currency: "EUR",
+      amount_eur: 150.5,
+      date: "2026-03-02",
+      transaction_type: "Expenses",
+      category: "Groceries",
+      details: "Weekly groceries",
+    },
+    {
+      id: 3,
+      amount: 500,
+      currency: "EUR",
+      amount_eur: 500,
+      date: "2026-03-03",
+      transaction_type: "Savings",
+      category: "Emergency Fund",
+      details: "Monthly savings",
+    },
+  ],
   total: 3,
   page: 1,
-  pageSize: 50,
-  totalPages: 1,
+  page_size: 50,
 }
 
 beforeEach(() => {
@@ -43,27 +46,27 @@ beforeEach(() => {
 })
 
 describe("getTransactions", () => {
-  it("calls the transactions endpoint with year and period params", async () => {
+  it("calls the budget/transactions endpoint with start_date and end_date", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     await getTransactions({ year: 2026, period: 3 })
 
     const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
       .calls[0][0] as string
-    expect(calledUrl).toContain("/transactions")
-    expect(calledUrl).toContain("year=2026")
-    expect(calledUrl).toContain("period=3")
+    expect(calledUrl).toContain("/budget/transactions")
+    expect(calledUrl).toContain("start_date=2026-03-01")
+    expect(calledUrl).toContain("end_date=2026-03-31")
   })
 
-  it("returns paginated transaction data", async () => {
+  it("returns transformed paginated transaction data", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     const result = await getTransactions({ year: 2026, period: 3 })
@@ -71,48 +74,48 @@ describe("getTransactions", () => {
     expect(result.data).toHaveLength(3)
     expect(result.total).toBe(3)
     expect(result.page).toBe(1)
+    expect(result.totalPages).toBe(1)
+    expect(result.data[0].type).toBe("income")
+    expect(result.data[1].type).toBe("expense")
+    expect(result.data[2].type).toBe("savings")
   })
 
-  it("omits undefined filter params from the query string", async () => {
+  it("maps transaction_type to backend format", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
-    })
-
-    await getTransactions({ year: 2026 })
-
-    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
-      .calls[0][0] as string
-    expect(calledUrl).toContain("year=2026")
-    expect(calledUrl).not.toContain("period=")
-    expect(calledUrl).not.toContain("type=")
-  })
-
-  it("includes optional filters when provided", async () => {
-    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     await getTransactions({
       year: 2026,
       period: 3,
       type: "income",
-      sortBy: "date",
-      sortOrder: "desc",
+    })
+
+    const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string
+    expect(calledUrl).toContain("transaction_type=Income")
+  })
+
+  it("maps page_size param", async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockBackendResponse),
+    })
+
+    await getTransactions({
+      year: 2026,
+      period: 3,
       page: 2,
       pageSize: 25,
     })
 
     const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
       .calls[0][0] as string
-    expect(calledUrl).toContain("type=income")
-    expect(calledUrl).toContain("sortBy=date")
-    expect(calledUrl).toContain("sortOrder=desc")
     expect(calledUrl).toContain("page=2")
-    expect(calledUrl).toContain("pageSize=25")
+    expect(calledUrl).toContain("page_size=25")
   })
 
   it("throws ApiError on network failure", async () => {
@@ -138,48 +141,48 @@ describe("getTransactions", () => {
     )
   })
 
-  it("includes date_from and date_to params when provided", async () => {
+  it("uses date_from/date_to as start_date/end_date when provided", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     await getTransactions({
       year: 2026,
       period: 3,
-      date_from: "2026-03-01",
-      date_to: "2026-03-31",
+      date_from: "2026-03-10",
+      date_to: "2026-03-20",
     })
 
     const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
       .calls[0][0] as string
-    expect(calledUrl).toContain("date_from=2026-03-01")
-    expect(calledUrl).toContain("date_to=2026-03-31")
+    expect(calledUrl).toContain("start_date=2026-03-10")
+    expect(calledUrl).toContain("end_date=2026-03-20")
   })
 
-  it("serializes category array as comma-separated string", async () => {
+  it("sends first category when array provided", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     await getTransactions({
       year: 2026,
-      category: ["Groceries", "Salary"],
+      category: ["Groceries"],
     })
 
     const calledUrl = (globalThis.fetch as ReturnType<typeof vi.fn>).mock
       .calls[0][0] as string
-    expect(calledUrl).toContain("category=Groceries%2CSalary")
+    expect(calledUrl).toContain("category=Groceries")
   })
 
   it("omits category param when array is empty", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockBackendResponse),
     })
 
     await getTransactions({
@@ -194,6 +197,12 @@ describe("getTransactions", () => {
 })
 
 describe("getTransactionSummary", () => {
+  const mockTransactions: Transaction[] = [
+    { id: "1", date: "2026-03-01", type: "income", category: "Salary", amount: 3000, details: "" },
+    { id: "2", date: "2026-03-02", type: "expense", category: "Groceries", amount: -150.5, details: "" },
+    { id: "3", date: "2026-03-03", type: "savings", category: "Emergency Fund", amount: 500, details: "" },
+  ]
+
   it("computes income, expense, and savings totals from transactions", () => {
     const summary = getTransactionSummary(mockTransactions)
 

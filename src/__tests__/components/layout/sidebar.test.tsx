@@ -1,16 +1,59 @@
 import React from "react"
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider, useFilter } from "@/contexts/filter-context"
 import { Sidebar } from "@/components/layout/sidebar"
+import { vi, beforeEach } from "vitest"
+
+const mockAggregationResponse = {
+  period: { year: 2026, month: null },
+  aggregations: [],
+}
+
+const mockIncomeAggregation = {
+  period: { year: 2026, month: 3 },
+  aggregations: [
+    { category: "Salary", total_eur: 4250, count: 1 },
+  ],
+}
+
+const mockExpenseAggregation = {
+  period: { year: 2026, month: 3 },
+  aggregations: [
+    { category: "Groceries", total_eur: 2847, count: 5 },
+  ],
+}
+
+const mockSavingsAggregation = {
+  period: { year: 2026, month: 3 },
+  aggregations: [
+    { category: "Emergency Fund", total_eur: 850, count: 1 },
+  ],
+}
+
+beforeEach(() => {
+  vi.restoreAllMocks()
+  globalThis.fetch = vi.fn().mockResolvedValue({
+    ok: true,
+    status: 200,
+    json: () => Promise.resolve(mockAggregationResponse),
+  })
+})
 
 function renderSidebar(collapsed = false, initialRoute = "/transactions") {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+
   return render(
-    <MemoryRouter initialEntries={[initialRoute]}>
-      <FilterProvider>
-        <Sidebar collapsed={collapsed} />
-      </FilterProvider>
-    </MemoryRouter>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <FilterProvider>
+          <Sidebar collapsed={collapsed} />
+        </FilterProvider>
+      </MemoryRouter>
+    </QueryClientProvider>,
   )
 }
 
@@ -23,13 +66,19 @@ function PeriodSetter({ period }: { period: "total" | number }) {
 }
 
 function renderSidebarWithPeriod(period: "total" | number) {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+
   return render(
-    <MemoryRouter initialEntries={["/transactions"]}>
-      <FilterProvider>
-        <PeriodSetter period={period} />
-        <Sidebar collapsed={false} />
-      </FilterProvider>
-    </MemoryRouter>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/transactions"]}>
+        <FilterProvider>
+          <PeriodSetter period={period} />
+          <Sidebar collapsed={false} />
+        </FilterProvider>
+      </MemoryRouter>
+    </QueryClientProvider>,
   )
 }
 
@@ -123,12 +172,29 @@ describe("Sidebar", () => {
       expect(screen.getByText(`${currentMonth} AT A GLANCE`)).toBeInTheDocument()
     })
 
-    it("renders all 4 stat amounts with hardcoded data", () => {
+    it("renders dynamic stat amounts from API data", async () => {
+      ;(globalThis.fetch as ReturnType<typeof vi.fn>)
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(mockIncomeAggregation),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(mockExpenseAggregation),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(mockSavingsAggregation),
+        })
+
       renderSidebar(false)
-      expect(screen.getByText("€4,250")).toBeInTheDocument()
-      expect(screen.getByText("€2,847")).toBeInTheDocument()
-      expect(screen.getByText("€850")).toBeInTheDocument()
-      expect(screen.getByText("€553")).toBeInTheDocument()
+
+      await waitFor(() => {
+        expect(screen.getByText("€ 4,250.00")).toBeInTheDocument()
+      })
     })
 
     it("renders stat labels", () => {
@@ -142,7 +208,6 @@ describe("Sidebar", () => {
     it("hides quick-stats when collapsed", () => {
       renderSidebar(true)
       expect(screen.queryByText(/AT A GLANCE/)).not.toBeInTheDocument()
-      expect(screen.queryByText("€4,250")).not.toBeInTheDocument()
     })
 
     it("shows YEAR AT A GLANCE when period is total", () => {

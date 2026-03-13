@@ -37,7 +37,7 @@ describe("AppRoutes", () => {
   it("renders spending page at /spending", () => {
     renderWithRouter("/spending")
     expect(
-      screen.getByText("Category spending coming soon"),
+      screen.getByRole("heading", { name: "Category Spending" }),
     ).toBeInTheDocument()
   })
 

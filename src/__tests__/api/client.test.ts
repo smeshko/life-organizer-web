@@ -1,7 +1,7 @@
 import { get, post, put, patch, del } from "@/api/client"
 import { ApiError } from "@/api/types"
 
-const BASE_URL = "http://localhost:8000/api"
+const BASE_URL = "http://localhost:8000/api/v1"
 
 function mockFetchResponse(body: unknown, status = 200, ok = true) {
   return vi.fn().mockResolvedValue({
