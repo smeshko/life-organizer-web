@@ -12,7 +12,6 @@ export function AppLayout() {
         <main
           data-testid="content-area"
           className="flex-1 px-[var(--space-6)] py-[var(--space-5)]"
-          style={{ maxWidth: isBudget ? undefined : "1200px" }}
         >
           <Outlet />
         </main>
