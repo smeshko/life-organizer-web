@@ -1,7 +1,6 @@
 import { useCategoryBreakdown } from "@/features/spending/hooks/use-category-breakdown"
 import { ChartContainer } from "@/components/charts/chart-container"
-import { DoughnutChart } from "@/components/charts/doughnut-chart"
-import { ChartLegend } from "@/features/spending/components/chart-legend"
+import { CategoryBreakdownBars } from "@/features/spending/components/category-breakdown-bars"
 import { ErrorState } from "@/components/error-state"
 import type { CategoryType } from "@/api/budget-tracking"
 
@@ -46,10 +45,7 @@ function SpendingChartSection({
       isEmpty={items.length === 0}
       emptyMessage={`No ${label} data for this period`}
     >
-      <div className="flex items-start gap-[var(--space-6)]">
-        <DoughnutChart data={items} totalAmount={totalAmount} />
-        <ChartLegend data={items} />
-      </div>
+      <CategoryBreakdownBars data={items} totalAmount={totalAmount} type={type} />
     </ChartContainer>
   )
 }
