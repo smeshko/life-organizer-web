@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { Header } from "@/components/layout/header"
 import { StatCard } from "@/components/stat-card"
 import { LoadingSkeleton } from "@/components/loading-skeleton"
@@ -9,7 +9,8 @@ import { TransactionFilters } from "@/features/transactions/components/transacti
 import { TransactionPagination } from "@/features/transactions/components/transaction-pagination"
 import { useTransactions } from "@/features/transactions/hooks/use-transactions"
 import { useTransactionFilters } from "@/features/transactions/hooks/use-transaction-filters"
-import { getTransactionSummary } from "@/api/transactions"
+import { useTransactionTotals } from "@/features/transactions/hooks/use-transaction-totals"
+import { useUpdateTransaction, useDeleteTransaction } from "@/features/transactions/hooks/use-transaction-mutations"
 import { formatCurrency } from "@/lib/format"
 
 export function TransactionsPage() {
@@ -26,6 +27,14 @@ export function TransactionsPage() {
     page: filters.page,
   })
 
+  const { data: totals } = useTransactionTotals({
+    type: filters.type,
+    categories: filters.categories,
+  })
+
+  const updateMutation = useUpdateTransaction()
+  const deleteMutation = useDeleteTransaction()
+
   // Scroll to top of table on page change
   const pageRef = useRef(filters.page)
   useEffect(() => {
@@ -35,16 +44,12 @@ export function TransactionsPage() {
     }
   }, [filters.page])
 
-  const summary = data
-    ? getTransactionSummary(data.data)
-    : { income: 0, expenses: 0, savings: 0 }
+  const summary = totals ?? { income: 0, expenses: 0, savings: 0 }
 
-  const transactions = data?.data
-  const availableCategories = useMemo(() => {
-    if (!transactions) return []
-    const cats = new Set(transactions.map((tx) => tx.category))
-    return Array.from(cats).sort()
-  }, [transactions])
+  // Derive available categories from the current page data for filter suggestions
+  const availableCategories = data
+    ? Array.from(new Set(data.data.map((tx) => tx.category))).sort()
+    : []
 
   return (
     <div>
@@ -113,6 +118,8 @@ export function TransactionsPage() {
               onSortChange={filters.setSortBy}
               page={data.page}
               pageSize={data.pageSize}
+              onUpdate={(id, updates) => updateMutation.mutate({ id, data: updates })}
+              onDelete={(id) => deleteMutation.mutate(id)}
             />
 
             <TransactionPagination
