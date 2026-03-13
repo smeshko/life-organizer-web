@@ -1,6 +1,9 @@
 import { NavLink } from "react-router"
 import { LayoutList, PieChart, Grid3X3, BarChart3 } from "lucide-react"
+import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { useFilter } from "@/contexts/filter-context"
+import { getTransactionTotals } from "@/api/transactions"
+import { formatCurrency } from "@/lib/format"
 
 export interface SidebarProps {
   collapsed: boolean
@@ -28,12 +31,45 @@ const NAV_ITEMS = [
   { to: "/budget-vs-actual", label: "Budget vs Actual", icon: BarChart3 },
 ]
 
-const QUICK_STATS = [
-  { label: "INCOME", amount: "€4,250", color: "--income-300" },
-  { label: "SPENT", amount: "€2,847", color: "--expense-300" },
-  { label: "SAVED", amount: "€850", color: "--savings-300" },
-  { label: "REMAINING", amount: "€553", color: "--text-primary" },
-]
+function SidebarStats() {
+  const { selectedYear, selectedPeriod } = useFilter()
+
+  const { data } = useQuery({
+    queryKey: ["sidebarTotals", selectedYear, selectedPeriod],
+    queryFn: () => getTransactionTotals(selectedYear, selectedPeriod),
+    placeholderData: keepPreviousData,
+  })
+
+  const income = data?.income ?? 0
+  const expenses = data?.expenses ?? 0
+  const savings = data?.savings ?? 0
+  const remaining = income - expenses - savings
+
+  const stats = [
+    { label: "INCOME", amount: formatCurrency(income), color: "--income-300" },
+    { label: "SPENT", amount: formatCurrency(expenses, "expense"), color: "--expense-300" },
+    { label: "SAVED", amount: formatCurrency(savings), color: "--savings-300" },
+    { label: "REMAINING", amount: formatCurrency(remaining, remaining < 0 ? "expense" : undefined), color: remaining < 0 ? "--expense-300" : "--text-primary" },
+  ]
+
+  return (
+    <div className="flex flex-col gap-[var(--space-2)]">
+      {stats.map(({ label, amount, color }) => (
+        <div key={label} className="flex items-center justify-between">
+          <span className="text-[11px] uppercase text-[var(--text-tertiary)]">
+            {label}
+          </span>
+          <span
+            className="font-mono text-[13px]"
+            style={{ color: `var(${color})` }}
+          >
+            {amount}
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export function Sidebar({ collapsed }: SidebarProps) {
   const { selectedPeriod } = useFilter()
@@ -45,7 +81,7 @@ export function Sidebar({ collapsed }: SidebarProps) {
 
   return (
     <aside
-      className="flex shrink-0 flex-col border-r border-[var(--border-subtle)] bg-[var(--bg-surface)] transition-[width] duration-200 ease-in-out"
+      className="sticky top-0 flex h-screen shrink-0 flex-col border-r border-[var(--border-subtle)] bg-[var(--bg-surface)] transition-[width] duration-200 ease-in-out"
       style={{ width: collapsed ? "52px" : "240px" }}
     >
       <div className="flex items-center gap-[var(--space-2)] px-[var(--space-4)] py-[var(--space-5)] overflow-hidden">
@@ -88,21 +124,7 @@ export function Sidebar({ collapsed }: SidebarProps) {
           <h3 className="mb-[var(--space-3)] text-[11px] font-semibold uppercase tracking-[1px] text-[var(--text-tertiary)]">
             {glanceHeading}
           </h3>
-          <div className="flex flex-col gap-[var(--space-2)]">
-            {QUICK_STATS.map(({ label, amount, color }) => (
-              <div key={label} className="flex items-center justify-between">
-                <span className="text-[11px] uppercase text-[var(--text-tertiary)]">
-                  {label}
-                </span>
-                <span
-                  className="font-mono text-[13px]"
-                  style={{ color: `var(${color})` }}
-                >
-                  {amount}
-                </span>
-              </div>
-            ))}
-          </div>
+          <SidebarStats />
         </div>
       )}
     </aside>
