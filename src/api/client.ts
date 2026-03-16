@@ -1,8 +1,9 @@
 import { ApiError } from "./types"
 
-const BASE_URL =
-  (import.meta as unknown as { env: Record<string, string> }).env
-    .VITE_API_BASE_URL ?? "http://localhost:8000/api/v1"
+const env = (import.meta as unknown as { env: Record<string, string> }).env
+
+const BASE_URL = env.VITE_API_BASE_URL ?? "http://localhost:8000/api/v1"
+const API_KEY = env.VITE_API_KEY ?? ""
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const base = BASE_URL.replace(/\/+$/, "")
@@ -11,7 +12,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    // TODO: Add Authorization header when auth is implemented
+    "X-API-Key": API_KEY,
   }
 
   let response: Response
