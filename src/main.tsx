@@ -11,11 +11,10 @@ import { queryClient } from "@/lib/query-client"
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="dark">
+      <ThemeProvider defaultTheme="system">
         <AppRouter />
         <Toaster
           position="bottom-right"
-          theme="dark"
           toastOptions={{
             style: {
               background: "var(--bg-elevated)",

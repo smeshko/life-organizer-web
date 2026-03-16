@@ -182,6 +182,127 @@
   --sidebar-ring: var(--accent-400);
 }
 
+/* === Quiet Ledger Light Mode === */
+.light {
+  /* Surfaces — warm parchment */
+  --bg-root: #f5f2ec;
+  --bg-surface: #faf8f4;
+  --bg-raised: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-hover: #f0ede5;
+  --bg-active: #e8e4db;
+
+  /* Borders */
+  --border-subtle: #e8e4db;
+  --border-default: #d9d4c8;
+  --border-strong: #b8b2a4;
+
+  /* Text */
+  --text-primary: #1a1816;
+  --text-secondary: #5c564a;
+  --text-tertiary: #8a8478;
+  --text-inverse: #e8e2d6;
+
+  /* Income — darker sage for light bg contrast */
+  --income-100: #d6ead9;
+  --income-200: #8dbf9a;
+  --income-300: #3a7a4e;
+  --income-400: #2e613e;
+  --income-500: #23492f;
+  --income-600: #1a3622;
+  --income-700: #122518;
+  --income-bg: rgba(58, 122, 78, 0.06);
+  --income-bg-strong: rgba(58, 122, 78, 0.12);
+  --income-border: rgba(58, 122, 78, 0.20);
+
+  /* Expenses — rose-red, clearly distinct from savings */
+  --expense-100: #f2cbc5;
+  --expense-200: #cc7062;
+  --expense-300: #b5443a;
+  --expense-400: #963830;
+  --expense-500: #782d26;
+  --expense-600: #5a221c;
+  --expense-700: #401814;
+  --expense-bg: rgba(181, 68, 58, 0.06);
+  --expense-bg-strong: rgba(181, 68, 58, 0.12);
+  --expense-border: rgba(181, 68, 58, 0.22);
+
+  /* Savings — amber-gold, clearly distinct from expenses */
+  --savings-100: #f5deb0;
+  --savings-200: #d4a030;
+  --savings-300: #a07818;
+  --savings-400: #846214;
+  --savings-500: #684e10;
+  --savings-600: #4e3a0c;
+  --savings-700: #362808;
+  --savings-bg: rgba(160, 120, 24, 0.07);
+  --savings-bg-strong: rgba(160, 120, 24, 0.14);
+  --savings-border: rgba(160, 120, 24, 0.22);
+
+  /* Warning */
+  --warning-300: #a07818;
+  --warning-400: #846214;
+  --warning-500: #684e10;
+  --warning-bg: rgba(176, 124, 20, 0.08);
+  --warning-border: rgba(176, 124, 20, 0.20);
+
+  --success-text: var(--savings-300);
+
+  /* Accent — deeper lavender */
+  --accent-300: #7a6eaa;
+  --accent-400: #655a96;
+  --accent-500: #504880;
+  --accent-bg: rgba(122, 110, 170, 0.06);
+  --accent-border: rgba(122, 110, 170, 0.20);
+
+  /* Chart palette — deeper for light backgrounds */
+  --chart-1: #a07818;
+  --chart-2: #b5443a;
+  --chart-3: #3a7a4e;
+  --chart-4: #655a96;
+  --chart-5: #846214;
+  --chart-6: #782d26;
+  --chart-7: #2e613e;
+  --chart-8: #504880;
+  --chart-9: #c09020;
+  --chart-10: #cc7062;
+  --chart-11: #4d9462;
+  --chart-12: #7a6eaa;
+
+  /* Shadows — lighter for light mode */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* shadcn/ui mappings */
+  --background: var(--bg-root);
+  --foreground: var(--text-primary);
+  --card: var(--bg-raised);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--text-primary);
+  --primary-foreground: var(--bg-root);
+  --secondary: var(--bg-hover);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-hover);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--bg-active);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--expense-400);
+  --border: var(--border-default);
+  --input: var(--border-default);
+  --ring: var(--accent-400);
+  --sidebar: var(--bg-surface);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--accent-400);
+  --sidebar-primary-foreground: var(--text-primary);
+  --sidebar-accent: var(--bg-hover);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-border: var(--border-subtle);
+  --sidebar-ring: var(--accent-400);
+}
+
 @theme inline {
   --font-sans: 'DM Sans', sans-serif;
   --font-serif: 'Instrument Serif', serif;

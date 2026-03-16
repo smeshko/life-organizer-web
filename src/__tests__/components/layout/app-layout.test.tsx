@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react"
 import { MemoryRouter, Routes, Route } from "react-router"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider } from "@/contexts/filter-context"
+import { ThemeProvider } from "@/components/theme-provider"
 import { AppLayout } from "@/components/layout/app-layout"
 import { vi, beforeEach } from "vitest"
 
@@ -26,17 +27,19 @@ function renderLayout(initialRoute = "/transactions") {
   return render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={[initialRoute]}>
-        <FilterProvider>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route
-                path="transactions"
-                element={<div>Transactions Content</div>}
-              />
-              <Route path="budget" element={<div>Budget Content</div>} />
-            </Route>
-          </Routes>
-        </FilterProvider>
+        <ThemeProvider defaultTheme="dark">
+          <FilterProvider>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route
+                  path="transactions"
+                  element={<div>Transactions Content</div>}
+                />
+                <Route path="budget" element={<div>Budget Content</div>} />
+              </Route>
+            </Routes>
+          </FilterProvider>
+        </ThemeProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   )

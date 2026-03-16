@@ -141,23 +141,71 @@
     --text-tertiary: #8a8478;
     --text-inverse: #e8e2d6;
 
+    /* Semantic: Income — shift darker for light-bg contrast */
+    --income-100: #d6ead9;
+    --income-200: #8dbf9a;
+    --income-300: #3a7a4e;
+    --income-400: #2e613e;
+    --income-500: #23492f;
+    --income-600: #1a3622;
+    --income-700: #122518;
     --income-bg: rgba(58, 122, 78, 0.06);
     --income-bg-strong: rgba(58, 122, 78, 0.12);
     --income-border: rgba(58, 122, 78, 0.20);
 
-    --expense-bg: rgba(168, 78, 64, 0.06);
-    --expense-bg-strong: rgba(168, 78, 64, 0.12);
-    --expense-border: rgba(168, 78, 64, 0.20);
+    /* Semantic: Expenses — push redder to separate from savings */
+    --expense-100: #f2cbc5;
+    --expense-200: #cc7062;
+    --expense-300: #b5443a;
+    --expense-400: #963830;
+    --expense-500: #782d26;
+    --expense-600: #5a221c;
+    --expense-700: #401814;
+    --expense-bg: rgba(181, 68, 58, 0.06);
+    --expense-bg-strong: rgba(181, 68, 58, 0.12);
+    --expense-border: rgba(181, 68, 58, 0.22);
 
-    --savings-bg: rgba(192, 125, 30, 0.06);
-    --savings-bg-strong: rgba(192, 125, 30, 0.12);
-    --savings-border: rgba(192, 125, 30, 0.20);
+    /* Semantic: Savings — push more golden/amber to separate from expenses */
+    --savings-100: #f5deb0;
+    --savings-200: #d4a030;
+    --savings-300: #a07818;
+    --savings-400: #846214;
+    --savings-500: #684e10;
+    --savings-600: #4e3a0c;
+    --savings-700: #362808;
+    --savings-bg: rgba(160, 120, 24, 0.07);
+    --savings-bg-strong: rgba(160, 120, 24, 0.14);
+    --savings-border: rgba(160, 120, 24, 0.22);
 
+    /* Semantic: Warning — shift darker */
+    --warning-300: #a07818;
+    --warning-400: #846214;
+    --warning-500: #684e10;
     --warning-bg: rgba(176, 124, 20, 0.08);
     --warning-border: rgba(176, 124, 20, 0.20);
 
+    --success-text: var(--savings-300);
+
+    /* Accent — shift darker */
+    --accent-300: #7a6eaa;
+    --accent-400: #655a96;
+    --accent-500: #504880;
     --accent-bg: rgba(122, 110, 170, 0.06);
     --accent-border: rgba(122, 110, 170, 0.20);
+
+    /* Chart palette — deeper tones for light backgrounds */
+    --chart-1: #a07818;
+    --chart-2: #b5443a;
+    --chart-3: #3a7a4e;
+    --chart-4: #655a96;
+    --chart-5: #846214;
+    --chart-6: #782d26;
+    --chart-7: #2e613e;
+    --chart-8: #504880;
+    --chart-9: #c09020;
+    --chart-10: #cc7062;
+    --chart-11: #4d9462;
+    --chart-12: #7a6eaa;
 
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
@@ -256,6 +304,143 @@
     border-radius: var(--radius-lg);
     padding: var(--space-1);
     margin-top: var(--space-6);
+  }
+
+  .sticky-toggle {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-6);
+    z-index: 100;
+    display: inline-flex;
+    gap: var(--space-2);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--space-1);
+    box-shadow: var(--shadow-md);
+  }
+
+  .sticky-toggle button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: var(--space-1) var(--space-4);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-tertiary);
+    transition: all 0.2s ease;
+  }
+
+  .sticky-toggle button.active {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* === SIDE-BY-SIDE COMPARISON === */
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .comparison-pane {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+  }
+
+  .comparison-pane.dark-pane {
+    background: #1a1816;
+    color: #e8e2d6;
+  }
+
+  .comparison-pane.light-pane {
+    background: #faf8f4;
+    color: #1a1816;
+  }
+
+  .comparison-pane .pane-header {
+    padding: var(--space-4) var(--space-5);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid;
+  }
+
+  .dark-pane .pane-header {
+    color: #7a7368;
+    border-color: #2e2b25;
+  }
+
+  .light-pane .pane-header {
+    color: #8a8478;
+    border-color: #e8e4db;
+  }
+
+  .comparison-pane .pane-body {
+    padding: var(--space-5);
+  }
+
+  .comp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+  }
+
+  .comp-label {
+    font-size: 12px;
+  }
+
+  .comp-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .comp-badge {
+    display: inline-flex;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .comp-progress {
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .comp-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+
+  .comp-stat {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
+  }
+
+  .comp-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .comp-stat-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
   }
 
   .mode-toggle button {
@@ -907,9 +1092,9 @@
     transition: width 0.3s ease;
   }
 
-  .progress-under { background: var(--savings-400); }
-  .progress-near { background: var(--income-400); }
-  .progress-over { background: var(--expense-400); }
+  .progress-under { background: var(--savings-300); }
+  .progress-near { background: var(--income-300); }
+  .progress-over { background: var(--expense-300); }
 
   .bva-remaining {
     font-family: 'DM Mono', monospace;
@@ -1102,6 +1287,12 @@
 </style>
 </head>
 <body>
+  <!-- Sticky toggle -->
+  <div class="sticky-toggle" id="sticky-toggle">
+    <button class="active" onclick="setMode('dark')">Dark</button>
+    <button onclick="setMode('light')">Light</button>
+  </div>
+
   <div class="design-system" id="app">
 
     <!-- HEADER -->
@@ -1113,6 +1304,125 @@
         <button onclick="setMode('light')">Light</button>
       </div>
     </header>
+
+    <!-- 0. SIDE-BY-SIDE COMPARISON -->
+    <section class="section">
+      <h2 class="section-title">Dark vs Light — Side by Side</h2>
+      <p class="section-subtitle">Same components, both themes — compare contrast, readability, and personality at a glance</p>
+      <div class="section-divider"></div>
+
+      <div class="comparison-grid">
+        <!-- DARK PANE -->
+        <div class="comparison-pane dark-pane">
+          <div class="pane-header">Dark Mode</div>
+          <div class="pane-body">
+            <!-- Stat cards -->
+            <div class="comp-stat" style="background: rgba(109,170,124,0.08); border-left: 3px solid #4d9462;">
+              <div class="comp-stat-label" style="color: #7a7368;">Income</div>
+              <div class="comp-stat-value" style="color: #6daa7c;">€ 4,250</div>
+            </div>
+            <div class="comp-stat" style="background: rgba(212,123,110,0.08); border-left: 3px solid #c06254;">
+              <div class="comp-stat-label" style="color: #7a7368;">Expenses</div>
+              <div class="comp-stat-value" style="color: #d47b6e;">€ 2,847</div>
+            </div>
+            <div class="comp-stat" style="background: rgba(224,168,58,0.08); border-left: 3px solid #d4922a;">
+              <div class="comp-stat-label" style="color: #7a7368;">Savings</div>
+              <div class="comp-stat-value" style="color: #e4a83a;">€ 850</div>
+            </div>
+
+            <!-- Badges -->
+            <div style="display: flex; gap: 8px; margin: 16px 0;">
+              <span class="comp-badge" style="background: rgba(109,170,124,0.15); color: #6daa7c; border: 1px solid rgba(109,170,124,0.25);">Income</span>
+              <span class="comp-badge" style="background: rgba(212,123,110,0.15); color: #d47b6e; border: 1px solid rgba(212,123,110,0.25);">Expense</span>
+              <span class="comp-badge" style="background: rgba(224,168,58,0.15); color: #e4a83a; border: 1px solid rgba(224,168,58,0.25);">Savings</span>
+            </div>
+
+            <!-- Mini table -->
+            <div style="font-size: 12px; margin-top: 12px;">
+              <div class="comp-row" style="border-bottom: 1px solid #2e2b25; padding-bottom: 8px; margin-bottom: 4px;">
+                <span style="color: #7a7368; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Category</span>
+                <span style="color: #7a7368; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Amount</span>
+              </div>
+              <div class="comp-row"><span style="color: #a69f8f;">Groceries</span><span class="comp-value" style="color: #d47b6e;">-€ 67.40</span></div>
+              <div class="comp-row"><span style="color: #a69f8f;">Salary</span><span class="comp-value" style="color: #6daa7c;">€ 4,250</span></div>
+              <div class="comp-row"><span style="color: #a69f8f;">Emergency Fund</span><span class="comp-value" style="color: #e4a83a;">€ 500</span></div>
+            </div>
+
+            <!-- Budget progress -->
+            <div style="margin-top: 16px;">
+              <div class="comp-row"><span style="color: #e8e2d6; font-size: 12px; font-weight: 500;">Groceries</span><span style="font-size: 11px; color: #d47b6e;">114%</span></div>
+              <div class="comp-progress" style="background: #33302a;"><div class="comp-progress-fill" style="width: 100%; background: #c06254;"></div></div>
+              <div class="comp-row" style="margin-top: 8px;"><span style="color: #e8e2d6; font-size: 12px; font-weight: 500;">Entertainment</span><span style="font-size: 11px; color: #e4a83a;">42%</span></div>
+              <div class="comp-progress" style="background: #33302a;"><div class="comp-progress-fill" style="width: 42%; background: #d4922a;"></div></div>
+            </div>
+
+            <!-- Sidebar glance -->
+            <div style="margin-top: 20px; padding: 12px; background: #1a1816; border: 1px solid #2e2b25; border-radius: 8px;">
+              <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #7a7368; margin-bottom: 8px;">At a Glance</div>
+              <div class="comp-row"><span style="font-size: 11px; color: #7a7368;">INCOME</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #6daa7c;">€ 4,250</span></div>
+              <div class="comp-row"><span style="font-size: 11px; color: #7a7368;">SPENT</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #d47b6e;">-€ 2,847</span></div>
+              <div class="comp-row"><span style="font-size: 11px; color: #7a7368;">SAVED</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #e4a83a;">€ 850</span></div>
+              <div class="comp-row"><span style="font-size: 11px; color: #7a7368;">REMAINING</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #e8e2d6;">€ 553</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIGHT PANE -->
+        <div class="comparison-pane light-pane">
+          <div class="pane-header">Light Mode</div>
+          <div class="pane-body">
+            <!-- Stat cards -->
+            <div class="comp-stat" style="background: rgba(58,122,78,0.06); border-left: 3px solid #2e613e;">
+              <div class="comp-stat-label" style="color: #8a8478;">Income</div>
+              <div class="comp-stat-value" style="color: #3a7a4e;">€ 4,250</div>
+            </div>
+            <div class="comp-stat" style="background: rgba(181,68,58,0.06); border-left: 3px solid #963830;">
+              <div class="comp-stat-label" style="color: #8a8478;">Expenses</div>
+              <div class="comp-stat-value" style="color: #b5443a;">€ 2,847</div>
+            </div>
+            <div class="comp-stat" style="background: rgba(160,120,24,0.07); border-left: 3px solid #846214;">
+              <div class="comp-stat-label" style="color: #8a8478;">Savings</div>
+              <div class="comp-stat-value" style="color: #a07818;">€ 850</div>
+            </div>
+
+            <!-- Badges -->
+            <div style="display: flex; gap: 8px; margin: 16px 0;">
+              <span class="comp-badge" style="background: rgba(58,122,78,0.12); color: #3a7a4e; border: 1px solid rgba(58,122,78,0.20);">Income</span>
+              <span class="comp-badge" style="background: rgba(181,68,58,0.12); color: #b5443a; border: 1px solid rgba(181,68,58,0.22);">Expense</span>
+              <span class="comp-badge" style="background: rgba(160,120,24,0.14); color: #a07818; border: 1px solid rgba(160,120,24,0.22);">Savings</span>
+            </div>
+
+            <!-- Mini table -->
+            <div style="font-size: 12px; margin-top: 12px;">
+              <div class="comp-row" style="border-bottom: 1px solid #e8e4db; padding-bottom: 8px; margin-bottom: 4px;">
+                <span style="color: #8a8478; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Category</span>
+                <span style="color: #8a8478; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Amount</span>
+              </div>
+              <div class="comp-row"><span style="color: #5c564a;">Groceries</span><span class="comp-value" style="color: #b5443a;">-€ 67.40</span></div>
+              <div class="comp-row"><span style="color: #5c564a;">Salary</span><span class="comp-value" style="color: #3a7a4e;">€ 4,250</span></div>
+              <div class="comp-row"><span style="color: #5c564a;">Emergency Fund</span><span class="comp-value" style="color: #a07818;">€ 500</span></div>
+            </div>
+
+            <!-- Budget progress -->
+            <div style="margin-top: 16px;">
+              <div class="comp-row"><span style="color: #1a1816; font-size: 12px; font-weight: 500;">Groceries</span><span style="font-size: 11px; color: #b5443a;">114%</span></div>
+              <div class="comp-progress" style="background: #e8e4db;"><div class="comp-progress-fill" style="width: 100%; background: #b5443a;"></div></div>
+              <div class="comp-row" style="margin-top: 8px;"><span style="color: #1a1816; font-size: 12px; font-weight: 500;">Entertainment</span><span style="font-size: 11px; color: #a07818;">42%</span></div>
+              <div class="comp-progress" style="background: #e8e4db;"><div class="comp-progress-fill" style="width: 42%; background: #a07818;"></div></div>
+            </div>
+
+            <!-- Sidebar glance -->
+            <div style="margin-top: 20px; padding: 12px; background: #faf8f4; border: 1px solid #e8e4db; border-radius: 8px;">
+              <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #8a8478; margin-bottom: 8px;">At a Glance</div>
+              <div class="comp-row"><span style="font-size: 11px; color: #8a8478;">INCOME</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #3a7a4e;">€ 4,250</span></div>
+              <div class="comp-row"><span style="font-size: 11px; color: #8a8478;">SPENT</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #b5443a;">-€ 2,847</span></div>
+              <div class="comp-row"><span style="font-size: 11px; color: #8a8478;">SAVED</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #a07818;">€ 850</span></div>
+              <div class="comp-row"><span style="font-size: 11px; color: #8a8478;">REMAINING</span><span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #1a1816;">€ 553</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- 1. SURFACE COLORS -->
     <section class="section">
@@ -1693,18 +2003,14 @@
 
   <script>
     function setMode(mode) {
-      const app = document.getElementById('app');
-      const buttons = document.querySelectorAll('.mode-toggle button');
-
       if (mode === 'light') {
         document.body.classList.add('light-mode');
       } else {
         document.body.classList.remove('light-mode');
       }
 
-      buttons.forEach(btn => btn.classList.remove('active'));
-      buttons.forEach(btn => {
-        if (btn.textContent.toLowerCase() === mode) btn.classList.add('active');
+      document.querySelectorAll('.mode-toggle button, .sticky-toggle button').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === mode);
       });
     }
   </script>

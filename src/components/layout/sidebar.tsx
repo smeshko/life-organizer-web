@@ -1,7 +1,8 @@
 import { NavLink } from "react-router"
-import { LayoutList, PieChart, Grid3X3, BarChart3 } from "lucide-react"
+import { LayoutList, PieChart, Grid3X3, BarChart3, Sun, Moon, Monitor } from "lucide-react"
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { useFilter } from "@/contexts/filter-context"
+import { useTheme } from "@/components/theme-provider"
 import { getTransactionTotals } from "@/api/transactions"
 import { formatCurrency } from "@/lib/format"
 
@@ -71,6 +72,51 @@ function SidebarStats() {
   )
 }
 
+const THEME_OPTIONS = [
+  { value: "light" as const, icon: Sun, label: "Light" },
+  { value: "dark" as const, icon: Moon, label: "Dark" },
+  { value: "system" as const, icon: Monitor, label: "System" },
+]
+
+function ThemeToggle({ collapsed }: { collapsed: boolean }) {
+  const { theme, setTheme } = useTheme()
+
+  if (collapsed) {
+    const current = THEME_OPTIONS.find((o) => o.value === theme) ?? THEME_OPTIONS[2]
+    const next = THEME_OPTIONS[(THEME_OPTIONS.indexOf(current) + 1) % THEME_OPTIONS.length]
+    return (
+      <button
+        onClick={() => setTheme(next.value)}
+        title={`Theme: ${current.label}`}
+        className="flex items-center justify-center rounded-[var(--radius-sm)] p-[var(--space-2)] text-[var(--text-tertiary)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
+      >
+        <current.icon size={16} />
+      </button>
+    )
+  }
+
+  return (
+    <div className="flex items-center gap-[var(--space-1)] rounded-[var(--radius-md)] bg-[var(--bg-raised)] p-[var(--space-1)] border border-[var(--border-subtle)]">
+      {THEME_OPTIONS.map(({ value, icon: Icon, label }) => (
+        <button
+          key={value}
+          onClick={() => setTheme(value)}
+          title={label}
+          className={[
+            "flex flex-1 items-center justify-center gap-[var(--space-1)] rounded-[var(--radius-sm)] px-[var(--space-2)] py-[var(--space-1)] text-[11px] font-medium transition-colors",
+            theme === value
+              ? "bg-[var(--bg-elevated)] text-[var(--text-primary)] shadow-[var(--shadow-sm)]"
+              : "text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]",
+          ].join(" ")}
+        >
+          <Icon size={12} />
+          {label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function Sidebar({ collapsed }: SidebarProps) {
   const { selectedPeriod } = useFilter()
 
@@ -119,14 +165,19 @@ export function Sidebar({ collapsed }: SidebarProps) {
         ))}
       </nav>
 
-      {!collapsed && (
-        <div className="mt-auto border-t border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-4)]">
-          <h3 className="mb-[var(--space-3)] text-[11px] font-semibold uppercase tracking-[1px] text-[var(--text-tertiary)]">
-            {glanceHeading}
-          </h3>
-          <SidebarStats />
+      <div className="mt-auto flex flex-col">
+        {!collapsed && (
+          <div className="border-t border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-4)]">
+            <h3 className="mb-[var(--space-3)] text-[11px] font-semibold uppercase tracking-[1px] text-[var(--text-tertiary)]">
+              {glanceHeading}
+            </h3>
+            <SidebarStats />
+          </div>
+        )}
+        <div className={`border-t border-[var(--border-subtle)] ${collapsed ? "flex justify-center py-[var(--space-2)]" : "px-[var(--space-4)] py-[var(--space-3)]"}`}>
+          <ThemeToggle collapsed={collapsed} />
         </div>
-      )}
+      </div>
     </aside>
   )
 }

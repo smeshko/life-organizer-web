@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { FilterProvider, useFilter } from "@/contexts/filter-context"
+import { ThemeProvider } from "@/components/theme-provider"
 import { Sidebar } from "@/components/layout/sidebar"
 import { vi, beforeEach } from "vitest"
 
@@ -49,9 +50,11 @@ function renderSidebar(collapsed = false, initialRoute = "/transactions") {
   return render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={[initialRoute]}>
-        <FilterProvider>
-          <Sidebar collapsed={collapsed} />
-        </FilterProvider>
+        <ThemeProvider defaultTheme="dark">
+          <FilterProvider>
+            <Sidebar collapsed={collapsed} />
+          </FilterProvider>
+        </ThemeProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   )
@@ -73,10 +76,12 @@ function renderSidebarWithPeriod(period: "total" | number) {
   return render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={["/transactions"]}>
-        <FilterProvider>
-          <PeriodSetter period={period} />
-          <Sidebar collapsed={false} />
-        </FilterProvider>
+        <ThemeProvider defaultTheme="dark">
+          <FilterProvider>
+            <PeriodSetter period={period} />
+            <Sidebar collapsed={false} />
+          </FilterProvider>
+        </ThemeProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   )

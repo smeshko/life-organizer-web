@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ThemeProvider } from "@/components/theme-provider"
 import { vi, beforeEach } from "vitest"
 import { AppRoutes } from "@/routes"
 
@@ -17,7 +18,9 @@ function renderWithRouter(initialRoute: string) {
   return render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={[initialRoute]}>
-        <AppRoutes />
+        <ThemeProvider defaultTheme="dark">
+          <AppRoutes />
+        </ThemeProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   )
