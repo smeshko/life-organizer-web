@@ -108,11 +108,11 @@ describe("BudgetPage", () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getAllByText("INCOME").length).toBeGreaterThan(0)
+      expect(screen.getAllByText("Income").length).toBeGreaterThan(0)
     })
 
-    expect(screen.getAllByText("EXPENSES").length).toBeGreaterThan(0)
-    expect(screen.getAllByText("SAVINGS").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Expenses").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Savings").length).toBeGreaterThan(0)
   })
 
   it("renders month column headers", async () => {
@@ -146,7 +146,7 @@ describe("BudgetPage", () => {
     })
   })
 
-  it("shows dash for zero/empty amounts", async () => {
+  it("shows all category entries", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -159,9 +159,9 @@ describe("BudgetPage", () => {
       expect(screen.getAllByText("Salary").length).toBeGreaterThan(0)
     })
 
-    // Freelance has 0 for Feb, so should show dashes
-    const dashes = screen.getAllByText("—")
-    expect(dashes.length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Freelance").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Rent").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Emergency Fund").length).toBeGreaterThan(0)
   })
 
   it("shows error state with retry button on API failure", async () => {
@@ -257,7 +257,7 @@ describe("BudgetPage", () => {
     })
   })
 
-  it("renders a semantic HTML table", async () => {
+  it("renders card-based layout with section totals", async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -270,8 +270,7 @@ describe("BudgetPage", () => {
       expect(screen.getAllByText("Salary").length).toBeGreaterThan(0)
     })
 
-    expect(document.querySelector("table")).toBeInTheDocument()
-    expect(document.querySelector("thead")).toBeInTheDocument()
-    expect(document.querySelector("tbody")).toBeInTheDocument()
+    // Section yearly totals are shown
+    expect(screen.getAllByText(/\/yr/).length).toBeGreaterThan(0)
   })
 })

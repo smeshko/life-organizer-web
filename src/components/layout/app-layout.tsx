@@ -1,17 +1,14 @@
-import { Outlet, useLocation } from "react-router"
+import { Outlet } from "react-router"
 import { Sidebar } from "@/components/layout/sidebar"
 import { BottomNav } from "@/components/layout/bottom-nav"
 import { MobileHeader } from "@/components/layout/mobile-header"
 
 export function AppLayout() {
-  const { pathname } = useLocation()
-  const isBudget = pathname === "/budget" || pathname.startsWith("/budget/")
-
   return (
     <div className="flex min-h-screen bg-[var(--bg-root)]">
       {/* Desktop sidebar — hidden on mobile */}
       <div className="hidden md:block">
-        <Sidebar collapsed={isBudget} />
+        <Sidebar collapsed={false} />
       </div>
 
       <div className="flex flex-1 flex-col">

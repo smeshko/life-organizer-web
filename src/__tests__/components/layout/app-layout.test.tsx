@@ -70,25 +70,14 @@ describe("AppLayout", () => {
     expect(content).not.toHaveStyle({ maxWidth: "1200px" })
   })
 
-  it("collapses sidebar to 52px on /budget route", () => {
+  it("shows expanded sidebar on all routes", () => {
     const { container } = renderLayout("/budget")
-    const aside = container.querySelector("aside")
-    expect(aside).toHaveStyle({ width: "52px" })
-  })
-
-  it("expands sidebar to 240px on non-budget routes", () => {
-    const { container } = renderLayout("/transactions")
     const aside = container.querySelector("aside")
     expect(aside).toHaveStyle({ width: "240px" })
   })
 
-  it("hides quick-stats on /budget route", () => {
+  it("shows quick-stats on all routes", () => {
     renderLayout("/budget")
-    expect(screen.queryByText(/AT A GLANCE/)).not.toBeInTheDocument()
-  })
-
-  it("shows quick-stats on non-budget routes", () => {
-    renderLayout("/transactions")
     expect(screen.getByText(/AT A GLANCE/)).toBeInTheDocument()
   })
 })
