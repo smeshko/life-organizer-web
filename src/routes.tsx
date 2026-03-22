@@ -7,6 +7,7 @@ import { SpendingPage } from "@/features/spending/spending-page"
 import { BudgetPage } from "@/pages/budget-page"
 import { BudgetVsActualPage } from "@/pages/budget-vs-actual-page"
 import { DesignSystemPage } from "@/pages/design-system-page"
+import { BudgetExplorerPage } from "@/pages/budget-explorer-page"
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export function AppRoutes() {
           <Route path="spending" element={<SpendingPage />} />
           <Route path="budget" element={<BudgetPage />} />
           <Route path="budget-vs-actual" element={<BudgetVsActualPage />} />
+          <Route path="budget-explorer" element={<BudgetExplorerPage />} />
         </Route>
         <Route path="design-system" element={<DesignSystemPage />} />
       </Routes>
