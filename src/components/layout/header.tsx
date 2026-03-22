@@ -48,8 +48,8 @@ export function Header({ title }: HeaderProps) {
   const { selectedYear, selectedPeriod, setYear, setPeriod } = useFilter()
 
   return (
-    <header className="flex items-center justify-between pb-[var(--space-5)]">
-      <h1 className="font-serif text-[32px] text-[var(--text-primary)]">
+    <header className="flex flex-col gap-[var(--space-3)] pb-[var(--space-4)] sm:flex-row sm:items-center sm:justify-between sm:pb-[var(--space-5)]">
+      <h1 className="font-serif text-[24px] text-[var(--text-primary)] sm:text-[32px]">
         {title}
       </h1>
       <div className="flex items-center gap-[var(--space-3)]">

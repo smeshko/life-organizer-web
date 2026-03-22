@@ -129,9 +129,10 @@ describe("TransactionsPage", () => {
       expect(screen.getByText("Recent Transactions")).toBeInTheDocument()
     })
 
-    expect(screen.getByText("Monthly salary")).toBeInTheDocument()
-    expect(screen.getByText("Weekly groceries")).toBeInTheDocument()
-    expect(screen.getByText("Monthly savings")).toBeInTheDocument()
+    // Both desktop table and mobile card views render in the DOM (CSS toggles visibility)
+    expect(screen.getAllByText("Monthly salary").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Weekly groceries").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Monthly savings").length).toBeGreaterThan(0)
     expect(screen.getByText("Showing 1–3 of 3")).toBeInTheDocument()
   })
 

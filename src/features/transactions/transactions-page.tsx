@@ -5,6 +5,7 @@ import { LoadingSkeleton } from "@/components/loading-skeleton"
 import { ErrorState } from "@/components/error-state"
 import { EmptyState } from "@/components/empty-state"
 import { TransactionTable } from "@/features/transactions/components/transaction-table"
+import { TransactionCard } from "@/features/transactions/components/transaction-card"
 import { TransactionFilters } from "@/features/transactions/components/transaction-filters"
 import { TransactionPagination } from "@/features/transactions/components/transaction-pagination"
 import { useTransactions } from "@/features/transactions/hooks/use-transactions"
@@ -69,7 +70,7 @@ export function TransactionsPage() {
 
         {isLoading && (
           <div className="space-y-[var(--space-4)]">
-            <div className="grid grid-cols-3 gap-[var(--space-4)]">
+            <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-3">
               <LoadingSkeleton variant="card" />
               <LoadingSkeleton variant="card" />
               <LoadingSkeleton variant="card" />
@@ -91,7 +92,7 @@ export function TransactionsPage() {
 
         {!isLoading && !isError && data && data.data.length > 0 && (
           <div className="space-y-[var(--space-4)]">
-            <div className="grid grid-cols-3 gap-[var(--space-4)]">
+            <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-3">
               <StatCard
                 type="income"
                 label="Income"
@@ -109,18 +110,34 @@ export function TransactionsPage() {
               />
             </div>
 
-            <TransactionTable
-              ref={tableRef}
-              transactions={data.data}
-              total={data.total}
-              sortBy={filters.sortBy}
-              sortOrder={filters.sortOrder}
-              onSortChange={filters.setSortBy}
-              page={data.page}
-              pageSize={data.pageSize}
-              onUpdate={(id, updates) => updateMutation.mutate({ id, data: updates })}
-              onDelete={(id) => deleteMutation.mutate(id)}
-            />
+            <div ref={tableRef}>
+              {/* Desktop: table view */}
+              <div className="hidden md:block">
+                <TransactionTable
+                  transactions={data.data}
+                  total={data.total}
+                  sortBy={filters.sortBy}
+                  sortOrder={filters.sortOrder}
+                  onSortChange={filters.setSortBy}
+                  page={data.page}
+                  pageSize={data.pageSize}
+                  onUpdate={(id, updates) => updateMutation.mutate({ id, data: updates })}
+                  onDelete={(id) => deleteMutation.mutate(id)}
+                />
+              </div>
+
+              {/* Mobile: card view */}
+              <div className="flex flex-col gap-[var(--space-3)] md:hidden">
+                {data.data.map((tx) => (
+                  <TransactionCard
+                    key={tx.id}
+                    tx={tx}
+                    onUpdate={(id, updates) => updateMutation.mutate({ id, data: updates })}
+                    onDelete={(id) => deleteMutation.mutate(id)}
+                  />
+                ))}
+              </div>
+            </div>
 
             <TransactionPagination
               page={data.page}

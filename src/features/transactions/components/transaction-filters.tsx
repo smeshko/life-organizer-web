@@ -45,25 +45,27 @@ export function TransactionFilters({
   }
 
   return (
-    <div className="flex items-center justify-between gap-[var(--space-4)]">
+    <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between sm:gap-[var(--space-4)]">
       {/* Type filter tab bar */}
-      <Tabs value={type} onValueChange={(v) => onTypeChange(v as TransactionTypeFilter)}>
-        <TabsList
-          className="h-8 bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--radius-sm)]"
-        >
-          {TYPE_TABS.map((tab) => (
-            <TabsTrigger
-              key={tab.value}
-              value={tab.value}
-              className="text-[11px] uppercase tracking-[1px] font-semibold px-[var(--space-3)] text-[var(--text-tertiary)] data-[state=active]:text-[var(--text-primary)] data-[state=active]:bg-[var(--bg-active)]"
-            >
-              {tab.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      <div className="overflow-x-auto -mx-[var(--space-3)] px-[var(--space-3)] sm:mx-0 sm:px-0">
+        <Tabs value={type} onValueChange={(v) => onTypeChange(v as TransactionTypeFilter)}>
+          <TabsList
+            className="h-8 bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--radius-sm)]"
+          >
+            {TYPE_TABS.map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="text-[11px] uppercase tracking-[1px] font-semibold px-[var(--space-3)] text-[var(--text-tertiary)] data-[state=active]:text-[var(--text-primary)] data-[state=active]:bg-[var(--bg-active)]"
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      </div>
 
-      <div className="flex items-center gap-[var(--space-3)]">
+      <div className="flex flex-wrap items-center gap-[var(--space-3)]">
         {/* Category multi-select dropdown */}
         <Popover>
           <PopoverTrigger asChild>
