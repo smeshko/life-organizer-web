@@ -88,13 +88,14 @@ describe("BudgetPage", () => {
 
     renderPage()
 
+    // Both desktop grid and mobile card views render in the DOM (CSS toggles visibility)
     await waitFor(() => {
-      expect(screen.getByText("Salary")).toBeInTheDocument()
+      expect(screen.getAllByText("Salary").length).toBeGreaterThan(0)
     })
 
-    expect(screen.getByText("Freelance")).toBeInTheDocument()
-    expect(screen.getByText("Rent")).toBeInTheDocument()
-    expect(screen.getByText("Emergency Fund")).toBeInTheDocument()
+    expect(screen.getAllByText("Freelance").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Rent").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Emergency Fund").length).toBeGreaterThan(0)
   })
 
   it("renders section headers for income, expenses, and savings", async () => {
@@ -107,11 +108,11 @@ describe("BudgetPage", () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText("INCOME")).toBeInTheDocument()
+      expect(screen.getAllByText("INCOME").length).toBeGreaterThan(0)
     })
 
-    expect(screen.getByText("EXPENSES")).toBeInTheDocument()
-    expect(screen.getByText("SAVINGS")).toBeInTheDocument()
+    expect(screen.getAllByText("EXPENSES").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("SAVINGS").length).toBeGreaterThan(0)
   })
 
   it("renders month column headers", async () => {
@@ -141,7 +142,7 @@ describe("BudgetPage", () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText("To Allocate")).toBeInTheDocument()
+      expect(screen.getAllByText("To Allocate").length).toBeGreaterThan(0)
     })
   })
 
@@ -155,7 +156,7 @@ describe("BudgetPage", () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText("Salary")).toBeInTheDocument()
+      expect(screen.getAllByText("Salary").length).toBeGreaterThan(0)
     })
 
     // Freelance has 0 for Feb, so should show dashes
@@ -202,7 +203,7 @@ describe("BudgetPage", () => {
     await userEvent.click(retryButton)
 
     await waitFor(() => {
-      expect(screen.getByText("Salary")).toBeInTheDocument()
+      expect(screen.getAllByText("Salary").length).toBeGreaterThan(0)
     })
   })
 
@@ -232,11 +233,10 @@ describe("BudgetPage", () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText("To Allocate")).toBeInTheDocument()
+      expect(screen.getAllByText("To Allocate").length).toBeGreaterThan(0)
     })
 
     // Allocation for Jan: 1000 - 1500 = -500 → should show with minus sign
-    // Both monthly cell and annual total show −€ 500.00
     const negativeValues = screen.getAllByText("−€ 500.00")
     expect(negativeValues.length).toBeGreaterThan(0)
   })
@@ -267,7 +267,7 @@ describe("BudgetPage", () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText("Salary")).toBeInTheDocument()
+      expect(screen.getAllByText("Salary").length).toBeGreaterThan(0)
     })
 
     expect(document.querySelector("table")).toBeInTheDocument()

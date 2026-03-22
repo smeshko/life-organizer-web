@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/header"
 import { ErrorState } from "@/components/error-state"
 import { EmptyState } from "@/components/empty-state"
 import { BudgetGrid } from "@/features/budget/components/budget-grid"
+import { BudgetCardView } from "@/features/budget/components/budget-card-view"
 import { BudgetGridSkeleton } from "@/features/budget/components/budget-grid-skeleton"
 import { useBudgetPlan } from "@/features/budget/hooks/use-budget-plan"
 
@@ -28,7 +29,17 @@ export function BudgetPage() {
       )}
 
       {!isLoading && !isError && data && data.entries.length > 0 && (
-        <BudgetGrid budgetPlan={data} />
+        <>
+          {/* Desktop: traditional grid */}
+          <div className="hidden md:block">
+            <BudgetGrid budgetPlan={data} />
+          </div>
+
+          {/* Mobile/tablet: card view */}
+          <div className="md:hidden">
+            <BudgetCardView budgetPlan={data} />
+          </div>
+        </>
       )}
     </div>
   )
