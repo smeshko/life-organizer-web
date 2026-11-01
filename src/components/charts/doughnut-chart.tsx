@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react"
 import {
   PieChart,
   Pie,
@@ -6,55 +5,32 @@ import {
   Tooltip,
   ResponsiveContainer,
   Sector,
+  type PieSectorDataItem,
 } from "recharts"
 import type { CategoryBreakdown } from "@/api/types"
+import { CHART_COLORS } from "@/components/charts/chart-colors"
 import { formatCurrency } from "@/lib/format"
-
-export const CHART_COLORS = [
-  "#e4a83a",
-  "#d47b6e",
-  "#6daa7c",
-  "#9488c0",
-  "#c07d1e",
-  "#a84e40",
-  "#4d9462",
-  "#7a6eaa",
-  "#e8c878",
-  "#e8a89e",
-  "#9dc7a8",
-  "#b0a3d4",
-]
 
 export interface DoughnutChartProps {
   data: CategoryBreakdown[]
   totalAmount: number
 }
 
-function ActiveShape(props: Record<string, unknown>) {
-  const {
-    cx,
-    cy,
-    innerRadius,
-    outerRadius,
-    startAngle,
-    endAngle,
-    fill,
-  } = props as {
-    cx: number
-    cy: number
-    innerRadius: number
-    outerRadius: number
-    startAngle: number
-    endAngle: number
-    fill: string
-  }
-
+function ActiveShape({
+  cx,
+  cy,
+  innerRadius,
+  outerRadius,
+  startAngle,
+  endAngle,
+  fill,
+}: PieSectorDataItem) {
   return (
     <Sector
       cx={cx}
       cy={cy}
       innerRadius={innerRadius}
-      outerRadius={(outerRadius as number) + 6}
+      outerRadius={(outerRadius ?? 0) + 6}
       startAngle={startAngle}
       endAngle={endAngle}
       fill={fill}
@@ -86,16 +62,6 @@ function CustomTooltip({
 }
 
 function DoughnutChart({ data, totalAmount }: DoughnutChartProps) {
-  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined)
-
-  const onMouseEnter = useCallback((_: unknown, index: number) => {
-    setActiveIndex(index)
-  }, [])
-
-  const onMouseLeave = useCallback(() => {
-    setActiveIndex(undefined)
-  }, [])
-
   return (
     <div className="relative size-[180px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -110,10 +76,7 @@ function DoughnutChart({ data, totalAmount }: DoughnutChartProps) {
             outerRadius={90}
             animationDuration={300}
             animationEasing="ease"
-            activeIndex={activeIndex}
             activeShape={ActiveShape}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
           >
             {data.map((_, index) => (
               <Cell

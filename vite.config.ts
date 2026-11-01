@@ -18,7 +18,6 @@ function requestLogger(): Plugin {
           const status = res.statusCode
           const level = status >= 500 ? "ERROR" : status >= 400 ? "WARN" : "INFO"
           const ts = new Date().toISOString()
-          // eslint-disable-next-line no-console
           console.log(
             `[${level}] ${ts} - vite - ${req.method} ${req.url} -> ${status} (${ms}ms)`,
           )
