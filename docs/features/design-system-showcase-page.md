@@ -13,7 +13,7 @@ A standalone `/design-system` route that renders a visual gallery of all Quiet L
 - Full design system showcase page at `src/pages/design-system-page.tsx` (840 lines)
 - Sections: Surface Palette, Semantic Colors, Chart Palette, Typography, Spacing, Components
 - Live demos of all shared UI primitives (TypeBadge, StatCard, ProgressBar, ErrorState, LoadingSkeleton, EmptyState)
-- Budget grid cell style previews and transaction table with realistic financial data
+- Transaction table with realistic financial data
 
 ## Technical Implementation
 

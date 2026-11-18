@@ -5,12 +5,12 @@
 
 ## Overview
 
-A centralized API client built as a thin wrapper around native `fetch`, providing typed HTTP helpers (`get`, `post`, `put`, `patch`, `del`) with consistent error handling via a custom `ApiError` class. All future per-domain API modules (transactions, budget-plan, budget-tracking) should import and use these helpers rather than calling `fetch` directly.
+A centralized API client built as a thin wrapper around native `fetch`, providing typed HTTP helpers (`get`, `post`, `put`, `patch`, `del`) with consistent error handling via a custom `ApiError` class. All future per-domain API modules (transactions, category-breakdown) should import and use these helpers rather than calling `fetch` directly.
 
 ## What Was Built
 
 - `ApiError` class extending `Error` with `status`, `message`, and `body` properties
-- 8 TypeScript interfaces covering all API domain types (Transaction, BudgetPlan, PaginatedResponse, etc.)
+- 8 TypeScript interfaces covering all API domain types (Transaction, PaginatedResponse, etc.)
 - Base `request<T>()` function with network error handling, non-2xx error parsing, 204/205 no-content support, and malformed JSON protection
 - 5 exported HTTP helpers: `get<T>()`, `post<T>()`, `put<T>()`, `patch<T>()`, `del<T>()`
 - Commented placeholder for future Authorization header injection
@@ -76,6 +76,6 @@ try {
 ## Notes
 
 - **No Axios**: The project uses native `fetch` intentionally (NFR-I3 compliance). Do not add Axios or other HTTP libraries.
-- **Per-domain modules**: Future API modules (`transactions.ts`, `budget-plan.ts`, `budget-tracking.ts`) should be created in `src/api/` and use the helpers from `client.ts`. Do not duplicate the fetch logic.
+- **Per-domain modules**: Future API modules (`transactions.ts`, `category-breakdown.ts`) should be created in `src/api/` and use the helpers from `client.ts`. Do not duplicate the fetch logic.
 - **Auth header**: A commented `TODO` placeholder exists in `client.ts` for future Authorization header injection. When auth is implemented, update the `headers` object in the `request()` function.
 - **Content-Type**: All requests send `Content-Type: application/json`. If file uploads are needed in the future, the wrapper will need to be extended to support `multipart/form-data`.

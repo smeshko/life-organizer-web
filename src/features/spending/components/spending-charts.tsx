@@ -2,7 +2,7 @@ import { useCategoryBreakdown } from "@/features/spending/hooks/use-category-bre
 import { ChartContainer } from "@/components/charts/chart-container"
 import { CategoryBreakdownBars } from "@/features/spending/components/category-breakdown-bars"
 import { ErrorState } from "@/components/error-state"
-import type { CategoryType } from "@/api/budget-tracking"
+import type { CategoryType } from "@/api/category-breakdown"
 
 const CHART_SECTIONS: Array<{ type: CategoryType; title: string; label: string }> = [
   { type: "income", title: "Income", label: "income" },

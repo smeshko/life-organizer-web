@@ -1,5 +1,5 @@
 import { get, patch, del } from "@/api/client"
-import { getCategoryBreakdown } from "@/api/budget-tracking"
+import { getCategoryBreakdown } from "@/api/category-breakdown"
 import type { Transaction, TransactionFilters, PaginatedResponse } from "@/api/types"
 
 export interface TransactionSummary {

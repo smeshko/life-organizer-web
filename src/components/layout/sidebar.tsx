@@ -1,5 +1,5 @@
 import { NavLink } from "react-router"
-import { LayoutList, PieChart, Grid3X3, BarChart3, Sun, Moon, Monitor } from "lucide-react"
+import { LayoutList, PieChart, Sun, Moon, Monitor } from "lucide-react"
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { useFilter } from "@/contexts/filter-context"
 import { useTheme } from "@/components/theme-provider"
@@ -28,8 +28,6 @@ const MONTH_NAMES = [
 const NAV_ITEMS = [
   { to: "/transactions", label: "Transactions", icon: LayoutList },
   { to: "/spending", label: "Spending", icon: PieChart },
-  { to: "/budget", label: "Budget", icon: Grid3X3 },
-  { to: "/budget-vs-actual", label: "Budget vs Actual", icon: BarChart3 },
 ]
 
 function SidebarStats() {

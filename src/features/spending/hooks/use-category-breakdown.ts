@@ -1,7 +1,7 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { useFilter } from "@/contexts/filter-context"
-import { getCategoryBreakdown } from "@/api/budget-tracking"
-import type { CategoryType } from "@/api/budget-tracking"
+import { getCategoryBreakdown } from "@/api/category-breakdown"
+import type { CategoryType } from "@/api/category-breakdown"
 
 export function useCategoryBreakdown(type: CategoryType) {
   const { selectedYear, selectedPeriod } = useFilter()

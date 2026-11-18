@@ -43,29 +43,29 @@ Implements the first data-driven feature page in Life Organizer — a transactio
 // Creating a new feature hook following the established pattern
 import { useQuery } from "@tanstack/react-query"
 import { useFilter } from "@/contexts/filter-context"
-import { getBudget } from "@/api/budget"
+import { getSpending } from "@/api/spending"
 
-export function useBudget() {
+export function useSpending() {
   const { selectedYear, selectedPeriod } = useFilter()
 
   return useQuery({
-    queryKey: ["budget", selectedYear, selectedPeriod],
-    queryFn: () => getBudget({ year: selectedYear, period: selectedPeriod }),
+    queryKey: ["spending", selectedYear, selectedPeriod],
+    queryFn: () => getSpending({ year: selectedYear, period: selectedPeriod }),
   })
 }
 ```
 
 ```tsx
 // Page state handling pattern
-const { data, isLoading, isError, error, refetch } = useBudget()
+const { data, isLoading, isError, error, refetch } = useSpending()
 
 return (
   <div>
-    <Header title="Budget" />
+    <Header title="Spending" />
     {isLoading && <LoadingSkeleton variant="card" />}
     {isError && <ErrorState message={error?.message} onRetry={() => void refetch()} />}
     {!isLoading && !isError && data && data.length === 0 && (
-      <EmptyState message="No budget data for this period." />
+      <EmptyState message="No spending data for this period." />
     )}
     {!isLoading && !isError && data && data.length > 0 && (
       /* render data */

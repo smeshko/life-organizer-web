@@ -44,14 +44,17 @@ describe("AppRoutes", () => {
     ).toBeInTheDocument()
   })
 
-  it("renders budget page at /budget", () => {
+  it("redirects /budget to /transactions", () => {
     renderWithRouter("/budget")
-    expect(screen.getByText("Budget Planning")).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "Transactions" })).toBeInTheDocument()
+    const requestedUrls = vi.mocked(globalThis.fetch).mock.calls.map((c) => String(c[0]))
+    expect(requestedUrls.some((url) => url.includes("/budget/plan"))).toBe(false)
   })
 
-  it("renders budget vs actual page at /budget-vs-actual", () => {
+  it("redirects /budget-vs-actual to /transactions", () => {
     renderWithRouter("/budget-vs-actual")
-    expect(screen.getByRole("heading", { name: "Budget vs Actual" })).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "Transactions" })).toBeInTheDocument()
+    expect(screen.queryByRole("heading", { name: "Budget vs Actual" })).not.toBeInTheDocument()
   })
 
   it("preserves /design-system route outside layout", () => {

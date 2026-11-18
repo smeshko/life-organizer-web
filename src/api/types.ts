@@ -28,36 +28,10 @@ export interface PaginatedResponse<T> {
   totalPages: number
 }
 
-export interface BudgetPlanEntry {
-  category: string
-  type: "income" | "expense" | "savings"
-  amounts: Record<number, number>
-}
-
-export interface BudgetPlan {
-  year: number
-  entries: BudgetPlanEntry[]
-}
-
-export interface UpdateBudgetPlanRequest {
-  year: number
-  entries: BudgetPlanEntry[]
-}
-
 export interface CategoryBreakdown {
   category: string
   amount: number
   percentage: number
-}
-
-export interface BudgetVsActualEntry {
-  category: string
-  type: "income" | "expense" | "savings"
-  budgeted: number
-  actual: number
-  remaining: number
-  excess: number
-  percentComplete: number
 }
 
 export class ApiError extends Error {

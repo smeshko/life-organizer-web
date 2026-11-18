@@ -23,7 +23,6 @@ This guide helps you find relevant documentation based on what you're working on
   - Conditions:
     - When building new feature views that need TypeBadge, StatCard, ProgressBar, or state components for Life Organizer
     - When creating new shared components in `src/components/` for the Quiet Ledger design system
-    - When implementing budget-vs-actual progress visualization in Life Organizer features
     - When adding income/expense/savings type-colored UI elements to Life Organizer views
 
 - docs/features/design-system-showcase-page.md
@@ -35,7 +34,7 @@ This guide helps you find relevant documentation based on what you're working on
 
 - docs/features/api-client-foundation.md
   - Conditions:
-    - When creating per-domain API modules (e.g., `transactions.ts`, `budget-plan.ts`) in `src/api/`
+    - When creating per-domain API modules (e.g., `transactions.ts`, `category-breakdown.ts`) in `src/api/`
     - When handling API errors or implementing error UI for Life Organizer backend responses
     - When adding or modifying HTTP request logic for the Life Organizer API client
     - When implementing authentication headers or request interceptors for the API client
@@ -66,7 +65,7 @@ This guide helps you find relevant documentation based on what you're working on
 
 - docs/features/transaction-filtering.md
   - Conditions:
-    - When implementing local filter state for a Life Organizer feature page (e.g., budget filters, spending filters)
+    - When implementing local filter state for a Life Organizer feature page (e.g., spending filters)
     - When adding type/category/date filtering to Life Organizer transaction-related views
     - When working with `useTransactionFilters` hook or `TransactionFilters` component
     - When building controlled filter components that reset on global year/period changes
@@ -78,26 +77,3 @@ This guide helps you find relevant documentation based on what you're working on
     - When extending `useTransactionFilters` with new filter state or sort fields
     - When building paginated API queries with TanStack Query in Life Organizer
     - When implementing scroll-to-top behavior on page navigation in Life Organizer
-
-- docs/features/budget-grid-display.md
-  - Conditions:
-    - When building or modifying the budget grid view in `src/features/budget/`
-    - When implementing categories-by-months grid layouts with section totals in Life Organizer
-    - When adding sticky column tables with horizontal scroll in Life Organizer
-    - When computing client-side financial totals or allocation rows for budget features
-    - When building the budget-vs-actual comparison view that follows the budget grid pattern
-
-- docs/features/budget-vs-actual-comparison.md
-  - Conditions:
-    - When building or modifying the budget vs actual comparison view in `src/features/budget-vs-actual/`
-    - When implementing category-level budget comparison with color-coded overspend indicators
-    - When creating section-filtered table views (Expenses/Income/Savings) for Life Organizer financial data
-    - When adding progress bars with custom color thresholds different from the shared ProgressBar component
-
-- docs/features/inline-budget-editing.md
-  - Conditions:
-    - When implementing inline editing or cell-level mutations in the Life Organizer budget grid
-    - When adding new TanStack Query `useMutation` hooks with optimistic updates for Life Organizer
-    - When implementing keyboard navigation (Tab/Enter/Escape) in grid components for Life Organizer
-    - When adding toast notifications with design token styling in Life Organizer
-    - When building display/edit state machine components for Life Organizer data cells

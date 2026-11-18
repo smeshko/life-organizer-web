@@ -27,7 +27,7 @@ Transaction filtering allows users to narrow down their transaction list by type
 
 ### Key Patterns
 
-- **Local filter state with useReducer**: Filter state lives in a reducer (not React context) to keep it page-local. Actions: `SET_TYPE`, `SET_CATEGORIES`, `SET_DATE_RANGE`, `RESET`. This pattern should be replicated for filtering on other pages (budget, spending).
+- **Local filter state with useReducer**: Filter state lives in a reducer (not React context) to keep it page-local. Actions: `SET_TYPE`, `SET_CATEGORIES`, `SET_DATE_RANGE`, `RESET`. This pattern should be replicated for filtering on other pages (spending).
 
 - **Auto-reset on global context change**: A `useEffect` watches `defaultRange` (derived from `selectedYear`/`selectedPeriod`). An `isInitialMount` ref prevents the reset from firing on first render — only subsequent changes trigger a reset. This is critical to avoid clearing user-set filters on mount.
 

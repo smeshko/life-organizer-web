@@ -111,12 +111,13 @@ describe("Sidebar", () => {
     ).toBeInTheDocument()
   })
 
-  it("renders all 4 nav links with correct labels", () => {
+  it("renders the 2 nav links with correct labels and no Budget entries", () => {
     renderSidebar()
     expect(screen.getByText("Transactions")).toBeInTheDocument()
     expect(screen.getByText("Spending")).toBeInTheDocument()
-    expect(screen.getByText("Budget")).toBeInTheDocument()
-    expect(screen.getByText("Budget vs Actual")).toBeInTheDocument()
+    expect(screen.queryByText("Budget")).not.toBeInTheDocument()
+    expect(screen.queryByText("Budget vs Actual")).not.toBeInTheDocument()
+    expect(screen.getAllByRole("link")).toHaveLength(2)
   })
 
   it("hides nav labels when collapsed", () => {
@@ -130,8 +131,6 @@ describe("Sidebar", () => {
     const links = screen.getAllByRole("link")
     expect(links[0]).toHaveAttribute("title", "Transactions")
     expect(links[1]).toHaveAttribute("title", "Spending")
-    expect(links[2]).toHaveAttribute("title", "Budget")
-    expect(links[3]).toHaveAttribute("title", "Budget vs Actual")
   })
 
   it("does not show tooltips when expanded", () => {
