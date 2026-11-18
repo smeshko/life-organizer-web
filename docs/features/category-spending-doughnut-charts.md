@@ -1,7 +1,7 @@
 # Category Spending Doughnut Charts
 
 **Date:** 2026-03-10
-**Related Files:** `src/features/spending/`, `src/components/charts/`, `src/api/budget-tracking.ts`
+**Related Files:** `src/features/spending/`, `src/components/charts/`, `src/api/category-breakdown.ts`
 
 ## Overview
 
@@ -9,7 +9,7 @@ Implements the Category Spending visualization page with three doughnut charts (
 
 ## What Was Built
 
-- Budget tracking API module for fetching category breakdown data
+- Category breakdown API module for fetching category breakdown data
 - Reusable `DoughnutChart` component wrapping Recharts `PieChart`
 - Reusable `ChartContainer` with loading skeleton, empty state, and error handling
 - `ChartLegend` component displaying sorted category items with color dots
@@ -20,7 +20,7 @@ Implements the Category Spending visualization page with three doughnut charts (
 
 ### Key Files
 
-- `src/api/budget-tracking.ts`: API module for `GET /category-breakdown` with year/period/type params
+- `src/api/category-breakdown.ts`: API module for `GET /category-breakdown` with year/period/type params
 - `src/components/charts/doughnut-chart.tsx`: Reusable doughnut chart wrapping Recharts `PieChart` with center label, hover expansion, and tooltip
 - `src/components/charts/chart-container.tsx`: Shared chart section wrapper with loading skeleton, empty state, and title
 - `src/features/spending/components/spending-charts.tsx`: Orchestrator rendering Income/Expenses/Savings sections
@@ -69,7 +69,7 @@ function MyChartSection({ data, isLoading }) {
 // Creating a new category breakdown query hook
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { useFilter } from "@/contexts/filter-context"
-import { getCategoryBreakdown } from "@/api/budget-tracking"
+import { getCategoryBreakdown } from "@/api/category-breakdown"
 
 export function useCategoryBreakdown(type: "income" | "expense" | "savings") {
   const { selectedYear, selectedPeriod } = useFilter()

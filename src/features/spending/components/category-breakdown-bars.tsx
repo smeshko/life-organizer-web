@@ -1,6 +1,6 @@
 import { useState } from "react"
 import type { CategoryBreakdown } from "@/api/types"
-import type { CategoryType } from "@/api/budget-tracking"
+import type { CategoryType } from "@/api/category-breakdown"
 import { formatCurrency } from "@/lib/format"
 
 const TYPE_COLORS: Record<CategoryType, { bar: string; barBg: string; hover: string }> = {

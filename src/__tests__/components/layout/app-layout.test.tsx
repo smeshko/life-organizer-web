@@ -35,7 +35,6 @@ function renderLayout(initialRoute = "/transactions") {
                   path="transactions"
                   element={<div>Transactions Content</div>}
                 />
-                <Route path="budget" element={<div>Budget Content</div>} />
               </Route>
             </Routes>
           </FilterProvider>
@@ -64,20 +63,14 @@ describe("AppLayout", () => {
     expect(content).not.toHaveStyle({ maxWidth: "1200px" })
   })
 
-  it("removes max-width for /budget route", () => {
-    renderLayout("/budget")
-    const content = screen.getByTestId("content-area")
-    expect(content).not.toHaveStyle({ maxWidth: "1200px" })
-  })
-
   it("shows expanded sidebar on all routes", () => {
-    const { container } = renderLayout("/budget")
+    const { container } = renderLayout("/transactions")
     const aside = container.querySelector("aside")
     expect(aside).toHaveStyle({ width: "240px" })
   })
 
   it("shows quick-stats on all routes", () => {
-    renderLayout("/budget")
+    renderLayout("/transactions")
     expect(screen.getByText(/AT A GLANCE/)).toBeInTheDocument()
   })
 })

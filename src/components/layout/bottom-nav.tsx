@@ -1,11 +1,9 @@
 import { NavLink } from "react-router"
-import { LayoutList, PieChart, Grid3X3, BarChart3 } from "lucide-react"
+import { LayoutList, PieChart } from "lucide-react"
 
 const NAV_ITEMS = [
   { to: "/transactions", label: "Transactions", icon: LayoutList },
   { to: "/spending", label: "Spending", icon: PieChart },
-  { to: "/budget", label: "Budget", icon: Grid3X3 },
-  { to: "/budget-vs-actual", label: "Actual", icon: BarChart3 },
 ]
 
 export function BottomNav() {

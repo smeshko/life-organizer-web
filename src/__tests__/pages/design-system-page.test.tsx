@@ -49,9 +49,6 @@ describe("DesignSystemPage", () => {
 
   it("renders all 3 ProgressBar variants", () => {
     renderPage()
-    expect(screen.getByText("Under budget")).toBeInTheDocument()
-    expect(screen.getByText("Near budget")).toBeInTheDocument()
-    expect(screen.getByText("Over budget")).toBeInTheDocument()
     expect(screen.getByText("45%")).toBeInTheDocument()
     expect(screen.getByText("92%")).toBeInTheDocument()
     expect(screen.getByText("118%")).toBeInTheDocument()
@@ -124,13 +121,9 @@ describe("DesignSystemPage", () => {
     expect(screen.getByText("--space-16 — 64px")).toBeInTheDocument()
   })
 
-  it("renders budget grid cell styles", () => {
+  it("does not render the removed budget grid section", () => {
     renderPage()
-    expect(screen.getByText("Budget Grid Cells")).toBeInTheDocument()
-    expect(screen.getByText("Remaining (positive)")).toBeInTheDocument()
-    expect(screen.getByText("+€515.50")).toBeInTheDocument()
-    expect(screen.getByText("Balanced (zero)")).toBeInTheDocument()
-    expect(screen.getByText("Over-allocated (negative)")).toBeInTheDocument()
-    expect(screen.getByText("–€120.00")).toBeInTheDocument()
+    expect(screen.queryByText("Budget Grid Cells")).not.toBeInTheDocument()
+    expect(screen.queryByText("Remaining (positive)")).not.toBeInTheDocument()
   })
 })

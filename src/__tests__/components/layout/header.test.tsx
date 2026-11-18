@@ -22,8 +22,8 @@ describe("Header", () => {
   })
 
   it("renders the title with serif font styling", () => {
-    renderHeader("Budget Planning")
-    const title = screen.getByText("Budget Planning")
+    renderHeader("Spending")
+    const title = screen.getByText("Spending")
     expect(title.closest("h1")).toHaveClass("font-serif")
   })
 

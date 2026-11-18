@@ -602,21 +602,18 @@ function ComponentsSection() {
         <div className="max-w-md space-y-[var(--space-4)]">
           <div>
             <div className="mb-1 flex justify-between text-xs text-[var(--text-secondary)]">
-              <span>Under budget</span>
               <span>45%</span>
             </div>
             <ProgressBar percentage={45} />
           </div>
           <div>
             <div className="mb-1 flex justify-between text-xs text-[var(--text-secondary)]">
-              <span>Near budget</span>
               <span>92%</span>
             </div>
             <ProgressBar percentage={92} />
           </div>
           <div>
             <div className="mb-1 flex justify-between text-xs text-[var(--text-secondary)]">
-              <span>Over budget</span>
               <span>118%</span>
             </div>
             <ProgressBar percentage={118} />
@@ -671,97 +668,6 @@ function ComponentsSection() {
             ))}
           </TableBody>
         </Table>
-      </div>
-
-      {/* Budget Grid Cells */}
-      <div className="space-y-[var(--space-3)]">
-        <h3 className="text-sm font-semibold text-[var(--text-secondary)]">
-          Budget Grid Cells
-        </h3>
-        <div className="max-w-lg overflow-hidden rounded-[var(--radius-md)] border border-[var(--border-subtle)]">
-          {/* Section header - Income */}
-          <div className="bg-[var(--income-bg-strong)] px-[var(--space-4)] py-[var(--space-2)]">
-            <span className="text-xs font-semibold text-[var(--income-300)]">
-              Income
-            </span>
-          </div>
-          {/* Regular cell */}
-          <div className="flex justify-between border-b border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-3)] hover:bg-[var(--bg-hover)]">
-            <span className="text-sm text-[var(--text-primary)]">Salary</span>
-            <span className="font-mono text-sm text-[var(--text-primary)]">
-              €3,200.00
-            </span>
-          </div>
-          {/* Section header - Expenses */}
-          <div className="bg-[var(--expense-bg-strong)] px-[var(--space-4)] py-[var(--space-2)]">
-            <span className="text-xs font-semibold text-[var(--expense-300)]">
-              Expenses
-            </span>
-          </div>
-          {/* Regular cells */}
-          <div className="flex justify-between border-b border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-3)] hover:bg-[var(--bg-hover)]">
-            <span className="text-sm text-[var(--text-primary)]">Rent</span>
-            <span className="font-mono text-sm text-[var(--text-primary)]">
-              €950.00
-            </span>
-          </div>
-          <div className="flex justify-between border-b border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-3)] hover:bg-[var(--bg-hover)]">
-            <span className="text-sm text-[var(--text-primary)]">
-              Groceries
-            </span>
-            <span className="font-mono text-sm text-[var(--text-primary)]">
-              €234.50
-            </span>
-          </div>
-          {/* Section header - Savings */}
-          <div className="bg-[var(--savings-bg-strong)] px-[var(--space-4)] py-[var(--space-2)]">
-            <span className="text-xs font-semibold text-[var(--savings-300)]">
-              Savings
-            </span>
-          </div>
-          <div className="flex justify-between border-b border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-3)] hover:bg-[var(--bg-hover)]">
-            <span className="text-sm text-[var(--text-primary)]">
-              Emergency fund
-            </span>
-            <span className="font-mono text-sm text-[var(--text-primary)]">
-              €500.00
-            </span>
-          </div>
-          {/* Total row */}
-          <div className="flex justify-between border-t-2 border-[var(--border-strong)] bg-[var(--bg-raised)] px-[var(--space-4)] py-[var(--space-3)]">
-            <span className="text-sm font-bold text-[var(--text-primary)]">
-              Total
-            </span>
-            <span className="font-mono text-sm font-bold text-[var(--text-primary)]">
-              €3,200.00
-            </span>
-          </div>
-          {/* Allocation rows */}
-          <div className="flex justify-between border-b border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-2)]">
-            <span className="text-xs text-[var(--text-secondary)]">
-              Remaining (positive)
-            </span>
-            <span className="font-mono text-xs text-[var(--income-300)]">
-              +€515.50
-            </span>
-          </div>
-          <div className="flex justify-between border-b border-[var(--border-subtle)] px-[var(--space-4)] py-[var(--space-2)]">
-            <span className="text-xs text-[var(--text-secondary)]">
-              Balanced (zero)
-            </span>
-            <span className="font-mono text-xs text-[var(--text-tertiary)]">
-              €0.00
-            </span>
-          </div>
-          <div className="flex justify-between px-[var(--space-4)] py-[var(--space-2)]">
-            <span className="text-xs text-[var(--text-secondary)]">
-              Over-allocated (negative)
-            </span>
-            <span className="font-mono text-xs text-[var(--expense-300)]">
-              –€120.00
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* ErrorState */}

@@ -57,7 +57,7 @@ Reusable UI primitives styled with the Quiet Ledger design system, providing con
   changeColor="var(--income-300)"
 />
 
-// ProgressBar — budget usage with automatic color thresholds
+// ProgressBar — usage with automatic color thresholds
 <ProgressBar percentage={65} />   {/* sage green */}
 <ProgressBar percentage={90} />   {/* amber */}
 <ProgressBar percentage={115} />  {/* terracotta, visually capped at 100% */}
@@ -68,7 +68,7 @@ Reusable UI primitives styled with the Quiet Ledger design system, providing con
 <LoadingSkeleton variant="chart" />
 
 // ErrorState — warm warning banner with retry
-<ErrorState message="Failed to load budget data" onRetry={() => refetch()} />
+<ErrorState message="Failed to load data" onRetry={() => refetch()} />
 
 // EmptyState — no data message
 <EmptyState message="No transactions for this period" />
